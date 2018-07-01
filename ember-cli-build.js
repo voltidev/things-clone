@@ -2,6 +2,16 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const postcssPlugins = require('narwin-pack');
+const postcssFunctions = require('postcss-functions');
+
+function pixelsToUnit(pixels, unit, context = '16px') {
+  return `${parseInt(pixels, 10) / parseInt(context, 10)}${unit}`;
+}
+
+const postcssUnitsFunctions = {
+  em: (pixels, context) => pixelsToUnit(pixels, 'em', context),
+  rem: (pixels, context) => pixelsToUnit(pixels, 'rem', context)
+};
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
@@ -10,6 +20,10 @@ module.exports = function(defaults) {
         plugins: [
           {
             module: postcssPlugins
+          },
+          {
+            module: postcssFunctions,
+            options: { functions: postcssUnitsFunctions }
           }
         ]
       }

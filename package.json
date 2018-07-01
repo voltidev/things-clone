@@ -47,8 +47,8 @@
     "eslint-plugin-import": "^2.13.0",
     "loader.js": "^4.2.3",
     "narwin-pack": "^1.1.1",
+    "postcss-functions": "^3.0.0",
     "qunit-dom": "^0.6.2",
-    "stylelint-config-narwin": "^1.1.0",
     "stylelint-config-standard": "^18.2.0"
   },
   "engines": {
