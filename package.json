@@ -32,6 +32,7 @@
     "ember-cli-qunit": "^4.1.1",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-stylelint": "^2.1.0",
     "ember-cli-template-lint": "^0.7.6",
     "ember-cli-uglify": "^2.0.0",
     "ember-data": "3.2.0",
@@ -46,7 +47,9 @@
     "eslint-plugin-import": "^2.13.0",
     "loader.js": "^4.2.3",
     "narwin-pack": "^1.1.1",
-    "qunit-dom": "^0.6.2"
+    "qunit-dom": "^0.6.2",
+    "stylelint-config-narwin": "^1.1.0",
+    "stylelint-config-standard": "^18.2.0"
   },
   "engines": {
     "node": ">= 7.*"

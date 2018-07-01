@@ -13,6 +13,12 @@ module.exports = function(defaults) {
           }
         ]
       }
+    },
+
+    stylelint: {
+      linterConfig: {
+        syntax: 'css'
+      }
     }
   });
 
