@@ -2610,6 +2610,13 @@ ember-load-initializers@^1.1.0:
   dependencies:
     ember-cli-babel "^6.6.0"
 
+"ember-localstorage-adapter@https://github.com/ivanvotti/ember-localstorage-adapter":
+  version "1.0.0"
+  resolved "https://github.com/ivanvotti/ember-localstorage-adapter#cbe532c5c35d9eb5f952c8f36da3c306057c1fbf"
+  dependencies:
+    ember-cli-babel "^6.11.0"
+    ember-runtime-enumerable-includes-polyfill "^2.1.0"
+
 ember-maybe-import-regenerator@^0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/ember-maybe-import-regenerator/-/ember-maybe-import-regenerator-0.1.6.tgz#35d41828afa6d6a59bc0da3ce47f34c573d776ca"
@@ -2657,7 +2664,7 @@ ember-router-generator@^1.2.3:
   dependencies:
     recast "^0.11.3"
 
-ember-runtime-enumerable-includes-polyfill@^2.0.0:
+ember-runtime-enumerable-includes-polyfill@^2.0.0, ember-runtime-enumerable-includes-polyfill@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ember-runtime-enumerable-includes-polyfill/-/ember-runtime-enumerable-includes-polyfill-2.1.0.tgz#dc6d4a028471e4acc350dfd2a149874fb20913f5"
   dependencies:
