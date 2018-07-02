@@ -41,7 +41,6 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-resolver": "^4.0.0",
     "ember-source": "3.2.2",
-    "ember-welcome-page": "^3.0.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-import": "^2.13.0",

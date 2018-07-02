@@ -3,7 +3,8 @@
   ITCSS (from Harry Roberts) methodology with BEM.
 */
 
-@import "settings.css";
-@import "base/index.css";
-@import "components/index.css";
-@import "utilities/index.css";
+@import "settings";
+@import "base/index";
+@import "layout";
+@import "components/index";
+@import "utilities/index";

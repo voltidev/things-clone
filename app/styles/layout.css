@@ -1,0 +1,32 @@
+.l-container {
+  display: flex;
+  height: 100vh;
+}
+
+.l-container__sidebar {
+  flex: 0 0 rem(208px);
+  overflow-x: hidden;
+  background-color: #f9fafa;
+  border-right: 1px solid #f4f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.l-container__main {
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.l-container__content {
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.l-container__footer {
+  flex: 0 1 rem(38px);
+  display: flex;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
