@@ -20,9 +20,7 @@ module.exports = function(defaults) {
     postcssOptions: {
       compile: {
         plugins: [
-          {
-            module: postcssPlugins
-          },
+          { module: postcssPlugins },
           {
             module: postcssFunctions,
             options: { functions: postcssUnitsFunctions }

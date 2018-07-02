@@ -3,3 +3,5 @@
 */
 
 @import "main-actions";
+@import "task-list";
+@import "task";

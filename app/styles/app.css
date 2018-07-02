@@ -4,7 +4,7 @@
 */
 
 @import "settings";
-@import "base/index";
+@import "base/_all";
 @import "layout";
-@import "components/index";
-@import "utilities/index";
+@import "components/_all";
+@import "utilities/_all";

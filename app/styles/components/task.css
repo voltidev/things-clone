@@ -1,0 +1,39 @@
+.c-task {
+  display: flex;
+  align-items: center;
+  padding: 0 rem(16px);
+  cursor: default;
+  transition: all 100ms ease-out;
+
+  &.is-editable {
+    padding-bottom: rem(30px);
+    margin: rem(20px) 0;
+    box-shadow: 0 rem(2px) rem(6px) rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background: var(--white);
+  }
+}
+
+.c-task__input {
+  flex: 1;
+  line-height: 1;
+  font-size: rem(15px);
+  background: transparent;
+  border: 0;
+  padding: rem(10px);
+  cursor: default;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  .is-editable & {
+    padding-top: rem(18px);
+    padding-bottom: rem(18px);
+    cursor: text;
+  }
+
+  &::placeholder {
+    color: #444;
+    opacity: 0.5;
+  }
+}
