@@ -1,0 +1,27 @@
+.c-main-actions {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.c-main-actions__item {
+  padding: rem(6px) rem(40px);
+  border: 1px solid transparent;
+  border-radius: rem(5px);
+  line-height: 1;
+  text-align: center;
+  color: #777;
+
+  &:hover {
+    border-color: #ddd;
+  }
+
+  &:active {
+    background-color: #ddd;
+  }
+
+  svg {
+    fill: currentColor;
+  }
+}
