@@ -1,0 +1,18 @@
+:root {
+  /* Font weights */
+  --white: #fff;
+  --black: #000;
+
+  /* Font weights */
+  --light: 300;
+  --book: 400;
+  --bold: 700;
+
+  /* Base styles */
+  --base-font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  --base-font-size: rem(16px);
+  --base-font-weight: 400;
+  --base-line-height: 1.5;
+  --base-text-color: #444;
+  --base-background-color: #fff;
+}

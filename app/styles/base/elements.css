@@ -1,0 +1,15 @@
+body {
+  font-family: var(--base-font-family);
+  font-size: var(--base-font-size);
+  font-weight: var(--base-font-weight);
+  line-height: var(--base-line-height);
+  color: var(--base-text-color);
+  background-color: var(--base-background-color);
+  overflow: hidden;
+}
+
+button,
+input {
+  font-family: inherit;
+  font-size: rem(14px);
+}
