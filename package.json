@@ -19,7 +19,6 @@
   "devDependencies": {
     "@ember/optional-features": "^0.6.1",
     "broccoli-asset-rev": "^2.7.0",
-    "ember-ajax": "^3.0.0",
     "ember-cli": "~3.2.0",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
@@ -40,6 +39,7 @@
     "ember-load-initializers": "^1.1.0",
     "ember-localstorage-adapter": "https://github.com/ivanvotti/ember-localstorage-adapter",
     "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-native-dom-helpers": "^0.6.2",
     "ember-resolver": "^4.0.0",
     "ember-source": "3.2.2",
     "ember-svg-jar": "^1.2.0",
@@ -54,5 +54,8 @@
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
+  },
+  "dependencies": {
+    "ember-fetch": "^5.0.0"
   }
 }

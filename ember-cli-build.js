@@ -15,6 +15,8 @@ const postcssUnitsFunctions = {
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
+    vendorFiles: { 'jquery.js': null },
+
     postcssOptions: {
       compile: {
         plugins: [
