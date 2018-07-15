@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { set } from '@ember/object';
 
 const { attr, Model } = DS;
 
@@ -10,10 +11,10 @@ export default Model.extend({
   }),
 
   complete() {
-    this.set('isDone', true);
+    set(this, 'isDone', true);
   },
 
   uncomplete() {
-    this.set('isDone', false);
+    set(this, 'isDone', false);
   }
 });

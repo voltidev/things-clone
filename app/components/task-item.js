@@ -4,13 +4,18 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
   taskEditor: service(),
+  taskSelector: service(),
   classNames: ['c-task'],
-  classNameBindings: ['isEditable'],
+  classNameBindings: ['isSelected', 'isEditable'],
   task: null,
   placeholder: 'New To-Do',
 
   isEditable: computed('taskEditor.currentTask', function() {
     return this.taskEditor.isCurrent(this.task);
+  }),
+
+  isSelected: computed('taskSelector.selectedTask', function() {
+    return this.taskSelector.isSelected(this.task);
   }),
 
   init() {
@@ -43,6 +48,10 @@ export default Component.extend({
     }
   },
 
+  click(event) {
+    this.selectTask(event);
+  },
+
   doubleClick() {
     this.startEditing();
   },
@@ -53,6 +62,14 @@ export default Component.extend({
     if (input) {
       input.focus();
     }
+  },
+
+  selectTask({ target }) {
+    if (target.classList.contains('js-checkbox') || this.isSelected) {
+      return;
+    }
+
+    this.taskSelector.select(this.task);
   },
 
   startEditing() {
@@ -82,5 +99,5 @@ export default Component.extend({
     if (!isInternalClick) {
       this.stopEditing();
     }
-  },
+  }
 });

@@ -1,12 +1,16 @@
 <div class="c-task__checkbox">
+  {{!-- FIXME:
+  Current checkbox implementation can return the input or the label on click event,
+  so I have to use the same `js-checkbox` class to check if the checkbox was clicked.
+  In a better implementation the same element will always be returned as the target.--}}
   <input
-    class="c-task__checkbox-input"
+    class="c-task__checkbox-input js-checkbox"
     id="{{@task.id}}"
     type="checkbox"
     checked={{@task.isDone}}
     onclick={{action "toggleTask" value="target.checked"}}
   >
-  <label class="c-task__checkbox-label" for="{{@task.id}}"></label>
+  <label class="c-task__checkbox-label js-checkbox" for="{{@task.id}}"></label>
 </div>
 
 {{#if isEditable}}

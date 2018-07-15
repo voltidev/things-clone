@@ -5,6 +5,17 @@
   cursor: default;
   transition: all 100ms ease-out;
 
+  &.is-selected {
+    border-radius: rem(5px);
+    background-color: #d2e3fd;
+  }
+
+  &.is-selected + &.is-selected {
+    border-radius: 0 0 rem(5px) rem(5px);
+    padding-top: rem(4px);
+    margin-top: rem(-4px);
+  }
+
   &.is-editable {
     padding-bottom: rem(30px);
     margin: rem(20px) 0;

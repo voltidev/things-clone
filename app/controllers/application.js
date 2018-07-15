@@ -5,12 +5,14 @@ import { alias } from '@ember/object/computed';
 export default Controller.extend({
   store: service(),
   taskEditor: service(),
+  taskSelector: service(),
   isEditMode: alias('taskEditor.hasTask'),
 
   actions: {
     createTask() {
       let newTask = this.store.createRecord('task');
       newTask.save();
+      this.taskSelector.select(newTask);
       setTimeout(() => this.taskEditor.setCurrentTask(newTask), 0);
     },
 
