@@ -22,9 +22,6 @@
   border: 0;
   padding: rem(10px);
   cursor: default;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
   .is-editable & {
     padding-top: rem(18px);
@@ -33,6 +30,22 @@
   }
 
   &::placeholder {
+    color: #444;
+    opacity: 0.5;
+  }
+}
+
+.c-task__name {
+  flex: 1;
+  line-height: 1;
+  font-size: rem(15px);
+  padding: rem(10px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
+
+  &--placeholder {
     color: #444;
     opacity: 0.5;
   }

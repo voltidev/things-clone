@@ -7,6 +7,7 @@ export default Component.extend({
   classNames: ['c-task'],
   classNameBindings: ['isEditable'],
   task: null,
+  placeholder: 'New To-Do',
 
   isEditable: computed('taskEditor.currentTask', function() {
     return this.taskEditor.isCurrent(this.task);
@@ -21,6 +22,11 @@ export default Component.extend({
     onEnter() {
       this.taskEditor.setCurrentTask(null);
     }
+  },
+
+  doubleClick() {
+    this.taskEditor.setCurrentTask(this.task);
+    this.autofocus();
   },
 
   autofocus() {

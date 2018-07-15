@@ -1,8 +1,14 @@
 <input type="checkbox" class="c-task__checkbox">
-{{input
-  class="c-task__input js-task-input"
-  placeholder="New To-Do"
-  value=this.task.name
-  enter=(action "onEnter")
-  readonly=(not isEditable)
-}}
+
+{{#if isEditable}}
+  {{input
+    class="c-task__input js-task-input"
+    placeholder=this.placeholder
+    value=@task.name
+    enter=(action "onEnter")
+  }}
+{{else}}
+  <div class="c-task__name {{if (not @task.name) 'c-task__name--placeholder'}}">
+    {{if @task.name @task.name this.placeholder}}
+  </div>
+{{/if}}
