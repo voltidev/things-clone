@@ -13,25 +13,65 @@ export default Component.extend({
     return this.taskEditor.isCurrent(this.task);
   }),
 
+  init() {
+    this._super(...arguments);
+    this.handleRootClick = this.handleRootClick.bind(this);
+  },
+
   didRender() {
     this._super(...arguments);
-    this.autofocus();
+
+    if (this.isEditable) {
+      this.autofocus();
+      this.startHandlingRootClick();
+    } else {
+      this.stopHandlingRootClick();
+    }
   },
 
   actions: {
     onEnter() {
-      this.taskEditor.setCurrentTask(null);
+      this.stopEditing();
     }
   },
 
   doubleClick() {
-    this.taskEditor.setCurrentTask(this.task);
-    this.autofocus();
+    this.startEditing();
   },
 
   autofocus() {
-    if (this.isEditable) {
-      this.element.querySelector('.js-task-input').focus();
+    let input = this.element.querySelector('.js-task-input');
+
+    if (input) {
+      input.focus();
     }
-  }
+  },
+
+  startEditing() {
+    if (!this.isEditable) {
+      this.taskEditor.setCurrentTask(this.task);
+    }
+  },
+
+  stopEditing() {
+    if (this.isEditable) {
+      this.taskEditor.setCurrentTask(null);
+    }
+  },
+
+  startHandlingRootClick() {
+    document.addEventListener('click', this.handleRootClick, true);
+  },
+
+  stopHandlingRootClick() {
+    document.removeEventListener('click', this.handleRootClick, true);
+  },
+
+  handleRootClick(event) {
+    let isInternalClick = this.element.contains(event.target);
+
+    if (!isInternalClick) {
+      this.stopEditing();
+    }
+  },
 });
