@@ -12,9 +12,20 @@ export default Component.extend({
     return this.taskEditor.isCurrent(this.task);
   }),
 
+  didRender() {
+    this._super(...arguments);
+    this.autofocus();
+  },
+
   actions: {
     onEnter() {
       this.taskEditor.setCurrentTask(null);
+    }
+  },
+
+  autofocus() {
+    if (this.isEditable) {
+      this.element.querySelector('.js-task-input').focus();
     }
   }
 });
