@@ -1,5 +1,10 @@
 <div class="c-task-list">
   {{#each @tasks as |task|}}
-    {{task-item task=task saveTask=@saveTask}}
+    {{task-item
+      task=task
+      saveTask=@saveTask
+      completeTask=@completeTask
+      uncompleteTask=@uncompleteTask
+    }}
   {{/each}}
 </div>

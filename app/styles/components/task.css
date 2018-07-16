@@ -74,6 +74,7 @@
 
   .c-task__checkbox-input:checked + &::after {
     content: "";
+    margin-top: rem(-2px);
     height: rem(4px);
     width: rem(6px);
     border-left: 1px solid var(--white);

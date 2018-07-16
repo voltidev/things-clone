@@ -7,5 +7,13 @@ export default Model.extend({
   isDone: attr('boolean', { defaultValue: false }),
   createdAt: attr('date', {
     defaultValue() { return new Date(); }
-  })
+  }),
+
+  complete() {
+    this.set('isDone', true);
+  },
+
+  uncomplete() {
+    this.set('isDone', false);
+  }
 });

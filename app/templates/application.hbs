@@ -6,7 +6,12 @@
 
   <div class="l-container__main {{if isEditMode 'is-edit-mode'}}">
     <div class="l-container__content l-container__content--main">
-      {{task-list tasks=this.model saveTask=(action "saveTask")}}
+      {{task-list
+        tasks=this.model
+        saveTask=(action "saveTask")
+        completeTask=(action "completeTask")
+        uncompleteTask=(action "uncompleteTask")
+      }}
     </div>
 
     <div class="l-container__footer">

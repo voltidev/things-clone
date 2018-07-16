@@ -32,6 +32,14 @@ export default Component.extend({
   actions: {
     onEnter() {
       this.stopEditing();
+    },
+
+    toggleTask(isDone) {
+      if (isDone) {
+        this.completeTask(this.task);
+      } else {
+        this.uncompleteTask(this.task);
+      }
     }
   },
 

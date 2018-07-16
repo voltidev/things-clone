@@ -16,6 +16,16 @@ export default Controller.extend({
 
     saveTask(task) {
       task.save();
+    },
+
+    completeTask(task) {
+      task.complete();
+      task.save();
+    },
+
+    uncompleteTask(task) {
+      task.uncomplete();
+      task.save();
     }
   }
 });

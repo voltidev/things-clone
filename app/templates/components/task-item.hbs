@@ -1,5 +1,11 @@
 <div class="c-task__checkbox">
-  <input class="c-task__checkbox-input" id="{{@task.id}}" type="checkbox">
+  <input
+    class="c-task__checkbox-input"
+    id="{{@task.id}}"
+    type="checkbox"
+    checked={{@task.isDone}}
+    onclick={{action "toggleTask" value="target.checked"}}
+  >
   <label class="c-task__checkbox-label" for="{{@task.id}}"></label>
 </div>
 
