@@ -12,6 +12,10 @@ export default Controller.extend({
       let newTask = this.store.createRecord('task');
       newTask.save();
       setTimeout(() => this.taskEditor.setCurrentTask(newTask), 0);
+    },
+
+    saveTask(task) {
+      task.save();
     }
   }
 });

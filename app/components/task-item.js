@@ -56,6 +56,7 @@ export default Component.extend({
   stopEditing() {
     if (this.isEditable) {
       this.taskEditor.setCurrentTask(null);
+      this.saveTask(this.task);
     }
   },
 
