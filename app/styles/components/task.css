@@ -50,3 +50,34 @@
     opacity: 0.5;
   }
 }
+
+.c-task__checkbox-input {
+  opacity: 0;
+  position: absolute;
+}
+
+.c-task__checkbox-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: rem(14px);
+  width: rem(14px);
+  border: 1px solid #c3c6c9;
+  border-radius: rem(4px);
+  transition: all 300ms ease-out;
+
+  .c-task__checkbox-input:checked + & {
+    background-color: #2560bd;
+    border-color: #165abc;
+    transform: scale(1.1);
+  }
+
+  .c-task__checkbox-input:checked + &::after {
+    content: "";
+    height: rem(4px);
+    width: rem(6px);
+    border-left: 1px solid var(--white);
+    border-bottom: 1px solid var(--white);
+    transform: rotate(-45deg);
+  }
+}

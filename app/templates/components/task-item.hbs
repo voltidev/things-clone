@@ -1,4 +1,7 @@
-<input type="checkbox" class="c-task__checkbox">
+<div class="c-task__checkbox">
+  <input class="c-task__checkbox-input" id="{{@task.id}}" type="checkbox">
+  <label class="c-task__checkbox-label" for="{{@task.id}}"></label>
+</div>
 
 {{#if isEditable}}
   {{input
