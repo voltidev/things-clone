@@ -1,14 +1,16 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 export default Component.extend({
   taskEditor: service(),
   taskSelector: service(),
   classNames: ['c-task'],
-  classNameBindings: ['isSelected', 'isEditable'],
+  classNameBindings: ['isSelected', 'isEditable', 'isComplete'],
   task: null,
   placeholder: 'New To-Do',
+  isComplete: alias('task.isComplete'),
 
   isEditable: computed('taskEditor.currentTask', function() {
     return this.taskEditor.isCurrent(this.task);
@@ -39,8 +41,8 @@ export default Component.extend({
       this.stopEditing();
     },
 
-    toggleTask(isDone) {
-      if (isDone) {
+    toggleTask(isComplete) {
+      if (isComplete) {
         this.completeTask(this.task);
       } else {
         this.uncompleteTask(this.task);

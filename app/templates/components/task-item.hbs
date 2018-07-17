@@ -7,7 +7,7 @@
     class="c-task__checkbox-input js-checkbox"
     id="{{@task.id}}"
     type="checkbox"
-    checked={{@task.isDone}}
+    checked={{@task.isComplete}}
     onclick={{action "toggleTask" value="target.checked"}}
   >
   <label class="c-task__checkbox-label js-checkbox" for="{{@task.id}}"></label>

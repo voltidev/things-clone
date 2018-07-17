@@ -5,16 +5,16 @@ const { attr, Model } = DS;
 
 export default Model.extend({
   name: attr('string'),
-  isDone: attr('boolean', { defaultValue: false }),
+  isComplete: attr('boolean', { defaultValue: false }),
   createdAt: attr('date', {
     defaultValue() { return new Date(); }
   }),
 
   complete() {
-    set(this, 'isDone', true);
+    set(this, 'isComplete', true);
   },
 
   uncomplete() {
-    set(this, 'isDone', false);
+    set(this, 'isComplete', false);
   }
 });
