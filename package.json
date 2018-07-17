@@ -19,6 +19,7 @@
   "devDependencies": {
     "@ember/optional-features": "^0.6.1",
     "broccoli-asset-rev": "^2.7.0",
+    "ember-auto-import": "^1.2.3",
     "ember-cli": "~3.2.0",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
@@ -53,7 +54,8 @@
     "narwin-pack": "^1.1.1",
     "postcss-functions": "^3.0.0",
     "qunit-dom": "^0.6.2",
-    "stylelint-config-standard": "^18.2.0"
+    "stylelint-config-standard": "^18.2.0",
+    "velocity-animate": "^1.5.1"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"

@@ -6,7 +6,7 @@ import { alias } from '@ember/object/computed';
 export default Component.extend({
   taskEditor: service(),
   taskSelector: service(),
-  classNames: ['c-task'],
+  classNames: ['c-task', 'js-task'],
   classNameBindings: ['isSelected', 'isEditable', 'isComplete'],
   task: null,
   placeholder: 'New To-Do',

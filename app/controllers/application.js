@@ -18,6 +18,12 @@ export default Controller.extend({
       task.save();
     },
 
+    deleteSelectedTasks() {
+      if (this.taskSelector.hasSelected) {
+        this.taskSelector.selectedTask.destroyRecord();
+      }
+    },
+
     completeTask(task) {
       task.complete();
       task.save();
