@@ -1,25 +1,7 @@
-<div class="l-container">
-  <div class="l-container__sidebar">
-    <div class="l-container__content"></div>
-    <div class="l-container__footer"></div>
-  </div>
-
-  <div class="l-container__main {{if isEditMode 'is-edit-mode'}}">
-    <div class="l-container__content l-container__content--main">
-      {{task-list
-        tasks=this.model
-        saveTask=(action "saveTask")
-        completeTask=(action "completeTask")
-        uncompleteTask=(action "uncompleteTask")
-      }}
-    </div>
-
-    <div class="l-container__footer">
-      <div class="c-main-actions">
-        <div class="c-main-actions__item" {{action "createTask"}}>
-          {{svg-jar "plus" width="12px" height="12px"}}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+{{app-container
+  tasks=this.model
+  createTask=(action "createTask")
+  completeTask=(action "completeTask")
+  uncompleteTask=(action "uncompleteTask")
+  saveTask=(action "saveTask")
+}}

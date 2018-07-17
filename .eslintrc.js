@@ -38,6 +38,7 @@ module.exports = {
     'ember/named-functions-in-promises': 'off',
     'ember/use-ember-get-and-set': 'off',
     'ember/avoid-leaking-state-in-components': 'off',
+    'ember/no-on-calls-in-components': 'off',
     'ember/local-modules': 'error',
     'ember/no-empty-attrs': 'error',
     'ember/no-jquery': 'error',

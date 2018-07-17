@@ -10,4 +10,3 @@ module('Unit | Service | task-selector', function(hooks) {
     assert.ok(service);
   });
 });
-
