@@ -19,6 +19,7 @@
     placeholder=this.placeholder
     value=@task.name
     enter=(action "onEnter")
+    escape-press=(action "onEscape")
   }}
 {{else}}
   <div class="c-task__name {{if (not @task.name) 'c-task__name--placeholder'}}">

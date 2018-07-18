@@ -41,6 +41,10 @@ export default Component.extend({
       this.stopEditing();
     },
 
+    onEscape() {
+      this.stopEditing();
+    },
+
     toggleTask(isComplete) {
       if (isComplete) {
         this.completeTask(this.task);
