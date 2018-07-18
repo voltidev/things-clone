@@ -27,13 +27,43 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   shortcutDeleteSelected: on(keyUp('Backspace'), function() {
-    if (this.taskSelector.hasSelected) {
-      let selectedElement = document.querySelector('.js-task.is-selected');
-      velocity(selectedElement, { opacity: 0 }, { duration: 100 });
-      velocity(selectedElement, { height: 0 }, { duration: 200, easing: 'easeOutCubic' })
-        .then(() => {
-          this.deleteSelectedTasks();
-        });
+    if (!this.taskSelector.hasSelected) {
+      return;
+    }
+
+    let selected = document.querySelector('.js-task.is-selected');
+    velocity(selected, { opacity: 0 }, { duration: 100 });
+    velocity(selected, { height: 0 }, { duration: 200, easing: 'easeOutCubic' })
+      .then(() => {
+        this.deleteSelectedTasks();
+      });
+  }),
+
+  shortcutSelectNext: on(keyDown('ArrowDown'), function() {
+    if (!this.taskSelector.hasSelected) {
+      return;
+    }
+
+    let next = document
+      .querySelector('.js-task.is-selected')
+      .nextElementSibling;
+
+    if (next) {
+      next.click();
+    }
+  }),
+
+  shortcutSelecPrevious: on(keyDown('ArrowUp'), function() {
+    if (!this.taskSelector.hasSelected) {
+      return;
+    }
+
+    let previous = document
+      .querySelector('.js-task.is-selected')
+      .previousElementSibling;
+
+    if (previous) {
+      previous.click();
     }
   })
 });
