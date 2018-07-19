@@ -54,6 +54,10 @@ export default Component.extend({
     }
   },
 
+  mouseDown(event) {
+    this.selectTask(event);
+  },
+
   click(event) {
     this.selectTask(event);
   },

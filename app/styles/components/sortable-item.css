@@ -1,0 +1,11 @@
+/* ember-sortable addon adjustment */
+
+.sortable-item {
+  transition: all 0.125s;
+}
+
+.sortable-item.is-dragging {
+  transition-duration: 0s;
+  z-index: 10;
+  position: relative;
+}

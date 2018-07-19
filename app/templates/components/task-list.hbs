@@ -1,10 +1,12 @@
-<div class="c-task-list">
+{{#sortable-group class="c-task-list" onChange=@reorderTasks as |group|}}
   {{#each @tasks as |task|}}
-    {{task-item
-      task=task
-      saveTask=@saveTask
-      completeTask=@completeTask
-      uncompleteTask=@uncompleteTask
-    }}
+    {{#sortable-item model=task group=group distance=2}}
+      {{task-item
+        task=task
+        saveTask=@saveTask
+        completeTask=@completeTask
+        uncompleteTask=@uncompleteTask
+      }}
+    {{/sortable-item}}
   {{/each}}
-</div>
+{{/sortable-group}}

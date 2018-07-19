@@ -46,10 +46,12 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
     let next = document
       .querySelector('.js-task.is-selected')
+      .parentElement
       .nextElementSibling;
 
+
     if (next) {
-      next.click();
+      next.firstElementChild.click();
     }
   }),
 
@@ -60,10 +62,11 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
     let previous = document
       .querySelector('.js-task.is-selected')
+      .parentElement
       .previousElementSibling;
 
     if (previous) {
-      previous.click();
+      previous.firstElementChild.click();
     }
   })
 });

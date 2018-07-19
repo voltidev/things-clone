@@ -15,7 +15,9 @@ const postcssUnitsFunctions = {
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
-    vendorFiles: { 'jquery.js': null },
+    // TODO: `ember-sortable` is the only reason why we still have to include jQuery.
+    // Uncomment as soon as you find an alternative to `ember-sortable`.
+    // vendorFiles: { 'jquery.js': null },
 
     postcssOptions: {
       compile: {
