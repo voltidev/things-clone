@@ -16,7 +16,7 @@ export default Controller.extend({
       let order = this.tasks.lastObject ? this.tasks.lastObject.order + 1 : 0;
       let newTask = this.store.createRecord('task', { order });
       newTask.save();
-      this.taskSelector.select(newTask);
+      this.taskSelector.selectOnly(newTask);
       setTimeout(() => this.taskEditor.edit(newTask));
     },
 
@@ -24,9 +24,9 @@ export default Controller.extend({
       task.save();
     },
 
-    deleteSelectedTasks() {
-      if (this.taskSelector.hasSelected) {
-        this.taskSelector.selectedTask.destroyRecord();
+    deletetasks() {
+      if (this.taskSelector.hasTasks) {
+        this.taskSelector.tasks.forEach(task => task.destroyRecord());
         this.taskSelector.clear();
       }
     },

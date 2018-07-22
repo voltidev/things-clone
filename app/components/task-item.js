@@ -16,7 +16,7 @@ export default Component.extend({
     return this.taskEditor.isEditing(this.task);
   }),
 
-  isSelected: computed('taskSelector.selectedTask', function() {
+  isSelected: computed('taskSelector.tasks.[]', function() {
     return this.taskSelector.isSelected(this.task);
   }),
 
@@ -79,7 +79,7 @@ export default Component.extend({
       return;
     }
 
-    this.taskSelector.select(this.task);
+    this.taskSelector.selectOnly(this.task);
   },
 
   startEditing() {

@@ -1,20 +1,33 @@
 import Service from '@ember/service';
-import { set } from '@ember/object';
 import { notEmpty } from '@ember/object/computed';
 
 export default Service.extend({
-  selectedTask: null,
-  hasSelected: notEmpty('selectedTask'),
+  tasks: null,
+  hasTasks: notEmpty('tasks'),
 
-  isSelected(task) {
-    return task === this.selectedTask;
+  init() {
+    this._super(...arguments);
+    this.set('tasks', []);
   },
 
-  select(task) {
-    set(this, 'selectedTask', task);
+  isSelected(task) {
+    return this.tasks.includes(task);
+  },
+
+  select(tasks) {
+    this.tasks.pushObjects(tasks);
+  },
+
+  selectOnly(task) {
+    this.clear();
+    this.select([task]);
+  },
+
+  deselect(tasks) {
+    this.tasks.removeObjects(tasks);
   },
 
   clear() {
-    set(this, 'selectedTask', null);
+    this.tasks.clear();
   }
 });

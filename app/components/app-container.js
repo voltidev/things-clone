@@ -16,25 +16,25 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {
-    if (this.taskSelector.hasSelected) {
-      this.taskEditor.edit(this.taskSelector.selectedTask);
+    if (this.taskSelector.hasTasks) {
+      this.taskEditor.edit(this.taskSelector.tasks.lastObject);
     }
   }),
 
   shortcutDeleteSelected: on(keyUp('Backspace'), function() {
-    if (!this.taskSelector.hasSelected) {
+    if (!this.taskSelector.hasTasks) {
       return;
     }
 
     let selected = document.querySelector('.js-task.is-selected');
     velocity(selected, { opacity: 0 }, { duration: 100 });
     velocity(selected, { height: 0 }, { duration: 200, easing: 'easeOutCubic' }).then(() => {
-      this.deleteSelectedTasks();
+      this.deletetasks();
     });
   }),
 
   shortcutSelectNext: on(keyDown('ArrowDown'), function() {
-    if (!this.taskSelector.hasSelected) {
+    if (!this.taskSelector.hasTasks) {
       return;
     }
 
@@ -46,7 +46,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   shortcutSelecPrevious: on(keyDown('ArrowUp'), function() {
-    if (!this.taskSelector.hasSelected) {
+    if (!this.taskSelector.hasTasks) {
       return;
     }
 

@@ -19,7 +19,7 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/extensions': 'off',
-    'arrow-parens': ['error', 'always'],
+    'arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
     'comma-dangle': 'off',
     'prefer-arrow-callback': 'off',
     'func-names': 'off',
