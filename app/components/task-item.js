@@ -7,13 +7,13 @@ export default Component.extend({
   taskEditor: service(),
   taskSelector: service(),
   classNames: ['c-task', 'js-task'],
-  classNameBindings: ['isSelected', 'isEditable', 'isComplete'],
+  classNameBindings: ['isSelected', 'isEditing', 'isComplete'],
   task: null,
   placeholder: 'New To-Do',
   isComplete: alias('task.isComplete'),
 
-  isEditable: computed('taskEditor.currentTask', function() {
-    return this.taskEditor.isCurrent(this.task);
+  isEditing: computed('taskEditor.task', function() {
+    return this.taskEditor.isEditing(this.task);
   }),
 
   isSelected: computed('taskSelector.selectedTask', function() {
@@ -28,7 +28,7 @@ export default Component.extend({
   didRender() {
     this._super(...arguments);
 
-    if (this.isEditable) {
+    if (this.isEditing) {
       this.focusInput();
       this.startHandlingRootClick();
     } else {
@@ -83,14 +83,14 @@ export default Component.extend({
   },
 
   startEditing() {
-    if (!this.isEditable) {
-      this.taskEditor.setCurrentTask(this.task);
+    if (!this.isEditing) {
+      this.taskEditor.edit(this.task);
     }
   },
 
   stopEditing() {
-    if (this.isEditable) {
-      this.taskEditor.setCurrentTask(null);
+    if (this.isEditing) {
+      this.taskEditor.clear();
       this.saveTask(this.task);
     }
   },

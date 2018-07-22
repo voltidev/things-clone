@@ -1,14 +1,9 @@
 module.exports = {
   root: true,
 
-  plugins: [
-    'ember'
-  ],
+  plugins: ['ember'],
 
-  extends: [
-    'airbnb-base',
-    'plugin:ember/recommended'
-  ],
+  extends: ['airbnb-base', 'plugin:ember/recommended'],
 
   env: {
     browser: true,
@@ -32,6 +27,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'array-callback-return': 'off',
     'prefer-const': 'off',
+    'object-curly-newline': 'off',
 
     // Optional ember rules
     'ember/alias-model-in-controller': 'off',
@@ -49,26 +45,27 @@ module.exports = {
     'ember/order-in-routes': 'error',
     'ember/no-jquery': 'error',
 
-    'space-before-function-paren': ['error', {
-      'anonymous': 'never',
-      'named': 'never'
-    }],
+    'space-before-function-paren': [
+      'error',
+      {
+        anonymous: 'never',
+        named: 'never'
+      }
+    ],
 
-    'generator-star-spacing': ['error', {
-      'before': false,
-      'after': true
-    }]
+    'generator-star-spacing': [
+      'error',
+      {
+        before: false,
+        after: true
+      }
+    ]
   },
 
   overrides: [
     // for Ember node files
     {
-      files: [
-        'ember-cli-build.js',
-        'testem.js',
-        'config/**/*.js',
-        'lib/*/index.js'
-      ],
+      files: ['ember-cli-build.js', 'testem.js', 'config/**/*.js', 'lib/*/index.js'],
 
       parserOptions: {
         sourceType: 'script',

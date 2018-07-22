@@ -16,7 +16,7 @@
     margin-top: rem(-4px);
   }
 
-  &.is-editable {
+  &.is-editing {
     padding-bottom: rem(30px);
     margin: rem(20px) 0;
     box-shadow: 0 rem(2px) rem(6px) rgba(0, 0, 0, 0.2);
@@ -34,7 +34,7 @@
   padding: rem(10px);
   cursor: default;
 
-  .is-editable & {
+  .is-editing & {
     padding-top: rem(18px);
     padding-bottom: rem(18px);
     cursor: text;

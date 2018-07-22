@@ -3,14 +3,18 @@ import { set } from '@ember/object';
 import { notEmpty } from '@ember/object/computed';
 
 export default Service.extend({
-  currentTask: null,
-  hasTask: notEmpty('currentTask'),
+  task: null,
+  hasTask: notEmpty('task'),
 
-  setCurrentTask(task) {
-    set(this, 'currentTask', task);
+  isEditing(task) {
+    return task === this.task;
   },
 
-  isCurrent(task) {
-    return task === this.currentTask;
+  edit(task) {
+    set(this, 'task', task);
+  },
+
+  clear() {
+    set(this, 'task', null);
   }
 });

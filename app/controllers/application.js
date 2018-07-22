@@ -17,7 +17,7 @@ export default Controller.extend({
       let newTask = this.store.createRecord('task', { order });
       newTask.save();
       this.taskSelector.select(newTask);
-      setTimeout(() => this.taskEditor.setCurrentTask(newTask));
+      setTimeout(() => this.taskEditor.edit(newTask));
     },
 
     saveTask(task) {

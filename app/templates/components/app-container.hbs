@@ -3,7 +3,7 @@
   <div class="l-container__footer"></div>
 </div>
 
-<div class="l-container__main {{if this.isEditMode 'is-edit-mode'}}">
+<div class="l-container__main {{if this.isEditing 'is-edit-mode'}}">
   <div class="l-container__content l-container__content--main">
     {{task-list
       tasks=@tasks
