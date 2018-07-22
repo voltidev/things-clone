@@ -7,12 +7,17 @@ export default Model.extend({
   order: attr('number', { defaultValue: 0 }),
   name: attr('string'),
   isComplete: attr('boolean', { defaultValue: false }),
+  completedAt: attr('date'),
+
   createdAt: attr('date', {
-    defaultValue() { return new Date(); }
+    defaultValue() {
+      return new Date();
+    }
   }),
 
   complete() {
     set(this, 'isComplete', true);
+    set(this, 'completedAt', new Date());
   },
 
   uncomplete() {

@@ -6,6 +6,10 @@ body {
   color: var(--base-text-color);
   background-color: var(--base-background-color);
   overflow: hidden;
+
+  &#tests {
+    overflow: auto;
+  }
 }
 
 button,

@@ -29,7 +29,7 @@ export default Component.extend({
     this._super(...arguments);
 
     if (this.isEditable) {
-      this.autofocus();
+      this.focusInput();
       this.startHandlingRootClick();
     } else {
       this.stopHandlingRootClick();
@@ -66,7 +66,7 @@ export default Component.extend({
     this.startEditing();
   },
 
-  autofocus() {
+  focusInput() {
     let input = this.element.querySelector('.js-task-input');
 
     if (input) {
