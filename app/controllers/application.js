@@ -4,8 +4,6 @@ import { computed } from '@ember/object';
 
 export default Controller.extend({
   store: service(),
-  taskEditor: service(),
-  taskSelector: service(),
 
   tasks: computed('model.@each.order', function() {
     return this.model.sortBy('order');
@@ -15,39 +13,37 @@ export default Controller.extend({
     createTask() {
       let order = this.tasks.lastObject ? this.tasks.lastObject.order + 1 : 0;
       let newTask = this.store.createRecord('task', { order });
-      newTask.save();
-      this.taskSelector.selectOnly(newTask);
-      setTimeout(() => this.taskEditor.edit(newTask));
+      return newTask.save();
     },
 
     saveTask(task) {
-      task.save();
+      return task.save();
     },
 
-    deletetasks() {
-      if (this.taskSelector.hasTasks) {
-        this.taskSelector.tasks.forEach(task => task.destroyRecord());
-        this.taskSelector.clear();
-      }
+    deleteTasks(tasks) {
+      return Promise.all(tasks.map(task => task.destroyRecord()));
     },
 
-    reorderTasks(newOrdertasks) {
-      newOrdertasks.forEach((task, index) => {
-        if (task.order !== index) {
-          task.set('order', index);
-          task.save();
+    reorderTasks(newOrderTasks) {
+      let promises = newOrderTasks.reduce((saved, task, newOrder) => {
+        if (task.order !== newOrder) {
+          task.set('order', newOrder);
+          saved.push(task.save());
         }
-      });
+        return saved;
+      }, []);
+
+      return Promise.all(promises);
     },
 
     completeTask(task) {
       task.complete();
-      task.save();
+      return task.save();
     },
 
     uncompleteTask(task) {
       task.uncomplete();
-      task.save();
+      return task.save();
     }
   }
 });

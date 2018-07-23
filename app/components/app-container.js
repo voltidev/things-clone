@@ -11,8 +11,8 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   classNames: ['l-container'],
   isEditing: alias('taskEditor.hasTask'),
 
-  shortcutCreateTask: on(keyDown('KeyN'), function() {
-    this.createTask();
+  shortcutNewTask: on(keyDown('KeyN'), function() {
+    this.handleNewTask();
   }),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {
@@ -29,7 +29,8 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     let selected = document.querySelector('.js-task.is-selected');
     velocity(selected, { opacity: 0 }, { duration: 100 });
     velocity(selected, { height: 0 }, { duration: 200, easing: 'easeOutCubic' }).then(() => {
-      this.deletetasks();
+      this.deleteTasks(this.taskSelector.tasks);
+      this.taskSelector.clear();
     });
   }),
 
@@ -56,5 +57,18 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     if (previous) {
       previous.firstElementChild.click();
     }
-  })
+  }),
+
+  actions: {
+    newTask() {
+      return this.handleNewTask();
+    }
+  },
+
+  handleNewTask() {
+    this.createTask().then(newTask => {
+      this.taskSelector.selectOnly(newTask);
+      setTimeout(() => this.taskEditor.edit(newTask));
+    });
+  }
 });
