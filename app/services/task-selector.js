@@ -15,16 +15,16 @@ export default Service.extend({
   },
 
   select(tasks) {
-    this.tasks.pushObjects(tasks);
+    this.tasks.pushObjects(Array.isArray(tasks) ? tasks : [tasks]);
   },
 
   selectOnly(task) {
     this.clear();
-    this.select([task]);
+    this.select(task);
   },
 
   deselect(tasks) {
-    this.tasks.removeObjects(tasks);
+    this.tasks.removeObjects(Array.isArray(tasks) ? tasks : [tasks]);
   },
 
   clear() {

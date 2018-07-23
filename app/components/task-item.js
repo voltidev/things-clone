@@ -36,6 +36,10 @@ export default Component.extend({
     }
   },
 
+  willDestroyElement() {
+    this.stopHandlingRootClick();
+  },
+
   actions: {
     onEnter() {
       this.stopEditing();

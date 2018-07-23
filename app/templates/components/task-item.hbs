@@ -5,12 +5,17 @@
   In a better implementation the same element will always be returned as the target.--}}
   <input
     class="c-task__checkbox-input js-checkbox"
-    id="{{@task.id}}"
+    id="task-checkbox-{{@task.id}}"
     type="checkbox"
     checked={{@task.isComplete}}
     onclick={{action "toggleTask" value="target.checked"}}
+    data-test-task-checkbox
   >
-  <label class="c-task__checkbox-label js-checkbox" for="{{@task.id}}"></label>
+  <label
+    class="c-task__checkbox-label js-checkbox"
+    for="task-checkbox-{{@task.id}}"
+    data-test-task-checkbox-label
+  ></label>
 </div>
 
 {{#if isEditing}}
@@ -20,9 +25,13 @@
     value=@task.name
     enter=(action "onEnter")
     escape-press=(action "onEscape")
+    data-test-task-name-input=true
   }}
 {{else}}
-  <div class="c-task__name {{if (not @task.name) 'c-task__name--placeholder'}}">
+  <div
+    class="c-task__name {{if (not @task.name) 'c-task__name--placeholder'}}"
+    data-test-task-name
+  >
     {{if @task.name @task.name this.placeholder}}
   </div>
 {{/if}}

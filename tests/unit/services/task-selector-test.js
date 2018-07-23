@@ -29,7 +29,7 @@ module('Unit | Service | task-selector', function(hooks) {
     assert.equal(taskSelector.isSelected(task1), false);
     assert.equal(taskSelector.isSelected(task2), false);
 
-    taskSelector.select([task1]);
+    taskSelector.select(task1);
     assert.equal(taskSelector.isSelected(task1), true);
     assert.equal(taskSelector.isSelected(task2), false);
   });
@@ -44,7 +44,7 @@ module('Unit | Service | task-selector', function(hooks) {
     assert.equal(taskSelector.isSelected(task2), false);
     assert.equal(taskSelector.isSelected(task3), false);
 
-    taskSelector.select([task1]);
+    taskSelector.select(task1);
     assert.equal(taskSelector.isSelected(task1), true);
     assert.equal(taskSelector.isSelected(task2), false);
     assert.equal(taskSelector.isSelected(task3), false);
@@ -81,7 +81,7 @@ module('Unit | Service | task-selector', function(hooks) {
     assert.equal(taskSelector.isSelected(task1), true);
     assert.equal(taskSelector.isSelected(task2), true);
 
-    taskSelector.deselect([task2]);
+    taskSelector.deselect(task2);
     assert.equal(taskSelector.isSelected(task1), true);
     assert.equal(taskSelector.isSelected(task2), false);
   });

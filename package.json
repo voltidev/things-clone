@@ -47,6 +47,7 @@
     "ember-sortable": "^1.11.2",
     "ember-source": "3.2.2",
     "ember-svg-jar": "^1.2.0",
+    "ember-test-selectors": "^1.0.0",
     "ember-truth-helpers": "^2.0.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-ember": "^5.0.0",
@@ -54,7 +55,7 @@
     "loader.js": "^4.2.3",
     "narwin-pack": "^1.1.1",
     "postcss-functions": "^3.0.0",
-    "qunit-dom": "^0.6.2",
+    "qunit-dom": "^0.7.0",
     "sinon": "^6.1.4",
     "stylelint-config-standard": "^18.2.0",
     "velocity-animate": "^1.5.1"
