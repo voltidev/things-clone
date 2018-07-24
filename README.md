@@ -1,7 +1,6 @@
-# things
+# Things app clone
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+It is an attempt to make a close imitation of the Cultured Code Things app. Just for fun.
 
 ## Prerequisites
 
