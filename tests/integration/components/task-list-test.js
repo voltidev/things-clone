@@ -6,21 +6,22 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | task-list', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+  test('it renders tasks properly', async function(assert) {
+    this.set('tasks', [
+      { id: 1, name: 'task 1', isComplete: true },
+      { id: 2, name: 'task 2', isComplete: false }
+    ]);
 
-    await render(hbs`{{task-list}}`);
-
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
     await render(hbs`
-      {{#task-list}}
-        template block text
-      {{/task-list}}
+      {{task-list
+        tasks=tasks
+      }}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('[data-test-task]').exists({ count: 2 });
+    assert.dom('[data-test-task="1"]').hasClass('is-complete');
+    assert.dom('[data-test-task="1"]').hasText('task 1');
+    assert.dom('[data-test-task="2"]').hasNoClass('is-complete');
+    assert.dom('[data-test-task="2"]').hasText('task 2');
   });
 });
