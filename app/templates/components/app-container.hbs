@@ -3,7 +3,10 @@
   <div class="l-container__footer"></div>
 </div>
 
-<div class="l-container__main {{if this.isEditing 'is-edit-mode'}}">
+<div
+  class="l-container__main {{if this.isEditing 'is-editing'}}"
+  data-test-main-section
+>
   <div class="l-container__content l-container__content--main">
     {{task-list
       tasks=@tasks
@@ -16,7 +19,11 @@
 
   <div class="l-container__footer">
     <div class="c-main-actions">
-      <div class="c-main-actions__item" {{action "newTask"}}>
+      <div
+        class="c-main-actions__item"
+        {{action "newTask"}}
+        data-test-action-new-task
+      >
         {{svg-jar "plus" width="12px" height="12px"}}
       </div>
     </div>

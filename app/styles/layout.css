@@ -29,7 +29,7 @@
   padding: 0 8%;
   transition: background-color 300ms ease-out;
 
-  .is-edit-mode & {
+  .is-editing & {
     background-color: #f9f9f9;
   }
 }

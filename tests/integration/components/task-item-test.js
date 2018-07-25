@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerEvent, triggerKeyEvent, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { spy } from 'sinon';
+import { shouldBeEditing, shouldNotBeEditing } from '../../helpers/editing-mode';
 
 function renderComponent() {
   return render(hbs`
@@ -14,19 +15,6 @@ function renderComponent() {
       data-test-task=true
     }}
   `);
-}
-
-function shouldBeEditingMode(assert) {
-  assert.dom('[data-test-task]').hasClass('is-editing');
-  assert.dom('[data-test-task-name]').doesNotExist();
-  assert.dom('[data-test-task-name-input]').exists();
-  assert.dom('[data-test-task-name-input]').isFocused();
-}
-
-function shouldNotBeEditingMode(assert) {
-  assert.dom('[data-test-task]').doesNotHaveClass('is-editing');
-  assert.dom('[data-test-task-name]').exists();
-  assert.dom('[data-test-task-name-input]').doesNotExist();
 }
 
 module('Integration | Component | task-item', function(hooks) {
@@ -84,7 +72,7 @@ module('Integration | Component | task-item', function(hooks) {
     this.task.isComplete = false;
     await renderComponent();
     assert.dom('[data-test-task-checkbox]').isNotChecked();
-    assert.dom('[data-test-task]').doesNotHaveClass('is-complete');
+    assert.dom('[data-test-task]').hasNoClass('is-complete');
   });
 
   test('it is not selected by default', async function(assert) {
@@ -103,16 +91,16 @@ module('Integration | Component | task-item', function(hooks) {
   test('it is not selected on checkbox or label click', async function(assert) {
     await renderComponent();
     await click('[data-test-task-checkbox]');
-    assert.dom('[data-test-task]').doesNotHaveClass('is-selected');
+    assert.dom('[data-test-task]').hasNoClass('is-selected');
 
     await click('[data-test-task-checkbox-label]');
-    assert.dom('[data-test-task]').doesNotHaveClass('is-selected');
+    assert.dom('[data-test-task]').hasNoClass('is-selected');
   });
 
   test('it updates when taskSelector state changes', async function(assert) {
     let taskSelector = this.owner.lookup('service:task-selector');
     await renderComponent();
-    assert.dom('[data-test-task]').doesNotHaveClass('is-selected');
+    assert.dom('[data-test-task]').hasNoClass('is-selected');
 
     taskSelector.select(this.task);
     await settled();
@@ -120,7 +108,7 @@ module('Integration | Component | task-item', function(hooks) {
 
     taskSelector.deselect(this.task);
     await settled();
-    assert.dom('[data-test-task]').doesNotHaveClass('is-selected');
+    assert.dom('[data-test-task]').hasNoClass('is-selected');
   });
 
   test('it calls completeTask action on checkbox click', async function(assert) {
@@ -129,7 +117,7 @@ module('Integration | Component | task-item', function(hooks) {
     this.task.isComplete = false;
     await renderComponent();
     await click('[data-test-task-checkbox]');
-    assert.ok(completeTask.calledOnceWith(this.task), 'completeTask is called with task');
+    assert.ok(completeTask.calledOnceWith(this.task));
   });
 
   test('it calls uncompleteTask action on checkbox click', async function(assert) {
@@ -138,12 +126,12 @@ module('Integration | Component | task-item', function(hooks) {
     this.task.isComplete = true;
     await renderComponent();
     await click('[data-test-task-checkbox]');
-    assert.ok(uncompleteTask.calledOnceWith(this.task), 'uncompleteTask is called with task');
+    assert.ok(uncompleteTask.calledOnceWith(this.task));
   });
 
   test('it is not editing by default', async function(assert) {
     await renderComponent();
-    shouldNotBeEditingMode(assert);
+    shouldNotBeEditing('[data-test-task]', assert);
   });
 
   test('it renders editing mode properly', async function(assert) {
@@ -153,45 +141,45 @@ module('Integration | Component | task-item', function(hooks) {
     await settled();
     await renderComponent();
 
-    shouldBeEditingMode(assert);
+    shouldBeEditing('[data-test-task]', assert);
     assert.dom('[data-test-task-name-input]').hasValue(taskName);
   });
 
   test('it starts editing on double click', async function(assert) {
     await renderComponent();
-    shouldNotBeEditingMode(assert);
+    shouldNotBeEditing('[data-test-task]', assert);
 
     await triggerEvent('[data-test-task]', 'dblclick');
-    shouldBeEditingMode(assert);
+    shouldBeEditing('[data-test-task]', assert);
   });
 
   test('it stops editing on Enter', async function(assert) {
     this.owner.lookup('service:task-editor').edit(this.task);
     await settled();
     await renderComponent();
-    shouldBeEditingMode(assert);
+    shouldBeEditing('[data-test-task]', assert);
 
     await triggerKeyEvent('[data-test-task-name-input]', 'keyup', 'Enter');
-    shouldNotBeEditingMode(assert);
+    shouldNotBeEditing('[data-test-task]', assert);
   });
 
   test('it stops editing on Escape', async function(assert) {
     this.owner.lookup('service:task-editor').edit(this.task);
     await settled();
     await renderComponent();
-    shouldBeEditingMode(assert);
+    shouldBeEditing('[data-test-task]', assert);
 
     await triggerKeyEvent('[data-test-task-name-input]', 'keyup', 'Escape');
-    shouldNotBeEditingMode(assert);
+    shouldNotBeEditing('[data-test-task]', assert);
   });
 
   test('it stops editing on side click', async function(assert) {
     this.owner.lookup('service:task-editor').edit(this.task);
     await settled();
     await renderComponent();
-    shouldBeEditingMode(assert);
+    shouldBeEditing('[data-test-task]', assert);
 
     await click(document.body);
-    shouldNotBeEditingMode(assert);
+    shouldNotBeEditing('[data-test-task]', assert);
   });
 });
