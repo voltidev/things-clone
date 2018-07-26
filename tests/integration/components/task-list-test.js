@@ -2,15 +2,14 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { setupFactoryGuy, buildList } from 'ember-data-factory-guy';
 
 module('Integration | Component | task-list', function(hooks) {
   setupRenderingTest(hooks);
+  setupFactoryGuy(hooks);
 
   test('it renders tasks properly', async function(assert) {
-    this.set('tasks', [
-      { id: 1, name: 'task 1', isComplete: true },
-      { id: 2, name: 'task 2', isComplete: false }
-    ]);
+    this.set('tasks', buildList('task', 'complete', 'default'));
 
     await render(hbs`
       {{task-list
@@ -27,10 +26,7 @@ module('Integration | Component | task-list', function(hooks) {
 
   test('it handles selection with shiftKey from top to bottom', async function(assert) {
     let taskSelector = this.owner.lookup('service:task-selector');
-    let task1 = { id: 1, name: 'task 1', order: 1, isComplete: false };
-    let task2 = { id: 2, name: 'task 2', order: 2, isComplete: false };
-    let task3 = { id: 3, name: 'task 3', order: 3, isComplete: false };
-    let task4 = { id: 4, name: 'task 4', order: 4, isComplete: false };
+    let [task1, task2, task3, task4] = buildList('task', 4);
     this.set('tasks', [task1, task2, task3, task4]);
     taskSelector.select([task1, task3, task4]);
     await render(hbs`
@@ -53,10 +49,7 @@ module('Integration | Component | task-list', function(hooks) {
 
   test('it handles selection with shiftKey from bottom to top', async function(assert) {
     let taskSelector = this.owner.lookup('service:task-selector');
-    let task1 = { id: 1, name: 'task 1', order: 1, isComplete: false };
-    let task2 = { id: 2, name: 'task 2', order: 2, isComplete: false };
-    let task3 = { id: 3, name: 'task 3', order: 3, isComplete: false };
-    let task4 = { id: 4, name: 'task 4', order: 4, isComplete: false };
+    let [task1, task2, task3, task4] = buildList('task', 4);
     this.set('tasks', [task1, task2, task3, task4]);
     taskSelector.select([task2, task4]);
     await render(hbs`

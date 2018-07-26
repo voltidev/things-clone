@@ -3,7 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerEvent, triggerKeyEvent, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { spy } from 'sinon';
-import { shouldBeEditing, shouldNotBeEditing } from '../../helpers/editing-mode';
+import { setupFactoryGuy, build } from 'ember-data-factory-guy';
+import { shouldBeEditing, shouldNotBeEditing } from 'things/tests/helpers/editing-mode';
 
 function renderComponent() {
   return render(hbs`
@@ -20,9 +21,10 @@ function renderComponent() {
 
 module('Integration | Component | task-item', function(hooks) {
   setupRenderingTest(hooks);
+  setupFactoryGuy(hooks);
 
   hooks.beforeEach(function() {
-    this.task = { id: 1, name: 'task', isComplete: false };
+    this.task = build('task');
     this.set('task', this.task);
     this.set('saveTask', () => null);
     this.set('completeTask', () => null);

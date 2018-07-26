@@ -4,8 +4,8 @@ import { set } from '@ember/object';
 const { attr, Model } = DS;
 
 export default Model.extend({
-  order: attr('number', { defaultValue: 0 }),
   name: attr('string'),
+  order: attr('number', { defaultValue: 0 }),
   isComplete: attr('boolean', { defaultValue: false }),
   completedAt: attr('date'),
 
