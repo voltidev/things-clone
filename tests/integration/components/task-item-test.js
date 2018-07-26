@@ -88,6 +88,37 @@ module('Integration | Component | task-item', function(hooks) {
     assert.dom('[data-test-task]').hasClass('is-selected');
   });
 
+  test('it deselect other tasks on click', async function(assert) {
+    let taskSelector = this.owner.lookup('service:task-selector');
+    let otherTask = {};
+
+    await renderComponent();
+    taskSelector.select(otherTask);
+    assert.ok(taskSelector.isSelected(otherTask), 'before click other task is selected');
+    assert.notOk(taskSelector.isSelected(this.task), 'before click target task is not selected');
+
+    await triggerEvent('[data-test-task]', 'click');
+    assert.notOk(
+      taskSelector.isSelected(otherTask),
+      'after click other task is not selected anymore'
+    );
+    assert.ok(taskSelector.isSelected(this.task), 'after click target task is selected');
+  });
+
+  test('it does not deselect other tasks on click with metaKey', async function(assert) {
+    let taskSelector = this.owner.lookup('service:task-selector');
+    let otherTask = {};
+
+    await renderComponent();
+    taskSelector.select(otherTask);
+    assert.ok(taskSelector.isSelected(otherTask), 'before click other task is selected');
+    assert.notOk(taskSelector.isSelected(this.task), 'before click target task is not selected');
+
+    await triggerEvent('[data-test-task]', 'click', { metaKey: true });
+    assert.ok(taskSelector.isSelected(otherTask), 'after click other task is still selected');
+    assert.ok(taskSelector.isSelected(this.task), 'after click target task is selected too');
+  });
+
   test('it is not selected on checkbox or label click', async function(assert) {
     await renderComponent();
     await click('[data-test-task-checkbox]');

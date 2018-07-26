@@ -78,12 +78,16 @@ export default Component.extend({
     }
   },
 
-  selectTask({ target }) {
+  selectTask({ target, metaKey }) {
     if (target.classList.contains('js-checkbox') || this.isSelected) {
       return;
     }
 
-    this.taskSelector.selectOnly(this.task);
+    if (metaKey) {
+      this.taskSelector.select(this.task);
+    } else {
+      this.taskSelector.selectOnly(this.task);
+    }
   },
 
   startEditing() {
