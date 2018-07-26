@@ -20,6 +20,16 @@ export default Service.extend({
     this.tasks.pushObjects(tasksToSelect);
   },
 
+  toggle(...tasks) {
+    tasks.forEach(task => {
+      if (this.isSelected(task)) {
+        this.deselect(task);
+      } else {
+        this.select(task);
+      }
+    });
+  },
+
   selectOnly() {
     this.clear();
     this.select(...arguments);

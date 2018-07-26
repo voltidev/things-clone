@@ -62,10 +62,6 @@ export default Component.extend({
     this.selectTask(event);
   },
 
-  click(event) {
-    this.selectTask(event);
-  },
-
   doubleClick() {
     this.startEditing();
   },
@@ -86,7 +82,7 @@ export default Component.extend({
     if (shiftKey && this.taskSelector.hasTasks) {
       this.selectBetween(this.task);
     } else if (metaKey) {
-      this.taskSelector.select(this.task);
+      this.taskSelector.toggle(this.task);
     } else {
       this.taskSelector.selectOnly(this.task);
     }

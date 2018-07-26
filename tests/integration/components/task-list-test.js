@@ -40,7 +40,7 @@ module('Integration | Component | task-list', function(hooks) {
     assert.ok(taskSelector.isSelected(task3), 'task3 is selected before click');
     assert.ok(taskSelector.isSelected(task4), 'task4 is selected before click');
 
-    await triggerEvent('[data-test-task="3"]', 'click', { shiftKey: true });
+    await triggerEvent('[data-test-task="3"]', 'mousedown', { shiftKey: true });
     assert.ok(taskSelector.isSelected(task1), 'task1 is selected after click');
     assert.ok(taskSelector.isSelected(task2), 'task2 is selected after click');
     assert.ok(taskSelector.isSelected(task3), 'task3 is selected after click');
@@ -63,7 +63,7 @@ module('Integration | Component | task-list', function(hooks) {
     assert.notOk(taskSelector.isSelected(task3), 'task3 is not selected before click');
     assert.ok(taskSelector.isSelected(task4), 'task4 is selected before click');
 
-    await triggerEvent('[data-test-task="2"]', 'click', { shiftKey: true });
+    await triggerEvent('[data-test-task="2"]', 'mousedown', { shiftKey: true });
     assert.notOk(taskSelector.isSelected(task1), 'task1 is not selected after click');
     assert.ok(taskSelector.isSelected(task2), 'task2 is selected after click');
     assert.ok(taskSelector.isSelected(task3), 'task3 is selected after click');

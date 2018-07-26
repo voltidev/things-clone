@@ -117,6 +117,37 @@ module('Unit | Service | task-selector', function(hooks) {
     assert.equal(taskSelector.isSelected(task3), true);
   });
 
+  test('toggle one task', function(assert) {
+    let taskSelector = this.owner.lookup('service:task-selector');
+    let task1 = {};
+    let task2 = {};
+
+    taskSelector.select(task1);
+    assert.equal(taskSelector.isSelected(task1), true);
+    assert.equal(taskSelector.isSelected(task2), false);
+
+    taskSelector.toggle(task2);
+    assert.equal(taskSelector.isSelected(task1), true);
+    assert.equal(taskSelector.isSelected(task2), true);
+  });
+
+  test('toggle two tasks', function(assert) {
+    let taskSelector = this.owner.lookup('service:task-selector');
+    let task1 = {};
+    let task2 = {};
+    let task3 = {};
+
+    taskSelector.select(task1);
+    assert.equal(taskSelector.isSelected(task1), true);
+    assert.equal(taskSelector.isSelected(task2), false);
+    assert.equal(taskSelector.isSelected(task3), false);
+
+    taskSelector.toggle(task1, task2);
+    assert.equal(taskSelector.isSelected(task1), false);
+    assert.equal(taskSelector.isSelected(task2), true);
+    assert.equal(taskSelector.isSelected(task3), false);
+  });
+
   test('clear method works', function(assert) {
     let taskSelector = this.owner.lookup('service:task-selector');
     let task1 = {};
