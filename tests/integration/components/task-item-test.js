@@ -12,6 +12,7 @@ function renderComponent() {
       saveTask=saveTask
       completeTask=completeTask
       uncompleteTask=uncompleteTask
+      selectBetween=selectBetween
       data-test-task=true
     }}
   `);
@@ -26,6 +27,7 @@ module('Integration | Component | task-item', function(hooks) {
     this.set('saveTask', () => null);
     this.set('completeTask', () => null);
     this.set('uncompleteTask', () => null);
+    this.set('selectBetween', () => null);
   });
 
   test('it renders task name', async function(assert) {
@@ -117,6 +119,35 @@ module('Integration | Component | task-item', function(hooks) {
     await triggerEvent('[data-test-task]', 'click', { metaKey: true });
     assert.ok(taskSelector.isSelected(otherTask), 'after click other task is still selected');
     assert.ok(taskSelector.isSelected(this.task), 'after click target task is selected too');
+  });
+
+  test('it calls selectBetween action on click with shiftKey', async function(assert) {
+    this.owner.lookup('service:task-selector').select({});
+    let selectBetween = spy();
+    this.set('selectBetween', selectBetween);
+    await renderComponent();
+    await triggerEvent('[data-test-task]', 'click', { shiftKey: true });
+    assert.ok(
+      selectBetween.calledOnceWith(this.task),
+      'after click selectBetween action is called'
+    );
+  });
+
+  test('it does not call selectBetween action on click without shiftKey', async function(assert) {
+    this.owner.lookup('service:task-selector').select({});
+    let selectBetween = spy();
+    this.set('selectBetween', selectBetween);
+    await renderComponent();
+    await triggerEvent('[data-test-task]', 'click');
+    assert.ok(selectBetween.notCalled, 'after click selectBetween action is not called');
+  });
+
+  test('it ignores shiftKey when click without previous selection', async function(assert) {
+    let selectBetween = spy();
+    this.set('selectBetween', selectBetween);
+    await renderComponent();
+    await triggerEvent('[data-test-task]', 'click', { shiftKey: true });
+    assert.ok(selectBetween.notCalled, 'after click selectBetween action is not called');
   });
 
   test('it is not selected on checkbox or label click', async function(assert) {

@@ -55,20 +55,34 @@ module('Unit | Service | task-selector', function(hooks) {
     assert.equal(taskSelector.isSelected(task3), true);
   });
 
-  test('selectOnly method works', function(assert) {
+  test('selectOnly one task', function(assert) {
+    let taskSelector = this.owner.lookup('service:task-selector');
+    let task1 = {};
+    let task2 = {};
+
+    taskSelector.select(task1);
+    assert.equal(taskSelector.isSelected(task1), true);
+    assert.equal(taskSelector.isSelected(task2), false);
+
+    taskSelector.selectOnly(task2);
+    assert.equal(taskSelector.isSelected(task1), false);
+    assert.equal(taskSelector.isSelected(task2), true);
+  });
+
+  test('selectOnly two tasks', function(assert) {
     let taskSelector = this.owner.lookup('service:task-selector');
     let task1 = {};
     let task2 = {};
     let task3 = {};
 
-    taskSelector.select([task1, task2]);
+    taskSelector.select(task1);
     assert.equal(taskSelector.isSelected(task1), true);
-    assert.equal(taskSelector.isSelected(task2), true);
+    assert.equal(taskSelector.isSelected(task2), false);
     assert.equal(taskSelector.isSelected(task3), false);
 
-    taskSelector.selectOnly(task3);
+    taskSelector.selectOnly([task2, task3]);
     assert.equal(taskSelector.isSelected(task1), false);
-    assert.equal(taskSelector.isSelected(task2), false);
+    assert.equal(taskSelector.isSelected(task2), true);
     assert.equal(taskSelector.isSelected(task3), true);
   });
 

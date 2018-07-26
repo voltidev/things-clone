@@ -18,9 +18,9 @@ export default Service.extend({
     this.tasks.pushObjects(Array.isArray(tasks) ? tasks : [tasks]);
   },
 
-  selectOnly(task) {
+  selectOnly(tasks) {
     this.clear();
-    this.select(task);
+    this.select(tasks);
   },
 
   deselect(tasks) {
