@@ -49,7 +49,7 @@ module('Unit | Service | task-selector', function(hooks) {
     assert.equal(taskSelector.isSelected(task2), false);
     assert.equal(taskSelector.isSelected(task3), false);
 
-    taskSelector.select([task2, task3]);
+    taskSelector.select(task2, task3);
     assert.equal(taskSelector.isSelected(task1), true);
     assert.equal(taskSelector.isSelected(task2), true);
     assert.equal(taskSelector.isSelected(task3), true);
@@ -80,7 +80,7 @@ module('Unit | Service | task-selector', function(hooks) {
     assert.equal(taskSelector.isSelected(task2), false);
     assert.equal(taskSelector.isSelected(task3), false);
 
-    taskSelector.selectOnly([task2, task3]);
+    taskSelector.selectOnly(task2, task3);
     assert.equal(taskSelector.isSelected(task1), false);
     assert.equal(taskSelector.isSelected(task2), true);
     assert.equal(taskSelector.isSelected(task3), true);
@@ -91,7 +91,7 @@ module('Unit | Service | task-selector', function(hooks) {
     let task1 = {};
     let task2 = {};
 
-    taskSelector.select([task1, task2]);
+    taskSelector.select(task1, task2);
     assert.equal(taskSelector.isSelected(task1), true);
     assert.equal(taskSelector.isSelected(task2), true);
 
@@ -106,12 +106,12 @@ module('Unit | Service | task-selector', function(hooks) {
     let task2 = {};
     let task3 = {};
 
-    taskSelector.select([task1, task2, task3]);
+    taskSelector.select(task1, task2, task3);
     assert.equal(taskSelector.isSelected(task1), true);
     assert.equal(taskSelector.isSelected(task2), true);
     assert.equal(taskSelector.isSelected(task3), true);
 
-    taskSelector.deselect([task1, task2]);
+    taskSelector.deselect(task1, task2);
     assert.equal(taskSelector.isSelected(task1), false);
     assert.equal(taskSelector.isSelected(task2), false);
     assert.equal(taskSelector.isSelected(task3), true);
@@ -122,7 +122,7 @@ module('Unit | Service | task-selector', function(hooks) {
     let task1 = {};
     let task2 = {};
 
-    taskSelector.select([task1, task2]);
+    taskSelector.select(task1, task2);
     assert.equal(taskSelector.isSelected(task1), true);
     assert.equal(taskSelector.isSelected(task2), true);
 

@@ -38,8 +38,11 @@ module('Integration | Component | app-container', function(hooks) {
     assert.dom('[data-test-main-section]').hasClass('is-editing');
   });
 
-  test('it starts editing selected task on Enter', async function(assert) {
-    this.set('tasks', buildList('task', 2));
+  test('it starts editing first selected task & deselects others on Enter', async function(assert) {
+    let taskSelector = this.owner.lookup('service:task-selector');
+    let tasks = buildList('task', 2);
+    this.set('tasks', tasks);
+    taskSelector.select(...tasks);
 
     await render(hbs`
       {{app-container
@@ -47,11 +50,14 @@ module('Integration | Component | app-container', function(hooks) {
       }}
     `);
 
+    assert.dom('[data-test-task="1"]').hasClass('is-selected');
+    assert.dom('[data-test-task="2"]').hasClass('is-selected');
     shouldNotBeEditing('[data-test-task="1"]', assert);
     shouldNotBeEditing('[data-test-task="2"]', assert);
 
-    await click('[data-test-task="1"]');
     await triggerKeyEvent(this.element, 'keyup', 'Enter');
+    assert.dom('[data-test-task="1"]').hasClass('is-selected');
+    assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
     shouldBeEditing('[data-test-task="1"]', assert);
     shouldNotBeEditing('[data-test-task="2"]', assert);
   });
@@ -73,7 +79,7 @@ module('Integration | Component | app-container', function(hooks) {
       }}
     `);
 
-    taskSelector.select([task1, task2]);
+    taskSelector.select(task1, task2);
     assert.ok(taskSelector.hasTasks, 'task1 & task2 are selected');
     assert.dom('[data-test-task]').exists({ count: 3 });
 

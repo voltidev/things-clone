@@ -28,7 +28,7 @@ module('Integration | Component | task-list', function(hooks) {
     let taskSelector = this.owner.lookup('service:task-selector');
     let [task1, task2, task3, task4] = buildList('task', 4);
     this.set('tasks', [task1, task2, task3, task4]);
-    taskSelector.select([task1, task3, task4]);
+    taskSelector.select(task1, task3, task4);
     await render(hbs`
       {{task-list
         tasks=tasks
@@ -51,7 +51,7 @@ module('Integration | Component | task-list', function(hooks) {
     let taskSelector = this.owner.lookup('service:task-selector');
     let [task1, task2, task3, task4] = buildList('task', 4);
     this.set('tasks', [task1, task2, task3, task4]);
-    taskSelector.select([task2, task4]);
+    taskSelector.select(task2, task4);
     await render(hbs`
       {{task-list
         tasks=tasks

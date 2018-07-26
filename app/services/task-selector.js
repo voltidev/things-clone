@@ -1,8 +1,9 @@
 import Service from '@ember/service';
-import { notEmpty } from '@ember/object/computed';
+import { notEmpty, sort } from '@ember/object/computed';
 
 export default Service.extend({
   tasks: null,
+  sortedTasks: sort('tasks', (a, b) => a.order - b.order),
   hasTasks: notEmpty('tasks'),
 
   init() {
@@ -14,17 +15,18 @@ export default Service.extend({
     return this.tasks.includes(task);
   },
 
-  select(tasks) {
-    this.tasks.pushObjects(Array.isArray(tasks) ? tasks : [tasks]);
+  select(...tasks) {
+    let tasksToSelect = tasks.filter(task => !this.isSelected(task));
+    this.tasks.pushObjects(tasksToSelect);
   },
 
-  selectOnly(tasks) {
+  selectOnly() {
     this.clear();
-    this.select(tasks);
+    this.select(...arguments);
   },
 
-  deselect(tasks) {
-    this.tasks.removeObjects(Array.isArray(tasks) ? tasks : [tasks]);
+  deselect(...tasks) {
+    this.tasks.removeObjects(tasks);
   },
 
   clear() {

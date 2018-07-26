@@ -8,12 +8,12 @@ export default Component.extend({
   actions: {
     selectBetween(clickedTask) {
       this.taskSelector.select(clickedTask);
-      let selectedTasks = this.taskSelector.tasks.sortBy('order');
+      let selectedTasks = this.taskSelector.sortedTasks;
       let firstTask = selectedTasks.firstObject;
       let lastTask = clickedTask !== firstTask ? clickedTask : selectedTasks.lastObject;
 
       this.taskSelector.selectOnly(
-        this.tasks.filter(({ order }) => order >= firstTask.order && order <= lastTask.order)
+        ...this.tasks.filter(({ order }) => order >= firstTask.order && order <= lastTask.order)
       );
     }
   }

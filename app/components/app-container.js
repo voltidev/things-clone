@@ -17,9 +17,13 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {
-    if (this.taskSelector.hasTasks) {
-      this.taskEditor.edit(this.taskSelector.tasks.lastObject);
+    if (!this.taskSelector.hasTasks) {
+      return;
     }
+
+    let taskToEdit = this.taskSelector.sortedTasks.firstObject;
+    this.taskEditor.edit(taskToEdit);
+    this.taskSelector.selectOnly(taskToEdit);
   }),
 
   shortcutDeleteSelected: on(keyUp('Backspace'), function() {
