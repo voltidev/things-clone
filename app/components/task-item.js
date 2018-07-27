@@ -7,7 +7,7 @@ export default Component.extend({
   taskEditor: service(),
   taskSelector: service(),
   classNames: ['c-task', 'js-task'],
-  classNameBindings: ['isSelected', 'isEditing', 'isComplete'],
+  classNameBindings: ['isEditing', 'isComplete'],
   task: null,
   placeholder: 'New To-Do',
   isComplete: alias('task.isComplete'),
@@ -102,11 +102,11 @@ export default Component.extend({
   },
 
   startHandlingRootClick() {
-    document.addEventListener('click', this.handleRootClick, true);
+    document.addEventListener('mousedown', this.handleRootClick, true);
   },
 
   stopHandlingRootClick() {
-    document.removeEventListener('click', this.handleRootClick, true);
+    document.removeEventListener('mousedown', this.handleRootClick, true);
   },
 
   handleRootClick(event) {

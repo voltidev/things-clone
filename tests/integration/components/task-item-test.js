@@ -79,17 +79,13 @@ module('Integration | Component | task-item', function(hooks) {
     assert.dom('[data-test-task]').hasNoClass('is-complete');
   });
 
-  test('it is not selected by default', async function(assert) {
-    await renderComponent();
-    assert.dom('[data-test-task]').hasNoClass('is-selected');
-  });
-
   test('it is selected after click', async function(assert) {
+    let taskSelector = this.owner.lookup('service:task-selector');
     await renderComponent();
-    assert.dom('[data-test-task]').hasNoClass('is-selected');
+    assert.notOk(taskSelector.isSelected(this.task), 'task is not selected before click');
 
     await click('[data-test-task]');
-    assert.dom('[data-test-task]').hasClass('is-selected');
+    assert.ok(taskSelector.isSelected(this.task), 'task is selected after click');
   });
 
   test('it deselect other tasks on click', async function(assert) {
@@ -173,26 +169,13 @@ module('Integration | Component | task-item', function(hooks) {
   });
 
   test('it is not selected on checkbox or label click', async function(assert) {
-    await renderComponent();
-    await click('[data-test-task-checkbox]');
-    assert.dom('[data-test-task]').hasNoClass('is-selected');
-
-    await click('[data-test-task-checkbox-label]');
-    assert.dom('[data-test-task]').hasNoClass('is-selected');
-  });
-
-  test('it updates when taskSelector state changes', async function(assert) {
     let taskSelector = this.owner.lookup('service:task-selector');
     await renderComponent();
-    assert.dom('[data-test-task]').hasNoClass('is-selected');
+    await click('[data-test-task-checkbox]');
+    assert.notOk(taskSelector.isSelected(this.task), 'task is not selected');
 
-    taskSelector.select(this.task);
-    await settled();
-    assert.dom('[data-test-task]').hasClass('is-selected');
-
-    taskSelector.deselect(this.task);
-    await settled();
-    assert.dom('[data-test-task]').hasNoClass('is-selected');
+    await click('[data-test-task-checkbox-label]');
+    assert.notOk(taskSelector.isSelected(this.task), 'task is not selected');
   });
 
   test('it calls completeTask action on checkbox click', async function(assert) {

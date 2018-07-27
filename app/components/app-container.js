@@ -30,7 +30,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       return;
     }
 
-    let selected = document.querySelectorAll('.js-task.is-selected');
+    let selected = document.querySelectorAll('.is-selected .js-task');
     velocity(selected, { opacity: 0 }, { duration: 100 });
     velocity(selected, { height: 0 }, { duration: 200, easing: 'easeOutCubic' }).then(() => {
       this.deleteTasks(this.taskSelector.tasks);

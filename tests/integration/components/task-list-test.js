@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { render, triggerEvent, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setupFactoryGuy, buildList } from 'ember-data-factory-guy';
 
@@ -8,7 +8,7 @@ module('Integration | Component | task-list', function(hooks) {
   setupRenderingTest(hooks);
   setupFactoryGuy(hooks);
 
-  test('it renders tasks properly', async function(assert) {
+  test('it renders properly', async function(assert) {
     this.set('tasks', buildList('task', 'complete', 'default'));
 
     await render(hbs`
@@ -22,6 +22,43 @@ module('Integration | Component | task-list', function(hooks) {
     assert.dom('[data-test-task="1"]').hasText('task 1');
     assert.dom('[data-test-task="2"]').hasNoClass('is-complete');
     assert.dom('[data-test-task="2"]').hasText('task 2');
+  });
+
+  test('task-wrapper is not selected by default', async function(assert) {
+    this.set('tasks', buildList('task', 1));
+
+    await render(hbs`
+      {{task-list
+        tasks=tasks
+      }}
+    `);
+
+    assert.dom('[data-test-task-wrapper]').hasNoClass('is-selected');
+  });
+
+  test('it updates task-wrapper when taskSelector state changes', async function(assert) {
+    let taskSelector = this.owner.lookup('service:task-selector');
+    let [task1, task2] = buildList('task', 2);
+    this.set('tasks', [task1, task2]);
+
+    await render(hbs`
+      {{task-list
+        tasks=tasks
+      }}
+    `);
+
+    assert.dom('[data-test-task-wrapper="1"]').hasNoClass('is-selected');
+    assert.dom('[data-test-task-wrapper="2"]').hasNoClass('is-selected');
+
+    taskSelector.select(task1);
+    await settled();
+    assert.dom('[data-test-task-wrapper="1"]').hasClass('is-selected');
+    assert.dom('[data-test-task-wrapper="2"]').hasNoClass('is-selected');
+
+    taskSelector.selectOnly(task2);
+    await settled();
+    assert.dom('[data-test-task-wrapper="1"]').hasNoClass('is-selected');
+    assert.dom('[data-test-task-wrapper="2"]').hasClass('is-selected');
   });
 
   test('it handles selection with shiftKey from top to bottom', async function(assert) {
