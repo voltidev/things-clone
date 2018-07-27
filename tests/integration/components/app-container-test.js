@@ -91,7 +91,8 @@ module('Integration | Component | app-container', function(hooks) {
 
   module('handling ArrowDown and ArrowUp keys', function(hooks) {
     hooks.beforeEach(async function() {
-      this.set('tasks', buildList('task', 2));
+      this.taskSelector = this.owner.lookup('service:task-selector');
+      this.set('tasks', buildList('task', 3));
 
       await render(hbs`
         {{app-container
@@ -101,61 +102,116 @@ module('Integration | Component | app-container', function(hooks) {
     });
 
     test('it deselects current & selects next task on ArrowDown', async function(assert) {
-      await click('[data-test-task="1"]');
+      this.taskSelector.select(this.tasks[0]);
+      await settled();
       assert.dom('[data-test-task="1"]').hasClass('is-selected');
       assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
 
       await triggerKeyEvent(this.element, 'keydown', 'ArrowDown');
       assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
       assert.dom('[data-test-task="2"]').hasClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
+    });
+
+    test('it deselects all & selects next task from the top on ArrowDown', async function(assert) {
+      this.taskSelector.select(...this.tasks);
+      await settled();
+      assert.dom('[data-test-task="1"]').hasClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasClass('is-selected');
+
+      await triggerKeyEvent(this.element, 'keydown', 'ArrowDown');
+      assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
     });
 
     test('it ignores ArrowDown if there is no next task', async function(assert) {
-      await click('[data-test-task="2"]');
+      this.taskSelector.select(this.tasks[2]);
+      await settled();
       assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
-      assert.dom('[data-test-task="2"]').hasClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasClass('is-selected');
 
       await triggerKeyEvent(this.element, 'keydown', 'ArrowDown');
       assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
-      assert.dom('[data-test-task="2"]').hasClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasClass('is-selected');
     });
 
     test('it ignores ArrowDown if there is no selection', async function(assert) {
       assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
       assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
 
       await triggerKeyEvent(this.element, 'keydown', 'ArrowDown');
       assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
       assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
     });
 
     test('it deselects current & selects previous task on ArrowUp', async function(assert) {
-      await click('[data-test-task="2"]');
+      this.taskSelector.select(this.tasks[1]);
+      await settled();
       assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
       assert.dom('[data-test-task="2"]').hasClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
 
       await triggerKeyEvent(this.element, 'keydown', 'ArrowUp');
       assert.dom('[data-test-task="1"]').hasClass('is-selected');
       assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
     });
 
-    test('it ignores ArrowUp if there is no next task', async function(assert) {
-      await click('[data-test-task="1"]');
-      assert.dom('[data-test-task="1"]').hasClass('is-selected');
-      assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+    test('it deselects all & selects previous task on ArrowUp', async function(assert) {
+      this.taskSelector.select(this.tasks[1], this.tasks[2]);
+      await settled();
+      assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasClass('is-selected');
 
       await triggerKeyEvent(this.element, 'keydown', 'ArrowUp');
       assert.dom('[data-test-task="1"]').hasClass('is-selected');
       assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
+    });
+
+    test('it deselects all & selects top task if there is no previous task on ArrowUp', async function(assert) {
+      this.taskSelector.select(...this.tasks);
+      await settled();
+      assert.dom('[data-test-task="1"]').hasClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasClass('is-selected');
+
+      await triggerKeyEvent(this.element, 'keydown', 'ArrowUp');
+      assert.dom('[data-test-task="1"]').hasClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
+    });
+
+    test('it ignores ArrowUp if there is no previous task', async function(assert) {
+      this.taskSelector.select(this.tasks[0]);
+      await settled();
+      assert.dom('[data-test-task="1"]').hasClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
+
+      await triggerKeyEvent(this.element, 'keydown', 'ArrowUp');
+      assert.dom('[data-test-task="1"]').hasClass('is-selected');
+      assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
     });
 
     test('it ignores ArrowUp if there is no selection', async function(assert) {
       assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
       assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
 
       await triggerKeyEvent(this.element, 'keydown', 'ArrowUp');
       assert.dom('[data-test-task="1"]').hasNoClass('is-selected');
       assert.dom('[data-test-task="2"]').hasNoClass('is-selected');
+      assert.dom('[data-test-task="3"]').hasNoClass('is-selected');
     });
   });
 

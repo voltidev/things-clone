@@ -46,11 +46,9 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       return;
     }
 
-    let next = document.querySelector('.js-task.is-selected').parentElement.nextElementSibling;
-
-    if (next) {
-      next.firstElementChild.click();
-    }
+    let selectedTask = this.taskSelector.sortedTasks.firstObject;
+    let nextTask = this.tasks[this.tasks.indexOf(selectedTask) + 1];
+    this.taskSelector.selectOnly(nextTask || selectedTask);
   }),
 
   shortcutSelecPrevious: on(keyDown('ArrowUp'), function() {
@@ -58,12 +56,9 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       return;
     }
 
-    let previous = document.querySelector('.js-task.is-selected').parentElement
-      .previousElementSibling;
-
-    if (previous) {
-      previous.firstElementChild.click();
-    }
+    let selectedTask = this.taskSelector.sortedTasks.firstObject;
+    let previousTask = this.tasks[this.tasks.indexOf(selectedTask) - 1];
+    this.taskSelector.selectOnly(previousTask || selectedTask);
   }),
 
   actions: {
