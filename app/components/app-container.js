@@ -51,6 +51,19 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     this.taskSelector.selectOnly(nextTask || selectedTask);
   }),
 
+  shortcutSelectNextWithShift: on(keyDown('ArrowDown+shift'), function() {
+    if (!this.taskSelector.hasTasks) {
+      return;
+    }
+
+    let selectedTask = this.taskSelector.sortedTasks.lastObject;
+    let nextTask = this.tasks[this.tasks.indexOf(selectedTask) + 1];
+
+    if (nextTask) {
+      this.taskSelector.select(nextTask);
+    }
+  }),
+
   shortcutSelecPrevious: on(keyDown('ArrowUp'), function() {
     if (!this.taskSelector.hasTasks) {
       return;
@@ -59,6 +72,19 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     let selectedTask = this.taskSelector.sortedTasks.firstObject;
     let previousTask = this.tasks[this.tasks.indexOf(selectedTask) - 1];
     this.taskSelector.selectOnly(previousTask || selectedTask);
+  }),
+
+  shortcutSelecPreviousWithShift: on(keyDown('ArrowUp+shift'), function() {
+    if (!this.taskSelector.hasTasks) {
+      return;
+    }
+
+    let selectedTask = this.taskSelector.sortedTasks.firstObject;
+    let previousTask = this.tasks[this.tasks.indexOf(selectedTask) - 1];
+
+    if (previousTask) {
+      this.taskSelector.select(previousTask);
+    }
   }),
 
   actions: {
