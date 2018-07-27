@@ -147,14 +147,14 @@ module('Integration | Component | app-container', function(hooks) {
       assert.ok(this.taskSelector.isSelected(task3), 'task3 is selected');
     });
 
-    test('it ignores ArrowDown if there is no selection', async function(assert) {
+    test('it selects first task if there is no selection on ArrowDown', async function(assert) {
       let [task1, task2, task3] = this.tasks;
       assert.notOk(this.taskSelector.isSelected(task1), 'task1 is not selected');
       assert.notOk(this.taskSelector.isSelected(task2), 'task2 is not selected');
       assert.notOk(this.taskSelector.isSelected(task3), 'task3 is not selected');
 
       await triggerKeyEvent(this.element, 'keydown', 'ArrowDown');
-      assert.notOk(this.taskSelector.isSelected(task1), 'task1 is not selected');
+      assert.ok(this.taskSelector.isSelected(task1), 'task1 is selected');
       assert.notOk(this.taskSelector.isSelected(task2), 'task2 is not selected');
       assert.notOk(this.taskSelector.isSelected(task3), 'task3 is not selected');
     });
@@ -215,7 +215,7 @@ module('Integration | Component | app-container', function(hooks) {
       assert.notOk(this.taskSelector.isSelected(task3), 'task3 is not selected');
     });
 
-    test('it ignores ArrowUp if there is no selection', async function(assert) {
+    test('it selects last task if there is no selection on ArrowUp', async function(assert) {
       let [task1, task2, task3] = this.tasks;
       assert.notOk(this.taskSelector.isSelected(task1), 'task1 is not selected');
       assert.notOk(this.taskSelector.isSelected(task2), 'task2 is not selected');
@@ -224,7 +224,7 @@ module('Integration | Component | app-container', function(hooks) {
       await triggerKeyEvent(this.element, 'keydown', 'ArrowUp');
       assert.notOk(this.taskSelector.isSelected(task1), 'task1 is not selected');
       assert.notOk(this.taskSelector.isSelected(task2), 'task2 is not selected');
-      assert.notOk(this.taskSelector.isSelected(task3), 'task3 is not selected');
+      assert.ok(this.taskSelector.isSelected(task3), 'task3 is selected');
     });
   });
 

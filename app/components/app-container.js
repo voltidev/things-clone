@@ -40,6 +40,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
   shortcutSelectNext: on(keyDown('ArrowDown'), function() {
     if (!this.taskSelector.hasTasks) {
+      this.taskSelector.select(this.tasks.firstObject);
       return;
     }
 
@@ -50,6 +51,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
   shortcutSelectNextWithShift: on(keyDown('ArrowDown+shift'), function() {
     if (!this.taskSelector.hasTasks) {
+      this.taskSelector.select(this.tasks.firstObject);
       return;
     }
 
@@ -63,6 +65,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
   shortcutSelecPrevious: on(keyDown('ArrowUp'), function() {
     if (!this.taskSelector.hasTasks) {
+      this.taskSelector.select(this.tasks.lastObject);
       return;
     }
 
@@ -73,6 +76,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
   shortcutSelecPreviousWithShift: on(keyDown('ArrowUp+shift'), function() {
     if (!this.taskSelector.hasTasks) {
+      this.taskSelector.select(this.tasks.lastObject);
       return;
     }
 
