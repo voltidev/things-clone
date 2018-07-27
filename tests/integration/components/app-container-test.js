@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, triggerKeyEvent, settled } from '@ember/test-helpers';
+import { render, click, triggerKeyEvent, settled, waitUntil } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setupFactoryGuy, build, buildList } from 'ember-data-factory-guy';
 import { shouldBeEditing, shouldNotBeEditing } from 'things/tests/helpers/editing-mode';
@@ -84,6 +84,7 @@ module('Integration | Component | app-container', function(hooks) {
     assert.dom('[data-test-task]').exists({ count: 3 });
 
     await triggerKeyEvent(this.element, 'keyup', 'Backspace');
+    await waitUntil(() => this.element.querySelectorAll('[data-test-task]').length === 1);
     assert.notOk(taskSelector.hasTasks, 'selection is cleared');
     assert.dom('[data-test-task]').exists({ count: 1 });
     assert.dom('[data-test-task="3"]').exists();
