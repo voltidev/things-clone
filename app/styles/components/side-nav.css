@@ -1,0 +1,34 @@
+.c-side-nav {
+  padding: rem(26px) rem(16px);
+}
+
+.c-side-nav__item {
+  display: flex;
+  align-items: center;
+  padding: rem(4px) rem(8px);
+  border-radius: rem(4px);
+  text-decoration: none;
+
+  &.is-active {
+    background: #e4e6e8;
+  }
+}
+
+.c-side-nav__icon {
+  margin-right: rem(6px);
+  height: rem(15px);
+  width: rem(15px);
+
+  &--inbox {
+    fill: #279be6;
+  }
+}
+
+.c-side-nav__text {
+  font-size: rem(15px);
+  color: var(--base-text-color);
+}
+
+.c-side-nav__section {
+  margin-bottom: rem(14px);
+}

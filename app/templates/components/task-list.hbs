@@ -1,5 +1,5 @@
 {{#sortable-group class="c-task-list" onChange=@reorderTasks as |group|}}
-  {{#each @tasks as |task|}}
+  {{#each this.tasks as |task|}}
     {{#sortable-item
       model=task
       group=group

@@ -7,10 +7,10 @@ export default Component.extend({
   taskEditor: service(),
   taskSelector: service(),
   classNames: ['c-task', 'js-task'],
-  classNameBindings: ['isEditing', 'isComplete'],
+  classNameBindings: ['isEditing', 'isCompleted'],
   task: null,
   placeholder: 'New To-Do',
-  isComplete: alias('task.isComplete'),
+  isCompleted: alias('task.isCompleted'),
 
   isEditing: computed('taskEditor.task', function() {
     return this.taskEditor.isEditing(this.task);
@@ -49,8 +49,8 @@ export default Component.extend({
       this.stopEditing();
     },
 
-    toggleTask(isComplete) {
-      if (isComplete) {
+    toggleTask(isCompleted) {
+      if (isCompleted) {
         this.completeTask(this.task);
       } else {
         this.uncompleteTask(this.task);

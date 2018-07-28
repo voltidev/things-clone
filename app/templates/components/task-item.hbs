@@ -7,7 +7,7 @@
     class="c-task__checkbox-input js-checkbox"
     id="task-checkbox-{{@task.id}}"
     type="checkbox"
-    checked={{@task.isComplete}}
+    checked={{@task.isCompleted}}
     onclick={{action "toggleTask" value="target.checked"}}
     data-test-task-checkbox
   >

@@ -24,11 +24,11 @@ module('Unit | Model | task', function(hooks) {
     let store = this.owner.lookup('service:store');
     let task = store.createRecord('task', {});
 
-    assert.equal(task.isComplete, false);
+    assert.equal(task.isCompleted, false);
     assert.notOk(task.completedAt, 'completedAt is not set by default');
 
     task.complete();
-    assert.equal(task.isComplete, true);
+    assert.equal(task.isCompleted, true);
     assert.ok(task.completedAt, 'completedAt is set after complete');
     assert.equal(task.completedAt.getTime(), now.getTime());
   });
@@ -38,9 +38,9 @@ module('Unit | Model | task', function(hooks) {
     let task = store.createRecord('task', {});
 
     task.complete();
-    assert.equal(task.isComplete, true);
+    assert.equal(task.isCompleted, true);
 
     task.uncomplete();
-    assert.equal(task.isComplete, false);
+    assert.equal(task.isCompleted, false);
   });
 });

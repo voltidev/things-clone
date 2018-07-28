@@ -9,8 +9,8 @@ FactoryGuy.define('task', {
   traits: {
     default: {},
 
-    complete: {
-      isComplete: true
+    completed: {
+      isCompleted: true
     }
   }
 });

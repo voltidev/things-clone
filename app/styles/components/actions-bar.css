@@ -1,11 +1,11 @@
-.c-main-actions {
+.c-actions-bar {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.c-main-actions__item {
+.c-actions-bar__item {
   padding: rem(6px) rem(40px);
   border: 1px solid transparent;
   border-radius: rem(5px);

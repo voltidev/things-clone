@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { setupFactoryGuy, build } from 'ember-data-factory-guy';
+import { setupFactoryGuy, make } from 'ember-data-factory-guy';
 
 module('Integration | Helper | is-selected', function(hooks) {
   setupRenderingTest(hooks);
@@ -10,7 +10,7 @@ module('Integration | Helper | is-selected', function(hooks) {
 
   test('it works properly', async function(assert) {
     let taskSelector = this.owner.lookup('service:task-selector');
-    let task = build('task');
+    let task = make('task');
     this.set('task', task);
 
     await render(hbs`{{is-selected task}}`);

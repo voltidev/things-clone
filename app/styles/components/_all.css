@@ -2,7 +2,9 @@
   Components
 */
 
-@import "main-actions";
+@import "actions-bar";
 @import "task-list";
 @import "task";
 @import "sortable-item";
+@import "side-nav";
+@import "folder";

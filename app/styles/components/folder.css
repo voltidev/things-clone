@@ -1,0 +1,24 @@
+.c-folder {
+  padding: rem(60px) 8%;
+}
+
+.c-folder__title {
+  display: flex;
+  align-items: center;
+  padding: 0 rem(14px);
+  font-weight: 600;
+}
+
+.c-folder__title-icon {
+  margin-right: rem(6px);
+  height: rem(24px);
+  width: rem(24px);
+
+  &--inbox {
+    fill: #279de2;
+  }
+}
+
+.c-folder__title-text {
+  font-size: rem(24px);
+}

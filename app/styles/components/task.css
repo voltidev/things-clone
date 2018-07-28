@@ -20,7 +20,7 @@
     padding-bottom: rem(30px);
     margin: rem(20px) 0;
     box-shadow: 0 rem(2px) rem(6px) rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+    border-radius: rem(5px);
     background: var(--white);
   }
 }
@@ -106,7 +106,7 @@
   }
 
   70% {
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 rem(3px) rgba(0, 0, 0, 0);
   }
 
   100% {

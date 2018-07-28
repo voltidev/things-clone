@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerEvent, triggerKeyEvent, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { spy } from 'sinon';
-import { setupFactoryGuy, build } from 'ember-data-factory-guy';
+import { setupFactoryGuy, make } from 'ember-data-factory-guy';
 import { shouldBeEditing, shouldNotBeEditing } from 'things/tests/helpers/editing-mode';
 
 function renderComponent() {
@@ -24,7 +24,7 @@ module('Integration | Component | task-item', function(hooks) {
   setupFactoryGuy(hooks);
 
   hooks.beforeEach(function() {
-    this.task = build('task');
+    this.task = make('task');
     this.set('task', this.task);
     this.set('saveTask', () => null);
     this.set('completeTask', () => null);
@@ -34,21 +34,20 @@ module('Integration | Component | task-item', function(hooks) {
 
   test('it renders task name', async function(assert) {
     let taskName = 'new task';
-    this.task.name = taskName;
+    this.task.set('name', taskName);
     await renderComponent();
     assert.dom('[data-test-task-name]').hasText(taskName);
   });
 
   test('it renders placeholder when name is empty', async function(assert) {
     let placeholder = 'New To-Do';
-    this.task.name = '';
+    this.task.set('name', '');
     await renderComponent();
     assert.dom('[data-test-task-name]').hasText(placeholder);
   });
 
   test('it sets correct checkbox and label id', async function(assert) {
-    this.task.id = 99;
-    let checkboxId = 'task-checkbox-99';
+    let checkboxId = 'task-checkbox-1';
     await renderComponent();
     assert.dom('[data-test-task-checkbox]').hasAttribute('id', checkboxId);
     assert.dom('[data-test-task-checkbox-label]').hasAttribute('for', checkboxId);
@@ -66,17 +65,17 @@ module('Integration | Component | task-item', function(hooks) {
   });
 
   test('it renders complete task properly', async function(assert) {
-    this.task.isComplete = true;
+    this.task.set('isCompleted', true);
     await renderComponent();
     assert.dom('[data-test-task-checkbox]').isChecked();
-    assert.dom('[data-test-task]').hasClass('is-complete');
+    assert.dom('[data-test-task]').hasClass('is-completed');
   });
 
   test('it renders incomplete task properly', async function(assert) {
-    this.task.isComplete = false;
+    this.task.set('isCompleted', false);
     await renderComponent();
     assert.dom('[data-test-task-checkbox]').isNotChecked();
-    assert.dom('[data-test-task]').hasNoClass('is-complete');
+    assert.dom('[data-test-task]').hasNoClass('is-completed');
   });
 
   test('it is selected after click', async function(assert) {
@@ -181,7 +180,7 @@ module('Integration | Component | task-item', function(hooks) {
   test('it calls completeTask action on checkbox click', async function(assert) {
     let completeTask = spy();
     this.set('completeTask', completeTask);
-    this.task.isComplete = false;
+    this.task.set('isCompleted', false);
     await renderComponent();
     await click('[data-test-task-checkbox]');
     assert.ok(completeTask.calledOnceWith(this.task));
@@ -190,7 +189,7 @@ module('Integration | Component | task-item', function(hooks) {
   test('it calls uncompleteTask action on checkbox click', async function(assert) {
     let uncompleteTask = spy();
     this.set('uncompleteTask', uncompleteTask);
-    this.task.isComplete = true;
+    this.task.set('isCompleted', true);
     await renderComponent();
     await click('[data-test-task-checkbox]');
     assert.ok(uncompleteTask.calledOnceWith(this.task));
@@ -203,7 +202,7 @@ module('Integration | Component | task-item', function(hooks) {
 
   test('it renders editing mode properly', async function(assert) {
     let taskName = 'new task';
-    this.task.name = taskName;
+    this.task.set('name', taskName);
     this.owner.lookup('service:task-editor').edit(this.task);
     await settled();
     await renderComponent();

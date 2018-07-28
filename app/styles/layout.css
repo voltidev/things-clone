@@ -17,21 +17,17 @@
   display: flex;
   flex-direction: column;
   background-color: #fff;
+  transition: background-color 300ms ease-out;
+
+  &.is-editing {
+    background-color: #f9f9f9;
+  }
 }
 
 .l-container__content {
   flex: 1 1;
   flex-direction: column;
   overflow-x: hidden;
-}
-
-.l-container__content--main {
-  padding: 0 8%;
-  transition: background-color 300ms ease-out;
-
-  .is-editing & {
-    background-color: #f9f9f9;
-  }
 }
 
 .l-container__footer {

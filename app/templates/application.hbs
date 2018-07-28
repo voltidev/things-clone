@@ -1,9 +1,15 @@
-{{app-container
-  tasks=this.tasks
-  createTask=(action "createTask")
-  completeTask=(action "completeTask")
-  uncompleteTask=(action "uncompleteTask")
-  saveTask=(action "saveTask")
-  deleteTasks=(action "deleteTasks")
-  reorderTasks=(action "reorderTasks")
-}}
+<div class="l-container">
+  <div class="l-container__sidebar">
+    <div class="l-container__content">
+      {{side-nav}}
+    </div>
+    <div class="l-container__footer"></div>
+  </div>
+
+  <div
+    class="l-container__main {{if this.isEditing 'is-editing'}}"
+    data-test-main-section
+  >
+    {{outlet}}
+  </div>
+</div>

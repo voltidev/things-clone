@@ -1,0 +1,22 @@
+<div class="l-container__content c-folder">
+  <h1 class="c-folder__title">
+    {{svg-jar "inbox" class="c-folder__title-icon c-folder__title-icon--inbox"}}
+    <div class="c-folder__title-text">Inbox</div>
+  </h1>
+
+  {{task-list
+    tasks=this.tasks
+    saveTask=(route-action "saveTask")
+    completeTask=(route-action "completeTask")
+    uncompleteTask=(route-action "uncompleteTask")
+    reorderTasks=(route-action "reorderTasks")
+    createTask=(route-action "createTask" this.tasks)
+    deleteTasks=(route-action "deleteTasks")
+  }}
+</div>
+
+<div class="l-container__footer">
+  {{actions-bar
+    createTask=(route-action "createTask" this.tasks)
+  }}
+</div>
