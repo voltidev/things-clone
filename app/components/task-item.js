@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { run } from '@ember/runloop';
 
 export default Component.extend({
   taskEditor: service(),
@@ -22,7 +23,7 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    this.handleRootClick = this.handleRootClick.bind(this);
+    this.stopEditingOnSideClick = this.stopEditingOnSideClick.bind(this);
   },
 
   didRender() {
@@ -102,18 +103,20 @@ export default Component.extend({
   },
 
   startHandlingRootClick() {
-    document.addEventListener('mousedown', this.handleRootClick, true);
+    document.addEventListener('mousedown', this.stopEditingOnSideClick, true);
   },
 
   stopHandlingRootClick() {
-    document.removeEventListener('mousedown', this.handleRootClick, true);
+    document.removeEventListener('mousedown', this.stopEditingOnSideClick, true);
   },
 
-  handleRootClick(event) {
-    let isInternalClick = this.element.contains(event.target);
+  stopEditingOnSideClick(event) {
+    run(() => {
+      let isInternalClick = this.element.contains(event.target);
 
-    if (!isInternalClick) {
-      this.stopEditing();
-    }
+      if (!isInternalClick) {
+        this.stopEditing();
+      }
+    });
   }
 });

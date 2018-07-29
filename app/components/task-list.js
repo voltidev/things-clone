@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { on } from '@ember/object/evented';
 import { alias } from '@ember/object/computed';
+import { run } from '@ember/runloop';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
 import velocity from 'velocity-animate';
 
@@ -91,6 +92,20 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     }
   }),
 
+  init() {
+    this._super(...arguments);
+    this.deselectAllOnSideClick = this.deselectAllOnSideClick.bind(this);
+  },
+
+  didRender() {
+    this._super(...arguments);
+    this.startHandlingRootClick();
+  },
+
+  willDestroyElement() {
+    this.stopHandlingRootClick();
+  },
+
   actions: {
     selectBetween(clickedTask) {
       this.taskSelector.select(clickedTask);
@@ -102,5 +117,23 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
         ...this.tasks.filter(({ order }) => order >= firstTask.order && order <= lastTask.order)
       );
     }
+  },
+
+  deselectAllOnSideClick(event) {
+    run(() => {
+      let isInternalClick = this.element.contains(event.target);
+
+      if (!isInternalClick) {
+        this.taskSelector.clear();
+      }
+    });
+  },
+
+  startHandlingRootClick() {
+    document.addEventListener('mousedown', this.deselectAllOnSideClick, true);
+  },
+
+  stopHandlingRootClick() {
+    document.removeEventListener('mousedown', this.deselectAllOnSideClick, true);
   }
 });
