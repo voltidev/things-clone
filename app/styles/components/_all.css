@@ -8,3 +8,5 @@
 @import "sortable-item";
 @import "side-nav";
 @import "folder";
+@import "shortcut-bar";
+@import "drawer";

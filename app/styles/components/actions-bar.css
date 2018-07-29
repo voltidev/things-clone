@@ -3,25 +3,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: rem(4px) rem(10px);
+  &--sidebar {
+    justify-content: space-between;
+  }
 }
 
 .c-actions-bar__item {
-  padding: rem(6px) rem(40px);
+  display: flex;
+  align-items: center;
+  padding: rem(6px);
   border: 1px solid transparent;
   border-radius: rem(5px);
   line-height: 1;
   text-align: center;
   color: #777;
+  cursor: pointer;
 
   &:hover {
     border-color: #ddd;
+    color: var(--base-text-color);
   }
 
   &:active {
     background-color: #ddd;
+    color: var(--base-text-color);
+  }
+}
+
+.c-actions-bar__text {
+  font-size: rem(14px);
+  white-space: nowrap;
+}
+
+.c-actions-bar__icon {
+  fill: currentColor;
+  height: 20px;
+  width: 20px;
+
+  &:not(:last-child) {
+    margin-right: rem(6px);
   }
 
-  svg {
-    fill: currentColor;
+  &--plus {
+    height: 12px;
+    width: 12px;
   }
 }

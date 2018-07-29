@@ -3,7 +3,26 @@
     <div class="l-container__content">
       {{side-nav}}
     </div>
-    <div class="l-container__footer"></div>
+    <div class="l-container__footer">
+      <div class="c-actions-bar c-actions-bar--sidebar">
+        <div
+          class="c-actions-bar__item"
+          title="Create a new list"
+        >
+          {{svg-jar "plus" class="c-actions-bar__icon c-actions-bar__icon--plus"}}
+          <div class="c-actions-bar__text">New List</div>
+        </div>
+
+        <div
+          class="c-actions-bar__item"
+          {{action "toggleShortcutBar"}}
+          title="Show shortcuts"
+          data-test-action-toggle-shortcut-bar
+        >
+          {{svg-jar "keyboard" class="c-actions-bar__icon"}}
+        </div>
+      </div>
+    </div>
   </div>
 
   <div
@@ -13,3 +32,8 @@
     {{outlet}}
   </div>
 </div>
+
+{{shortcut-bar
+    isOpen=this.isShortcutBarOpen
+    close=(action "toggleShortcutBar")
+}}
