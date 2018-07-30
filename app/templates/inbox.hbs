@@ -4,15 +4,21 @@
     <div class="c-folder__title-text">Inbox</div>
   </h1>
 
-  {{task-list
-    tasks=this.tasks
-    saveTask=(route-action "saveTask")
-    completeTask=(route-action "completeTask")
-    uncompleteTask=(route-action "uncompleteTask")
-    reorderTasks=(route-action "reorderTasks")
-    createTask=(route-action "createTask" this.tasks)
-    deleteTasks=(route-action "deleteTasks")
-  }}
+  {{#if this.tasks}}
+    {{task-list
+      tasks=this.tasks
+      saveTask=(route-action "saveTask")
+      completeTask=(route-action "completeTask")
+      uncompleteTask=(route-action "uncompleteTask")
+      reorderTasks=(route-action "reorderTasks")
+      createTask=(route-action "createTask" this.tasks)
+      deleteTasks=(route-action "deleteTasks")
+    }}
+  {{else}}
+    <div class="c-folder__placeholder" data-test-folder-placeholder>
+      {{svg-jar "inbox"  class="c-folder__placeholder-icon"}}
+    </div>
+  {{/if}}
 </div>
 
 <div class="l-container__footer">
