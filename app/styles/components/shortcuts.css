@@ -1,0 +1,52 @@
+.c-shortcuts {
+  max-width: rem(600px);
+  margin: 0 auto;
+}
+
+.c-shortcuts__section {
+  margin-bottom: rem(40px);
+}
+
+.c-shortcuts__title {
+  font-size: rem(20px);
+  margin-bottom: rem(20px);
+  font-weight: var(--bold);
+}
+
+.c-shortcuts__list {
+  display: flex;
+}
+
+.c-shortcuts__column {
+  flex: 1;
+}
+
+.c-shortcuts__item {
+  display: flex;
+  align-items: center;
+  margin-bottom: rem(10px);
+}
+
+.c-shortcuts__info {
+  width: rem(150px);
+  padding-right: rem(10px);
+  font-size: rem(16px);
+  color: #555;
+}
+
+.c-shortcuts__key {
+  display: inline-block;
+  min-width: rem(40px);
+  padding: rem(10px);
+  border-radius: rem(5px);
+  background: #999;
+  text-align: center;
+  font-weight: var(--light);
+  color: var(--white);
+  font-size: rem(14px);
+  font-family: var(--base-font-family);
+
+  &:not(:last-child) {
+    margin-right: rem(8px);
+  }
+}

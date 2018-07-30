@@ -1,4 +1,4 @@
-.c-actions-bar {
+.c-sidebar-actions {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -10,7 +10,7 @@
   }
 }
 
-.c-actions-bar__item {
+.c-sidebar-actions__item {
   display: flex;
   align-items: center;
   padding: rem(6px);
@@ -32,22 +32,22 @@
   }
 }
 
-.c-actions-bar__text {
+.c-sidebar-actions__text {
   font-size: rem(14px);
   white-space: nowrap;
 }
 
-.c-actions-bar__icon {
+.c-sidebar-actions__icon {
   fill: currentColor;
-  height: 20px;
-  width: 20px;
+  height: rem(20px);
+  width: rem(20px);
 
   &:not(:last-child) {
     margin-right: rem(6px);
   }
 
   &--plus {
-    height: 12px;
-    width: 12px;
+    height: rem(12px);
+    width: rem(12px);
   }
 }

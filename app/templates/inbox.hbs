@@ -11,8 +11,6 @@
       completeTask=(route-action "completeTask")
       uncompleteTask=(route-action "uncompleteTask")
       reorderTasks=(route-action "reorderTasks")
-      createTask=(route-action "createTask" this.tasks)
-      deleteTasks=(route-action "deleteTasks")
     }}
   {{else}}
     <div class="c-folder__placeholder" data-test-folder-placeholder>
@@ -21,8 +19,6 @@
   {{/if}}
 </div>
 
-<div class="l-container__footer">
-  {{actions-bar
-    createTask=(route-action "createTask" this.tasks)
-  }}
-</div>
+{{task-actions
+  deleteTasks=(route-action "deleteTasks")
+}}

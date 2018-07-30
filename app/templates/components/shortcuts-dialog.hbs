@@ -1,0 +1,137 @@
+<div class="c-dialog {{if @isOpen "is-open"}}" data-test-shortcuts>
+  <div class="c-dialog__inner">
+    <div class="c-dialog__body">
+      <div class="c-dialog__header">
+        <div class="c-dialog__buttons-wrap"></div>
+
+        <div class="c-dialog__title">
+          Keyboard shortcuts
+        </div>
+
+        <div class="c-dialog__buttons-wrap">
+          <button class="c-dialog__close" {{action @close}}>
+            Close
+          </button>
+        </div>
+      </div>
+
+      <div class="c-shortcuts">
+        <div class="c-shortcuts__section">
+          <div class="c-shortcuts__title">
+            Global
+          </div>
+
+          <div class="c-shortcuts__list">
+            <div class="c-shortcuts__column">
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Create a new to-do
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">N</kbd>
+                </div>
+              </div>
+            </div>
+            <div class="c-shortcuts__column">
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Keyboard shortcuts
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">?</kbd>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="c-shortcuts__section">
+          <div class="c-shortcuts__title">
+            Items list
+          </div>
+
+          <div class="c-shortcuts__list">
+            <div class="c-shortcuts__column">
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Edit selected item
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">Enter</kbd>
+                </div>
+              </div>
+
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Delete selected items
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">Delete</kbd>
+                </div>
+              </div>
+            </div>
+
+            <div class="c-shortcuts__column">
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Select item above
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">▲</kbd>
+                </div>
+              </div>
+
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Select item below
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">▼</kbd>
+                </div>
+              </div>
+
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Extend selection upwards
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">⇧ Shift</kbd>
+                  <kbd class="c-shortcuts__key">▲</kbd>
+                </div>
+              </div>
+
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Extend selection downwards
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">⇧ Shift</kbd>
+                  <kbd class="c-shortcuts__key">▼</kbd>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="c-shortcuts__section">
+          <div class="c-shortcuts__title">
+            Editing item
+          </div>
+
+          <div class="c-shortcuts__list">
+            <div class="c-shortcuts__column">
+              <div class="c-shortcuts__item">
+                <div class="c-shortcuts__info">
+                  Save and close
+                </div>
+                <div class="c-shortcuts__keys">
+                  <kbd class="c-shortcuts__key">Esc</kbd>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

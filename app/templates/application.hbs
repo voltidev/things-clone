@@ -1,25 +1,16 @@
 <div class="l-container">
   <div class="l-container__sidebar">
     <div class="l-container__content">
-      {{side-nav}}
+      {{sidebar-nav}}
     </div>
     <div class="l-container__footer">
-      <div class="c-actions-bar c-actions-bar--sidebar">
+      <div class="c-sidebar-actions c-sidebar-actions--sidebar">
         <div
-          class="c-actions-bar__item"
+          class="c-sidebar-actions__item"
           title="Create a new list"
         >
-          {{svg-jar "plus" class="c-actions-bar__icon c-actions-bar__icon--plus"}}
-          <div class="c-actions-bar__text">New List</div>
-        </div>
-
-        <div
-          class="c-actions-bar__item"
-          {{action "toggleShortcutBar"}}
-          title="Show shortcuts"
-          data-test-action-toggle-shortcut-bar
-        >
-          {{svg-jar "keyboard" class="c-actions-bar__icon"}}
+          {{svg-jar "plus" class="c-sidebar-actions__icon c-sidebar-actions__icon--plus"}}
+          <div class="c-sidebar-actions__text">New List</div>
         </div>
       </div>
     </div>
@@ -33,7 +24,6 @@
   </div>
 </div>
 
-{{shortcut-bar
-    isOpen=this.isShortcutBarOpen
-    close=(action "toggleShortcutBar")
+{{global-actions
+  createTask=(route-action "createTask")
 }}

@@ -6,8 +6,11 @@ export default Route.extend({
   },
 
   actions: {
-    createTask(tasks) {
-      let order = tasks.lastObject ? tasks.lastObject.order + 1 : 0;
+    createTask() {
+      let lastTask = this.get('store')
+        .peekAll('task')
+        .sortBy('order').lastObject;
+      let order = lastTask ? lastTask.order + 1 : 0;
       let newTask = this.store.createRecord('task', { order });
       return newTask.save();
     },

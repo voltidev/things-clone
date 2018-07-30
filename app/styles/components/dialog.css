@@ -1,0 +1,66 @@
+.c-dialog {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  background: #fff;
+  display: none;
+
+  &.is-open {
+    display: block;
+    animation: fade-in 150ms ease-out;
+  }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.c-dialog__inner {
+  max-width: rem(600px);
+  margin: 0 auto;
+}
+
+.c-dialog__header {
+  display: flex;
+  align-items: center;
+  height: rem(80px);
+  margin-bottom: rem(40px);
+  border-bottom: 1px solid #e8e9ea;
+}
+
+.c-dialog__buttons-wrap {
+  flex: 1;
+
+  &:last-child {
+    text-align: right;
+  }
+}
+
+.c-dialog__title {
+  font-size: rem(26px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.c-dialog__close {
+  margin: 0;
+  padding: rem(10px);
+  border: 0;
+  background: none;
+  font-size: rem(16px);
+  font-weight: var(--light);
+  color: #aaa;
+  transition: color 0.2s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    color: #777;
+  }
+}

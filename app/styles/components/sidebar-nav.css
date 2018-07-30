@@ -1,8 +1,8 @@
-.c-side-nav {
+.c-sidebar-nav {
   padding: rem(26px) rem(16px);
 }
 
-.c-side-nav__item {
+.c-sidebar-nav__item {
   display: flex;
   align-items: center;
   padding: rem(4px) rem(8px);
@@ -14,7 +14,7 @@
   }
 }
 
-.c-side-nav__icon {
+.c-sidebar-nav__icon {
   margin-right: rem(6px);
   height: rem(15px);
   width: rem(15px);
@@ -24,11 +24,11 @@
   }
 }
 
-.c-side-nav__text {
+.c-sidebar-nav__text {
   font-size: rem(15px);
   color: var(--base-text-color);
 }
 
-.c-side-nav__section {
+.c-sidebar-nav__section {
   margin-bottom: rem(14px);
 }
