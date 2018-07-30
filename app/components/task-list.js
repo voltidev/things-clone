@@ -6,6 +6,11 @@ import { run } from '@ember/runloop';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
 import velocity from 'velocity-animate';
 
+function hideElements(elements) {
+  velocity(elements, { opacity: 0 }, { duration: 100 });
+  return velocity(elements, { height: 0 }, { duration: 200, easing: 'easeOutCubic' });
+}
+
 export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskEditor: service(),
   taskSelector: service(),
@@ -34,9 +39,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       return;
     }
 
-    let selected = document.querySelectorAll('.is-selected .js-task');
-    velocity(selected, { opacity: 0 }, { duration: 100 });
-    velocity(selected, { height: 0 }, { duration: 200, easing: 'easeOutCubic' }).then(() => {
+    hideElements(document.querySelectorAll('.is-selected .js-task')).then(() => {
       this.deleteTasks(this.taskSelector.tasks);
       this.taskSelector.clear();
     });

@@ -3,6 +3,13 @@ import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
+import { task, timeout } from 'ember-concurrency';
+import velocity from 'velocity-animate';
+
+function hideElement(element) {
+  velocity(element, { opacity: 0 }, { duration: 100 });
+  return velocity(element, { height: 0 }, { duration: 200, easing: 'easeOutCubic' });
+}
 
 export default Component.extend({
   taskEditor: service(),
@@ -52,12 +59,18 @@ export default Component.extend({
 
     toggleTask(isCompleted) {
       if (isCompleted) {
-        this.completeTask(this.task);
+        this.waitAndCompleteTask.perform();
       } else {
+        this.waitAndCompleteTask.cancelAll();
         this.uncompleteTask(this.task);
       }
     }
   },
+
+  waitAndCompleteTask: task(function* () {
+    yield timeout(1500);
+    hideElement(this.element).then(() => this.completeTask(this.task));
+  }),
 
   mouseDown(event) {
     this.selectTask(event);
