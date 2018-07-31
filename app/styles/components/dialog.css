@@ -17,11 +17,6 @@
   }
 }
 
-@keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
 .c-dialog__inner {
   max-width: rem(600px);
   margin: 0 auto;

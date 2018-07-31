@@ -33,11 +33,6 @@
   }
 }
 
-@keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
 .c-floating-button__iner__icon {
   fill: #fff;
   width: rem(24px);

@@ -1,29 +1,3 @@
-<div class="l-container">
-  <div class="l-container__sidebar">
-    <div class="l-container__content">
-      {{sidebar-nav}}
-    </div>
-    <div class="l-container__footer">
-      <div class="c-sidebar-actions c-sidebar-actions--sidebar">
-        <div
-          class="c-sidebar-actions__item"
-          title="Create a new list"
-        >
-          {{svg-jar "plus" class="c-sidebar-actions__icon c-sidebar-actions__icon--plus"}}
-          <div class="c-sidebar-actions__text">New List</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div
-    class="l-container__main {{if this.isEditing 'is-editing'}}"
-    data-test-main-section
-  >
-    {{outlet}}
-  </div>
-</div>
-
-{{global-actions
-  createTask=(route-action "createTask")
-}}
+{{#app-container}}
+  {{outlet}}
+{{/app-container}}
