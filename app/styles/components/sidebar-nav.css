@@ -16,8 +16,8 @@
 
 .c-sidebar-nav__icon {
   margin-right: rem(6px);
-  height: rem(15px);
-  width: rem(15px);
+  height: rem(18px);
+  width: rem(18px);
 
   &--inbox {
     fill: #279be6;
@@ -25,7 +25,7 @@
 }
 
 .c-sidebar-nav__text {
-  font-size: rem(15px);
+  font-size: rem(16px);
   color: var(--base-text-color);
 }
 

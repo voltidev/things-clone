@@ -69,6 +69,7 @@ export default Component.extend({
 
   waitAndCompleteTask: task(function* () {
     yield timeout(1500);
+    this.stopEditing();
     hideElement(this.element).then(() => this.completeTask(this.task));
   }),
 

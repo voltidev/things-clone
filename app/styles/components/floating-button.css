@@ -1,0 +1,45 @@
+.c-floating-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: rem(20px);
+  z-index: 250;
+
+  &.is-editing {
+    display: none;
+  }
+}
+
+.c-floating-button__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: rem(46px);
+  height: rem(46px);
+  box-shadow: 0 1px rem(6px) 0 rgba(0, 0, 0, 0.15);
+  border-radius: 100%;
+  background-color: #0d95ec;
+  transition: transform ease-out 200ms, opacity ease-out 200ms;
+  cursor: pointer;
+  animation: fade-in 150ms ease-out;
+
+  &:active {
+    opacity: 0.7;
+  }
+
+  &:hover {
+    box-shadow: 0 1px rem(6px) 0 rgba(0, 0, 0, 0.2);
+    transform: scale(1.125, 1.125);
+  }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.c-floating-button__iner__icon {
+  fill: #fff;
+  width: rem(24px);
+  height: rem(24px);
+}

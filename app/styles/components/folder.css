@@ -1,7 +1,7 @@
 .c-folder {
   display: flex;
   flex-flow: column;
-  padding: rem(60px) 8%;
+  padding: rem(60px) rem(80px);
 }
 
 .c-folder__title {
