@@ -1,0 +1,50 @@
+.c-actions-bar {
+  display: flex;
+  justify-content: center;
+  padding: rem(16px);
+  overflow: hidden;
+}
+
+.c-actions-bar__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: rem(16px);
+  padding: rem(6px);
+  border-radius: rem(6px);
+  background: #444;
+  color: #fff;
+  transform: translateY(100px);
+  transition: transform 200ms ease-out;
+
+  .has-selected & {
+    transform: translateY(0);
+  }
+}
+
+.c-actions-bar__action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: rem(8px) rem(10px);
+  border-radius: rem(6px);
+  cursor: pointer;
+
+  &:hover {
+    background: #666;
+  }
+}
+
+.c-actions-bar__icon {
+  height: 20px;
+  width: 20px;
+  fill: #fff;
+
+  &:not(:last-child) {
+    margin-right: rem(4px);
+  }
+
+  &--delete {
+    stroke: #fff;
+  }
+}

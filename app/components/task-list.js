@@ -85,11 +85,12 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     }
   },
 
-  deselectAllOnSideClick(event) {
+  deselectAllOnSideClick({ target }) {
     run(() => {
-      let isInternalClick = this.element.contains(event.target);
+      let isInternalClick = this.element.contains(target);
+      let isActionsBar = document.querySelector('.js-actions-bar').contains(target);
 
-      if (!isInternalClick) {
+      if (!isInternalClick && !isActionsBar) {
         this.taskSelector.clear();
       }
     });

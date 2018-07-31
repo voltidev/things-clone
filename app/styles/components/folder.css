@@ -6,8 +6,9 @@
 
 .c-folder__title {
   display: flex;
-  align-items: center;
+  margin-bottom: rem(40px);
   padding: 0 rem(14px);
+  align-items: center;
   font-weight: 600;
 }
 
