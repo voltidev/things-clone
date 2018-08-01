@@ -21,9 +21,11 @@
 >
   {{yield}}
 
-  {{actions-bar
-    deleteSelected=(action "deleteSelected")
-  }}
+  {{#animated-if this.hasSelected use=transition duration=200}}
+    {{actions-bar
+      deleteSelected=(action "deleteSelected")
+    }}
+  {{/animated-if}}
 </div>
 
 {{shortcuts-dialog
@@ -31,8 +33,10 @@
   close=(action "toggleShortcutsDialog")
 }}
 
-<div class="c-floating-button js-floating-button {{if this.isEditing "is-editing"}}">
-  <div class="c-floating-button__inner" {{action "createNewTask"}}>
-    {{svg-jar "plus" class="c-floating-button__iner__icon"}}
+{{#animated-if (not this.isEditing) use=transition duration=200}}
+  <div class="c-floating-button">
+    <div class="c-floating-button__inner" {{action "createNewTask"}}>
+      {{svg-jar "plus" class="c-floating-button__iner__icon"}}
+    </div>
   </div>
-</div>
+{{/animated-if}}

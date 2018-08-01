@@ -4,26 +4,8 @@ import { alias } from '@ember/object/computed';
 import { set } from '@ember/object';
 import { on } from '@ember/object/evented';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
-import velocity from 'velocity-animate';
-
-function hideElements(elements) {
-  velocity(elements, { opacity: 0 }, { duration: 100 });
-  return velocity(elements, { height: 0 }, { duration: 200, easing: 'easeOutCubic' });
-}
-
-function fadeOutFloatedButton(parentElement) {
-  let floatingBtn = parentElement.querySelector('.js-floating-button');
-  let floatingBtnStyle = floatingBtn.style;
-
-  return velocity(
-    floatingBtn,
-    { translateX: -100, translateY: -100, opacity: 0 },
-    { duration: '200ms', easing: 'easeOutQuart' }
-  ).then(() => {
-    // Recover styles after animation.
-    floatingBtn.style = floatingBtnStyle;
-  });
-}
+import move from 'ember-animated/motions/move';
+import { easeOut, easeIn } from 'ember-animated/easings/cosine';
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskSelector: service(),
@@ -61,8 +43,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     },
 
     createNewTask() {
-      fadeOutFloatedButton(this.element);
-      setTimeout(() => this.createNewTask(), 50);
+      this.createNewTask();
     },
 
     editSelected() {
@@ -96,9 +77,19 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       return;
     }
 
-    hideElements(document.querySelectorAll('.is-selected .js-task')).then(() => {
-      this.deleteTasks(this.taskSelector.tasks);
-      this.taskSelector.clear();
+    this.deleteTasks(this.taskSelector.tasks);
+    this.taskSelector.clear();
+  },
+
+  * transition({ insertedSprites, removedSprites }) {
+    insertedSprites.forEach(sprite => {
+      sprite.startAtPixel({ y: window.innerHeight });
+      move(sprite, { easing: easeOut });
+    });
+
+    removedSprites.forEach(sprite => {
+      sprite.endAtPixel({ y: window.innerHeight });
+      move(sprite, { easing: easeIn });
     });
   }
 });

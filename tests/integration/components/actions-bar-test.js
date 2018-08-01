@@ -7,7 +7,8 @@ module('Integration | Component | actions-bar', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs`{{actions-bar}}`);
+    this.set('deleteSelected', () => null);
+    await render(hbs`{{actions-bar deleteSelected=deleteSelected}}`);
     assert.equal(this.element.textContent.trim(), 'Delete');
   });
 });

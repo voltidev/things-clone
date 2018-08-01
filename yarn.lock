@@ -2692,6 +2692,15 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
+ember-animated@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ember-animated/-/ember-animated-0.3.0.tgz#024e4d9af99c9e85b3fbc83aa287649cc2f4674b"
+  dependencies:
+    ember-cli-babel "^6.11.0"
+    ember-cli-htmlbars "^2.0.1"
+    ember-cli-version-checker "^1.1.7"
+    ember-maybe-import-regenerator "^0.1.5"
+
 ember-auto-import@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-1.2.3.tgz#7a553aafc303182c5013fd2237df9e477b08f96f"
@@ -2962,6 +2971,12 @@ ember-cli-valid-component-name@^1.0.0:
   resolved "https://registry.yarnpkg.com/ember-cli-valid-component-name/-/ember-cli-valid-component-name-1.0.0.tgz#71550ce387e0233065f30b30b1510aa2dfbe87ef"
   dependencies:
     silent-error "^1.0.0"
+
+ember-cli-version-checker@^1.1.7:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-version-checker/-/ember-cli-version-checker-1.3.1.tgz#0bc2d134c830142da64bf9627a0eded10b61ae72"
+  dependencies:
+    semver "^5.3.0"
 
 ember-cli-version-checker@^2.0.0, ember-cli-version-checker@^2.1.0, ember-cli-version-checker@^2.1.1, ember-cli-version-checker@^2.1.2:
   version "2.1.2"
@@ -8502,10 +8517,6 @@ validate-npm-package-name@^3.0.0:
 vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
-
-velocity-animate@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/velocity-animate/-/velocity-animate-1.5.1.tgz#606837047bab8fbfb59a636d1d82ecc3f7bd71a6"
 
 vfile-location@^2.0.0:
   version "2.0.3"

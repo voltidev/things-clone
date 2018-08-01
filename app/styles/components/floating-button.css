@@ -4,10 +4,6 @@
   right: 0;
   padding: rem(20px);
   z-index: var(--z-index-floating-button);
-
-  &.is-editing {
-    display: none;
-  }
 }
 
 .c-floating-button__inner {
@@ -21,7 +17,6 @@
   background-color: #0d95ec;
   transition: transform ease-out 200ms, opacity ease-out 200ms;
   cursor: pointer;
-  animation: fade-in 150ms ease-out;
 
   &:active {
     opacity: 0.7;

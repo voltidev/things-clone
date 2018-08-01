@@ -1,13 +1,15 @@
 {{#sortable-group class="c-task-list" onChange=@reorderTasks as |group|}}
-  {{#each this.tasks as |task|}}
-    {{#sortable-item
-      model=task
-      group=group
-      distance=2
-      class=(if (is-selected task) 'is-selected')
-      data-test-task-wrapper=task.id
-    }}
-      {{yield task (action "selectBetween")}}
-    {{/sortable-item}}
-  {{/each}}
+  {{#animated-container}}
+    {{#animated-each this.tasks use=eachTransition duration=200 as |task|}}
+      {{#sortable-item
+        model=task
+        group=group
+        distance=2
+        class=(if (is-selected task) 'is-selected')
+        data-test-task-wrapper=task.id
+      }}
+        {{yield task (action "selectBetween")}}
+      {{/sortable-item}}
+    {{/animated-each}}
+  {{/animated-container}}
 {{/sortable-group}}

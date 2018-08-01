@@ -28,7 +28,8 @@ module.exports = {
     'array-callback-return': 'off',
     'prefer-const': 'off',
     'object-curly-newline': 'off',
-    // 'no-debugger': 'off',
+    'require-yield': 'off',
+    'no-debugger': 'off',
 
     // Optional ember rules
     'ember/alias-model-in-controller': 'off',

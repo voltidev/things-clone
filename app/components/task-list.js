@@ -3,6 +3,8 @@ import { inject as service } from '@ember/service';
 import { on } from '@ember/object/evented';
 import { run } from '@ember/runloop';
 import { EKMixin, EKOnInsertMixin, keyDown } from 'ember-keyboard';
+import move from 'ember-animated/motions/move';
+import { fadeIn, fadeOut } from 'ember-animated/motions/opacity';
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskSelector: service(),
@@ -103,5 +105,11 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
   stopHandlingRootClick() {
     document.removeEventListener('mousedown', this.deselectAllOnSideClick, true);
+  },
+
+  * eachTransition({ keptSprites, insertedSprites, removedSprites }) {
+    keptSprites.forEach(move);
+    insertedSprites.forEach(fadeIn);
+    removedSprites.forEach(fadeOut);
   }
 });
