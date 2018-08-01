@@ -1,7 +1,6 @@
-{{#app-container}}
+{{#app-container
+  createTask=(route-action "createTask")
+  deleteTasks=(route-action "deleteTasks")
+}}
   {{outlet}}
 {{/app-container}}
-
-{{global-actions
-  createTask=(route-action "createTask")
-}}
