@@ -1,16 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import {
-  render,
-  click,
-  triggerEvent,
-  triggerKeyEvent,
-  settled,
-  waitUntil
-} from '@ember/test-helpers';
+import { render, triggerEvent, triggerKeyEvent, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { setupFactoryGuy, make, makeList } from 'ember-data-factory-guy';
-import { shouldBeEditing, shouldNotBeEditing } from 'things/tests/helpers/editing-mode';
+import { setupFactoryGuy, makeList } from 'ember-data-factory-guy';
 
 module('Integration | Component | task-list', function(hooks) {
   setupRenderingTest(hooks);
@@ -113,56 +105,6 @@ module('Integration | Component | task-list', function(hooks) {
     assert.ok(taskSelector.isSelected(task2), 'task2 is selected after click');
     assert.ok(taskSelector.isSelected(task3), 'task3 is selected after click');
     assert.ok(taskSelector.isSelected(task4), 'task4 is selected after click');
-  });
-
-  test('it starts editing first selected task & deselects others on Enter', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
-    let [task1, task2] = makeList('task', 2);
-    this.set('tasks', [task1, task2]);
-    taskSelector.select(task1, task2);
-
-    await render(hbs`
-      {{task-list
-        tasks=tasks
-      }}
-    `);
-
-    assert.ok(taskSelector.isSelected(task1), 'task1 is selected');
-    assert.ok(taskSelector.isSelected(task2), 'task2 is selected');
-
-    await triggerKeyEvent(this.element, 'keyup', 'Enter');
-    assert.ok(taskSelector.isSelected(task1), 'task1 is selected');
-    assert.notOk(taskSelector.isSelected(task2), 'task2 is not selected');
-    shouldBeEditing('[data-test-task="1"]', assert);
-    shouldNotBeEditing('[data-test-task="2"]', assert);
-  });
-
-  test('it deselect & deletes selected tasks on Backspace', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
-    let tasks = makeList('task', 3);
-    let [task1, task2] = tasks;
-    this.set('tasks', tasks);
-    this.set('deleteTasks', tasksToDelete => {
-      tasksToDelete.forEach(task => tasks.removeObject(task));
-      return Promise.resolve();
-    });
-
-    await render(hbs`
-      {{task-list
-        tasks=tasks
-        deleteTasks=deleteTasks
-      }}
-    `);
-
-    taskSelector.select(task1, task2);
-    assert.ok(taskSelector.hasTasks, 'task1 & task2 are selected');
-    assert.dom('[data-test-task]').exists({ count: 3 });
-
-    await triggerKeyEvent(this.element, 'keyup', 'Backspace');
-    await waitUntil(() => this.element.querySelectorAll('[data-test-task]').length === 1);
-    assert.notOk(taskSelector.hasTasks, 'selection is cleared');
-    assert.dom('[data-test-task]').exists({ count: 1 });
-    assert.dom('[data-test-task="3"]').exists();
   });
 
   module('handling ArrowDown and ArrowUp keys', function(hooks) {
@@ -302,50 +244,6 @@ module('Integration | Component | task-list', function(hooks) {
       assert.notOk(this.taskSelector.isSelected(task1), 'task1 is not selected');
       assert.notOk(this.taskSelector.isSelected(task2), 'task2 is not selected');
       assert.ok(this.taskSelector.isSelected(task3), 'task3 is selected');
-    });
-  });
-
-  module('handling new task creation', function(hooks) {
-    hooks.beforeEach(async function() {
-      let tasks = makeList('task', 1);
-      this.set('tasks', tasks);
-      this.set('createTask', () => {
-        let newTask = make('task');
-        tasks.pushObject(newTask);
-        return Promise.resolve(newTask);
-      });
-
-      await render(hbs`
-        {{task-list
-          tasks=tasks
-          createTask=createTask
-        }}
-      `);
-    });
-
-    test('it creates new task on N keydown', async function(assert) {
-      assert.dom('[data-test-task]').exists({ count: 1 });
-
-      await triggerKeyEvent(this.element, 'keydown', 'N');
-      assert.dom('[data-test-task]').exists({ count: 2 });
-    });
-
-    test('it starts editing new task', async function(assert) {
-      await triggerKeyEvent(this.element, 'keydown', 'N');
-      await settled();
-      shouldNotBeEditing('[data-test-task="1"]', assert);
-      shouldBeEditing('[data-test-task="2"]', assert);
-      assert.dom('[data-test-task="2"] [data-test-task-name-input]').hasValue('task 2');
-    });
-
-    test('it selects new task and deselect others', async function(assert) {
-      let taskSelector = this.owner.lookup('service:task-selector');
-      await click('[data-test-task="1"]');
-      assert.ok(taskSelector.isSelected(this.tasks[0]), 'task1 is selected');
-
-      await triggerKeyEvent(this.element, 'keydown', 'N');
-      assert.notOk(taskSelector.isSelected(this.tasks[0]), 'task1 is not selected');
-      assert.ok(taskSelector.isSelected(this.tasks[1]), 'task2 is selected');
     });
   });
 });
