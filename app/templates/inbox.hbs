@@ -5,13 +5,20 @@
   </h1>
 
   {{#if this.tasks}}
-    {{task-list
+    {{#task-list
       tasks=this.tasks
-      saveTask=(route-action "saveTask")
-      completeTask=(route-action "completeTask")
-      uncompleteTask=(route-action "uncompleteTask")
       reorderTasks=(route-action "reorderTasks")
+      as |task selectBetween|
     }}
+      {{task-item
+        task=task
+        saveTask=(route-action "saveTask")
+        completeTask=(route-action "completeTask")
+        uncompleteTask=(route-action "uncompleteTask")
+        selectBetween=selectBetween
+        data-test-task=task.id
+      }}
+    {{/task-list}}
   {{else}}
     <div class="c-folder__placeholder" data-test-folder-placeholder>
       {{svg-jar "inbox"  class="c-folder__placeholder-icon"}}

@@ -7,14 +7,7 @@
       class=(if (is-selected task) 'is-selected')
       data-test-task-wrapper=task.id
     }}
-      {{task-item
-        task=task
-        saveTask=@saveTask
-        completeTask=@completeTask
-        uncompleteTask=@uncompleteTask
-        selectBetween=(action "selectBetween")
-        data-test-task=task.id
-      }}
+      {{yield task (action "selectBetween")}}
     {{/sortable-item}}
   {{/each}}
 {{/sortable-group}}

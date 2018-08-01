@@ -12,9 +12,16 @@ module('Integration | Component | task-list', function(hooks) {
     this.set('tasks', makeList('task', 'completed', 'default'));
 
     await render(hbs`
-      {{task-list
-        tasks=tasks
+      {{#task-list
+        tasks=this.tasks
+        as |task selectBetween|
       }}
+        {{task-item
+          task=task
+          selectBetween=selectBetween
+          data-test-task=task.id
+        }}
+      {{/task-list}}
     `);
 
     assert.dom('[data-test-task]').exists({ count: 2 });
@@ -28,9 +35,16 @@ module('Integration | Component | task-list', function(hooks) {
     this.set('tasks', makeList('task', 1));
 
     await render(hbs`
-      {{task-list
-        tasks=tasks
+      {{#task-list
+        tasks=this.tasks
+        as |task selectBetween|
       }}
+        {{task-item
+          task=task
+          selectBetween=selectBetween
+          data-test-task=task.id
+        }}
+      {{/task-list}}
     `);
 
     assert.dom('[data-test-task-wrapper]').hasNoClass('is-selected');
@@ -42,9 +56,16 @@ module('Integration | Component | task-list', function(hooks) {
     this.set('tasks', [task1, task2]);
 
     await render(hbs`
-      {{task-list
-        tasks=tasks
+      {{#task-list
+        tasks=this.tasks
+        as |task selectBetween|
       }}
+        {{task-item
+          task=task
+          selectBetween=selectBetween
+          data-test-task=task.id
+        }}
+      {{/task-list}}
     `);
 
     assert.dom('[data-test-task-wrapper="1"]').hasNoClass('is-selected');
@@ -66,10 +87,18 @@ module('Integration | Component | task-list', function(hooks) {
     let [task1, task2, task3, task4] = makeList('task', 4);
     this.set('tasks', [task1, task2, task3, task4]);
     taskSelector.select(task1, task3, task4);
+
     await render(hbs`
-      {{task-list
-        tasks=tasks
+      {{#task-list
+        tasks=this.tasks
+        as |task selectBetween|
       }}
+        {{task-item
+          task=task
+          selectBetween=selectBetween
+          data-test-task=task.id
+        }}
+      {{/task-list}}
     `);
 
     assert.ok(taskSelector.isSelected(task1), 'task1 is selected before click');
@@ -89,10 +118,18 @@ module('Integration | Component | task-list', function(hooks) {
     let [task1, task2, task3, task4] = makeList('task', 4);
     this.set('tasks', [task1, task2, task3, task4]);
     taskSelector.select(task2, task4);
+
     await render(hbs`
-      {{task-list
-        tasks=tasks
+      {{#task-list
+        tasks=this.tasks
+        as |task selectBetween|
       }}
+        {{task-item
+          task=task
+          selectBetween=selectBetween
+          data-test-task=task.id
+        }}
+      {{/task-list}}
     `);
 
     assert.notOk(taskSelector.isSelected(task1), 'task1 is not selected before click');
@@ -114,9 +151,16 @@ module('Integration | Component | task-list', function(hooks) {
       this.set('tasks', this.tasks);
 
       await render(hbs`
-        {{task-list
-          tasks=tasks
+        {{#task-list
+          tasks=this.tasks
+          as |task selectBetween|
         }}
+          {{task-item
+            task=task
+            selectBetween=selectBetween
+            data-test-task=task.id
+          }}
+        {{/task-list}}
       `);
     });
 
