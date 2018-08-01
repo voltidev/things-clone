@@ -1,7 +1,11 @@
 import Application from '@ember/application';
 import loadInitializers from 'ember-load-initializers';
-import config from './config/environment';
+import velocity from 'velocity-animate';
+import config from 'things/config/environment';
 import Resolver from './resolver';
+
+// Disable velocity during testing
+velocity.mock = config.isTest;
 
 const App = Application.extend({
   modulePrefix: config.modulePrefix,

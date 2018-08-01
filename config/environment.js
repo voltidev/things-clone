@@ -2,6 +2,7 @@
 
 module.exports = function(environment) {
   let ENV = {
+    isTest: environment === 'test',
     modulePrefix: 'things',
     environment,
     rootURL: '/',

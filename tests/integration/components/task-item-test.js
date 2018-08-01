@@ -183,6 +183,7 @@ module('Integration | Component | task-item', function(hooks) {
     this.task.set('isCompleted', false);
     await renderComponent();
     await click('[data-test-task-checkbox]');
+    await new Promise(resolve => setTimeout(() => resolve(), 100));
     assert.ok(completeTask.calledOnceWith(this.task));
   });
 

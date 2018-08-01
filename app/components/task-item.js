@@ -5,6 +5,7 @@ import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { task, timeout } from 'ember-concurrency';
 import velocity from 'velocity-animate';
+import config from 'things/config/environment';
 
 function hideElement(element) {
   velocity(element, { opacity: 0 }, { duration: 100 });
@@ -68,7 +69,7 @@ export default Component.extend({
   },
 
   waitAndCompleteTask: task(function* () {
-    yield timeout(1500);
+    yield timeout(config.isTest ? 0 : 1500);
     this.stopEditing();
     this.taskSelector.deselect(this.task);
     hideElement(this.element).then(() => this.completeTask(this.task));
