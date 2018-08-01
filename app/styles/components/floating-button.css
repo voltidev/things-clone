@@ -3,7 +3,7 @@
   bottom: 0;
   right: 0;
   padding: rem(20px);
-  z-index: 250;
+  z-index: var(--z-index-floating-button);
 
   &.is-editing {
     display: none;

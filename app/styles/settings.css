@@ -15,4 +15,9 @@
   --base-line-height: 1.2;
   --base-text-color: #444;
   --base-background-color: #fff;
+
+  /* z-index */
+  --z-index-dialog: 500;
+  --z-index-floating-button: 100;
+  --z-index-sortable-item: 10;
 }

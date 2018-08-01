@@ -6,6 +6,6 @@
 
 .sortable-item.is-dragging {
   transition-duration: 0s;
-  z-index: 10;
+  z-index: var(--z-index-sortable-item);
   position: relative;
 }
