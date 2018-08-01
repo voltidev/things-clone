@@ -1,3 +1,7 @@
 {{#app-container}}
   {{outlet}}
 {{/app-container}}
+
+{{global-actions
+  createTask=(route-action "createTask")
+}}

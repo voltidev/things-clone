@@ -8,6 +8,6 @@ module('Integration | Component | side-nav', function(hooks) {
 
   test('it renders', async function(assert) {
     await render(hbs`{{side-nav}}`);
-    assert.notEqual(this.element.textContent.trim(), '');
+    assert.equal(this.element.textContent.trim(), '');
   });
 });
