@@ -9,12 +9,7 @@
   overflow-y: auto;
   outline: 0;
   background: #fff;
-  display: none;
-
-  &.is-open {
-    display: block;
-    animation: fade-in 150ms ease-out;
-  }
+  animation: fade-in 150ms ease-out;
 }
 
 .c-dialog__inner {

@@ -28,10 +28,11 @@
   {{/animated-if}}
 </div>
 
-{{shortcuts-dialog
-  isOpen=this.isShortcutsDialogOpen
-  close=(action "toggleShortcutsDialog")
-}}
+{{#if this.isShortcutsDialogOpen}}
+  {{shortcuts-dialog
+    close=(action "toggleShortcutsDialog")
+  }}
+{{/if}}
 
 {{#animated-if (not this.isEditing) use=transition duration=200}}
   <div class="c-floating-button">

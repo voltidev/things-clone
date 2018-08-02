@@ -1,0 +1,58 @@
+.c-placeholder {
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.c-placeholder__icon {
+  fill: #000;
+  height: rem(96px);
+  width: rem(96px);
+  opacity: 0.06;
+
+  &:not(:last-child) {
+    margin-bottom: rem(10px);
+  }
+}
+
+.c-placeholder__tips {
+  opacity: 0.2;
+  cursor: default;
+  transition: all 100ms ease-out;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.c-placeholder__tips-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: rem(10px);
+}
+
+.c-placeholder__tips-text {
+  width: rem(140px);
+  padding-right: rem(10px);
+  font-size: rem(16px);
+  color: #000;
+}
+
+.c-placeholder__tips-key {
+  display: inline-block;
+  min-width: rem(23px);
+  padding: rem(2px);
+  border-radius: rem(5px);
+  border: 1px solid #999;
+  text-align: center;
+  font-weight: var(--light);
+  font-size: rem(14px);
+  font-family: var(--base-font-family);
+  color: #000;
+
+  &:not(:last-child) {
+    margin-right: rem(8px);
+  }
+}
