@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
+import { computed, set } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { task, timeout } from 'ember-concurrency';
@@ -10,8 +10,9 @@ export default Component.extend({
   taskEditor: service(),
   taskSelector: service(),
   classNames: ['c-task', 'js-task'],
-  classNameBindings: ['isEditing', 'isCompleted'],
+  classNameBindings: ['isEditing', 'isCompleted', 'isChecked'],
   task: null,
+  isChecked: false,
   placeholder: 'New To-Do',
   isCompleted: alias('task.isCompleted'),
 
@@ -52,8 +53,10 @@ export default Component.extend({
       this.stopEditing();
     },
 
-    toggleTask(isCompleted) {
-      if (isCompleted) {
+    toggleTask(isChecked) {
+      set(this, 'isChecked', isChecked);
+
+      if (isChecked) {
         this.waitAndCompleteTask.perform();
       } else {
         this.waitAndCompleteTask.cancelAll();
