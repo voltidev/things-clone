@@ -63,7 +63,7 @@
   transition: opacity 300ms ease-out;
 
   &--placeholder,
-  .is-checked & {
+  .is-completed & {
     opacity: 0.5;
   }
 }
@@ -90,7 +90,7 @@
     transform: scale(1.15);
   }
 
-  .is-checked & {
+  .is-completed & {
     animation: pulse 500ms;
   }
 

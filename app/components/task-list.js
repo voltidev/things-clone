@@ -84,6 +84,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.taskSelector.selectOnly(
         ...this.tasks.filter(({ order }) => order >= firstTask.order && order <= lastTask.order)
       );
+    },
+
+    removeFromList(task) {
+      this.tasks.removeObject(task);
     }
   },
 

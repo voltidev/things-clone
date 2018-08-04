@@ -8,7 +8,11 @@
         class=(if (is-selected task) 'is-selected')
         data-test-task-wrapper=task.id
       }}
-        {{yield task (action "selectBetween")}}
+        {{yield
+          task
+          (action "selectBetween")
+          (action "removeFromList")
+        }}
       {{/sortable-item}}
     {{/animated-each}}
   {{/animated-container}}

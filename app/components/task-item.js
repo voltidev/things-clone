@@ -10,9 +10,8 @@ export default Component.extend({
   taskEditor: service(),
   taskSelector: service(),
   classNames: ['c-task', 'js-task'],
-  classNameBindings: ['isEditing', 'isCompleted', 'isChecked'],
+  classNameBindings: ['isEditing', 'isCompleted'],
   task: null,
-  isChecked: false,
   placeholder: 'New To-Do',
   isCompleted: alias('task.isCompleted'),
 
@@ -54,22 +53,23 @@ export default Component.extend({
     },
 
     toggleTask(isChecked) {
-      set(this, 'isChecked', isChecked);
-
       if (isChecked) {
-        this.waitAndCompleteTask.perform();
+        this.completeTask(this.task);
+
+        if (!this.isEditing) {
+          this.waitAndHideTask.perform();
+        }
       } else {
-        this.waitAndCompleteTask.cancelAll();
+        this.waitAndHideTask.cancelAll();
         this.uncompleteTask(this.task);
       }
     }
   },
 
-  waitAndCompleteTask: task(function* () {
+  waitAndHideTask: task(function* () {
     yield timeout(config.isTest ? 0 : 1500);
-    this.stopEditing();
     this.taskSelector.deselect(this.task);
-    this.completeTask(this.task);
+    this.removeFromList(this.task);
   }),
 
   mouseDown(event) {
@@ -103,16 +103,25 @@ export default Component.extend({
   },
 
   startEditing() {
-    if (!this.isEditing) {
-      this.taskEditor.edit(this.task);
+    if (this.isEditing) {
+      return;
     }
+
+    this.waitAndHideTask.cancelAll();
+    this.taskEditor.edit(this.task);
   },
 
   stopEditing() {
-    if (this.isEditing) {
-      this.taskEditor.clear();
-      this.saveTask(this.task);
+    if (!this.isEditing) {
+      return;
     }
+
+    if (this.isCompleted) {
+      this.waitAndHideTask.perform();
+    }
+
+    this.taskEditor.clear();
+    this.saveTask(this.task);
   },
 
   startHandlingRootClick() {
