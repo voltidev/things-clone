@@ -1,14 +1,14 @@
 <div class="l-container__content c-folder">
   <h1 class="c-folder__title">
-    {{svg-jar "inbox" class="c-folder__title-icon c-folder__title-icon--inbox"}}
-    <div class="c-folder__title-text">Inbox</div>
+    {{svg-jar "logbook" class="c-folder__title-icon c-folder__title-icon--logbook"}}
+    <div class="c-folder__title-text">Logbook</div>
   </h1>
 
   {{#if this.tasks}}
     {{#task-list
       tasks=this.tasks
-      reorderTasks=(route-action "reorderTasks")
-      as |task selectBetween removeFromList|
+      isNotSortable=true
+      as |task selectBetween|
     }}
       {{task-item
         task=task
@@ -16,11 +16,10 @@
         completeTask=(route-action "completeTask")
         uncompleteTask=(route-action "uncompleteTask")
         selectBetween=selectBetween
-        removeFromList=removeFromList
         data-test-task=task.id
       }}
     {{/task-list}}
   {{else}}
-    {{list-placeholder folder="inbox"}}
+    {{list-placeholder folder="logbook"}}
   {{/if}}
 </div>

@@ -1,19 +1,38 @@
-{{#sortable-group class="c-task-list" onChange=@reorderTasks as |group|}}
-  {{#animated-container}}
-    {{#animated-each this.tasks use=eachTransition duration=200 as |task|}}
-      {{#sortable-item
-        model=task
-        group=group
-        distance=2
-        class=(if (is-selected task) 'is-selected')
-        data-test-task-wrapper=task.id
-      }}
-        {{yield
-          task
-          (action "selectBetween")
-          (action "removeFromList")
+{{#if @isNotSortable}}
+  <div class="c-task-list">
+    {{#animated-container}}
+      {{#animated-each this.tasks use=eachTransition duration=200 as |task|}}
+        <div
+          class="{{if (is-selected task) 'is-selected'}}"
+          data-test-task-wrapper={{task.id}}
+        >
+          {{yield
+            task
+            (action "selectBetween")
+            (action "removeFromList")
+          }}
+        </div>
+      {{/animated-each}}
+    {{/animated-container}}
+  </div>
+{{else}}
+  {{#sortable-group class="c-task-list" onChange=@reorderTasks as |group|}}
+    {{#animated-container}}
+      {{#animated-each this.tasks use=eachTransition duration=200 as |task|}}
+        {{#sortable-item
+          model=task
+          group=group
+          distance=2
+          class=(if (is-selected task) 'is-selected')
+          data-test-task-wrapper=task.id
         }}
-      {{/sortable-item}}
-    {{/animated-each}}
-  {{/animated-container}}
-{{/sortable-group}}
+          {{yield
+            task
+            (action "selectBetween")
+            (action "removeFromList")
+          }}
+        {{/sortable-item}}
+      {{/animated-each}}
+    {{/animated-container}}
+  {{/sortable-group}}
+{{/if}}

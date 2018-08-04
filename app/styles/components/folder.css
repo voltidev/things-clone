@@ -20,6 +20,10 @@
   &--inbox {
     fill: #279de2;
   }
+
+  &--logbook {
+    fill: #41ad56;
+  }
 }
 
 .c-folder__title-text {

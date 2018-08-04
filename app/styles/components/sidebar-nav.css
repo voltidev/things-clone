@@ -22,6 +22,10 @@
   &--inbox {
     fill: #279be6;
   }
+
+  &--logbook {
+    fill: #41ad56;
+  }
 }
 
 .c-sidebar-nav__text {
