@@ -1,14 +1,27 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
 import { on } from '@ember/object/evented';
 import { run } from '@ember/runloop';
-import { EKMixin, EKOnInsertMixin, keyDown } from 'ember-keyboard';
+import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
 import move from 'ember-animated/motions/move';
 import { fadeIn, fadeOut } from 'ember-animated/motions/opacity';
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskSelector: service(),
+  taskEditor: service(),
   model: null,
+  hasSelected: alias('taskSelector.hasTasks'),
+
+  shortcutEditSelected: on(keyUp('Enter'), function() {
+    if (!this.hasSelected) {
+      return;
+    }
+
+    let taskToEdit = this.taskSelector.tasks.lastObject;
+    this.taskEditor.edit(taskToEdit);
+    this.taskSelector.selectOnly(taskToEdit);
+  }),
 
   shortcutSelectNext: on(keyDown('ArrowDown'), function() {
     if (!this.taskSelector.hasTasks) {
