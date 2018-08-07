@@ -5,20 +5,30 @@
   </h1>
 
   {{#if this.tasks}}
-    {{#task-list
-      tasks=this.tasks
-      isNotSortable=true
-      as |task selectBetween|
-    }}
-      {{task-item
-        task=task
-        saveTask=(route-action "saveTask")
-        completeTask=(route-action "completeTask")
-        uncompleteTask=(route-action "uncompleteTask")
-        selectBetween=selectBetween
-        data-test-task=task.id
-      }}
-    {{/task-list}}
+    {{#each-in (group-by "logbookGroup" this.tasks) as |groupName groupItems|}}
+      <div class="c-folder__group">
+        <div class="c-folder__group-name">
+          <div class="c-folder__group-name-text">
+            {{groupName}}
+          </div>
+        </div>
+
+        {{#task-list
+          tasks=groupItems
+          isNotSortable=true
+          as |task selectBetween|
+        }}
+          {{task-item
+            task=task
+            saveTask=(route-action "saveTask")
+            completeTask=(route-action "completeTask")
+            uncompleteTask=(route-action "uncompleteTask")
+            selectBetween=selectBetween
+            data-test-task=task.id
+          }}
+        {{/task-list}}
+      </div>
+    {{/each-in}}
   {{else}}
     {{list-placeholder folder="logbook"}}
   {{/if}}

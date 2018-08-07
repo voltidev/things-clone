@@ -1,7 +1,8 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import { set } from '@ember/object';
+import { set, computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
+import moment from 'moment';
 
 export default Model.extend({
   name: attr('string'),
@@ -19,6 +20,15 @@ export default Model.extend({
   }),
 
   isInbox: equal('folder', 'inbox'),
+
+  logbookGroup: computed('completedAt', function() {
+    return moment(this.completedAt).calendar(null, {
+      sameDay: '[Today]',
+      lastDay: '[Yesterday]',
+      lastWeek: 'MMMM',
+      sameElse: 'MMMM'
+    });
+  }),
 
   complete() {
     set(this, 'isCompleted', true);

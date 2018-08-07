@@ -78,20 +78,20 @@
   justify-content: center;
   align-items: center;
   height: rem(15px);
-  width: rem(15x);
+  width: rem(15px);
   border: 1px solid #c3c6c9;
   border-radius: rem(4px);
   background: transparent;
   transition: all 300ms ease-out;
 
+  .is-completed & {
+    animation: pulse 500ms;
+  }
+
   .c-task__checkbox-input:checked + & {
     background-color: #2560bd;
     border-color: #165abc;
     transform: scale(1.15);
-  }
-
-  .is-completed & {
-    animation: pulse 500ms;
   }
 
   .c-task__checkbox-input:checked + &::after {

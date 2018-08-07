@@ -7,9 +7,9 @@
 .c-folder__title {
   display: flex;
   margin-bottom: rem(40px);
-  padding: 0 rem(14px);
+  padding: 0 rem(20px);
   align-items: center;
-  font-weight: 600;
+  font-weight: var(--semi-bold);
 }
 
 .c-folder__title-icon {
@@ -28,4 +28,19 @@
 
 .c-folder__title-text {
   font-size: rem(24px);
+}
+
+.c-folder__group {
+  margin-bottom: rem(34px);
+}
+
+.c-folder__group-name {
+  padding: 0 rem(16px);
+  margin-bottom: rem(10px);
+}
+
+.c-folder__group-name-text {
+  padding-bottom: rem(10px);
+  border-bottom: 1px solid #eee;
+  font-weight: var(--semi-bold);
 }
