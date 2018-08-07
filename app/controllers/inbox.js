@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 
 export default Controller.extend({
-  filteredTasks: computed('model.[]', 'model.@each.{isInbox,isDeleted}', function() {
+  filteredTasks: computed('model.[]', 'model.@each.{isCompleted,isInbox,isDeleted}', function() {
     return this.model.filter(task => task.isInbox && !task.isCompleted && !task.isDeleted);
   }),
 

@@ -1,10 +1,8 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed, set } from '@ember/object';
+import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
-import { task, timeout } from 'ember-concurrency';
-import config from 'things/config/environment';
 
 export default Component.extend({
   taskEditor: service(),
@@ -41,6 +39,7 @@ export default Component.extend({
 
   willDestroyElement() {
     this.stopHandlingRootClick();
+    this.stopEditing();
   },
 
   actions: {
@@ -55,22 +54,11 @@ export default Component.extend({
     toggleTask(isChecked) {
       if (isChecked) {
         this.completeTask(this.task);
-
-        if (!this.isEditing) {
-          this.waitAndHideTask.perform();
-        }
       } else {
-        this.waitAndHideTask.cancelAll();
         this.uncompleteTask(this.task);
       }
     }
   },
-
-  waitAndHideTask: task(function* () {
-    yield timeout(config.isTest ? 0 : 1500);
-    this.taskSelector.deselect(this.task);
-    this.removeFromList(this.task);
-  }),
 
   mouseDown(event) {
     this.selectTask(event);
@@ -107,17 +95,12 @@ export default Component.extend({
       return;
     }
 
-    this.waitAndHideTask.cancelAll();
     this.taskEditor.edit(this.task);
   },
 
   stopEditing() {
     if (!this.isEditing) {
       return;
-    }
-
-    if (this.isCompleted) {
-      this.waitAndHideTask.perform();
     }
 
     this.taskEditor.clear();

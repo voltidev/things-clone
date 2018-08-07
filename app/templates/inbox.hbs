@@ -8,7 +8,7 @@
     {{#task-list
       tasks=this.tasks
       reorderTasks=(route-action "reorderTasks")
-      as |task selectBetween removeFromList|
+      as |task selectBetween|
     }}
       {{task-item
         task=task
@@ -16,7 +16,6 @@
         completeTask=(route-action "completeTask")
         uncompleteTask=(route-action "uncompleteTask")
         selectBetween=selectBetween
-        removeFromList=removeFromList
         data-test-task=task.id
       }}
     {{/task-list}}
