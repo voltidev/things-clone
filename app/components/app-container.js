@@ -1,19 +1,24 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
-import { set } from '@ember/object';
+import { set, computed } from '@ember/object';
 import { on } from '@ember/object/evented';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
 import move from 'ember-animated/motions/move';
 import { easeOut, easeIn } from 'ember-animated/easings/cosine';
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
+  router: service(),
   taskSelector: service(),
   taskEditor: service(),
   classNames: ['l-container'],
   isShortcutsDialogOpen: false,
   isEditing: alias('taskEditor.hasTask'),
   hasSelected: alias('taskSelector.hasTasks'),
+
+  canCreateTask: computed('router.currentRouteName', 'isEditing', function() {
+    return !this.isEditing && !['logbook'].includes(this.router.currentRouteName);
+  }),
 
   shortcutNewTask: on(keyDown('KeyN'), function() {
     this.createNewTask();
@@ -66,6 +71,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   },
 
   createNewTask() {
+    if (!this.canCreateTask) {
+      return;
+    }
+
     this.createTask().then(newTask => {
       this.taskSelector.selectOnly(newTask);
       setTimeout(() => this.taskEditor.edit(newTask));

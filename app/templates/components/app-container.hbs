@@ -34,7 +34,7 @@
   }}
 {{/if}}
 
-{{#animated-if (not this.isEditing) use=transition duration=200}}
+{{#animated-if canCreateTask use=transition duration=200}}
   <div class="c-floating-button">
     <div class="c-floating-button__inner" {{action "createNewTask"}}>
       {{svg-jar "plus" class="c-floating-button__iner__icon"}}
