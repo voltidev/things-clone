@@ -40,6 +40,7 @@ export default Component.extend({
   willDestroyElement() {
     this.stopHandlingRootClick();
     this.stopEditing();
+    this.taskSelector.deselect(this.task);
   },
 
   actions: {

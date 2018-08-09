@@ -1,35 +1,26 @@
-<div class="l-container__content c-folder">
-  <h1 class="c-folder__title">
-    {{svg-jar "logbook" class="c-folder__title-icon c-folder__title-icon--logbook"}}
-    <div class="c-folder__title-text">Logbook</div>
-  </h1>
-
-  {{#if this.tasks}}
-    {{#each-in (group-by "logbookGroup" this.tasks) as |groupName groupItems|}}
-      <div class="c-folder__group">
-        <div class="c-folder__group-name">
-          <div class="c-folder__group-name-text">
-            {{groupName}}
-          </div>
+{{#app-main items=this.tasks folder="logbook" as |selectBetween|}}
+  {{#each-in (group-by "logbookGroup" this.tasks) as |groupName groupItems|}}
+    <div class="c-folder__group">
+      <div class="c-folder__group-name">
+        <div class="c-folder__group-name-text">
+          {{groupName}}
         </div>
-
-        {{#task-list
-          tasks=groupItems
-          isNotSortable=true
-          as |task selectBetween|
-        }}
-          {{task-item
-            task=task
-            saveTask=(route-action "saveTask")
-            completeTask=(route-action "completeTask")
-            uncompleteTask=(route-action "uncompleteTask")
-            selectBetween=selectBetween
-            data-test-task=task.id
-          }}
-        {{/task-list}}
       </div>
-    {{/each-in}}
-  {{else}}
-    {{list-placeholder folder="logbook"}}
-  {{/if}}
-</div>
+
+      {{#task-list
+        tasks=groupItems
+        isNotSortable=true
+        as |task|
+      }}
+        {{task-item
+          task=task
+          saveTask=(route-action "saveTask")
+          completeTask=(route-action "completeTask")
+          uncompleteTask=(route-action "uncompleteTask")
+          selectBetween=selectBetween
+          data-test-task=task.id
+        }}
+      {{/task-list}}
+    </div>
+  {{/each-in}}
+{{/app-main}}

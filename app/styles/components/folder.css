@@ -10,6 +10,7 @@
   padding: 0 rem(20px);
   align-items: center;
   font-weight: var(--semi-bold);
+  text-transform: capitalize;
 }
 
 .c-folder__title-icon {

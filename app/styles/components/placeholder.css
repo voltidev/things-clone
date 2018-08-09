@@ -4,6 +4,7 @@
   flex-flow: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: rem(60px);
 }
 
 .c-placeholder__icon {

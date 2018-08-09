@@ -1,0 +1,10 @@
+<h1 class="c-folder__title">
+  {{svg-jar @folder class=(concat "c-folder__title-icon c-folder__title-icon--" @folder)}}
+  <div class="c-folder__title-text">{{or @folderTitle @folder}}</div>
+</h1>
+
+{{#if items}}
+  {{yield (action "selectBetween")}}
+{{else}}
+  {{list-placeholder folder=@folder}}
+{{/if}}

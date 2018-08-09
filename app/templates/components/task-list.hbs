@@ -6,10 +6,7 @@
           class="{{if (is-selected task) 'is-selected'}}"
           data-test-task-wrapper={{task.id}}
         >
-          {{yield
-            task
-            (action "selectBetween")
-          }}
+          {{yield task}}
         </div>
       {{/animated-each}}
     {{/animated-container}}
@@ -25,10 +22,7 @@
           class=(if (is-selected task) 'is-selected')
           data-test-task-wrapper=task.id
         }}
-          {{yield
-            task
-            (action "selectBetween")
-          }}
+          {{yield task}}
         {{/sortable-item}}
       {{/animated-each}}
     {{/animated-container}}

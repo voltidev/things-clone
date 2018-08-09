@@ -1,25 +1,16 @@
-<div class="l-container__content c-folder">
-  <h1 class="c-folder__title">
-    {{svg-jar "inbox" class="c-folder__title-icon c-folder__title-icon--inbox"}}
-    <div class="c-folder__title-text">Inbox</div>
-  </h1>
-
-  {{#if this.tasks}}
-    {{#task-list
-      tasks=this.tasks
-      reorderTasks=(route-action "reorderTasks")
-      as |task selectBetween|
+{{#app-main items=this.tasks folder="inbox" as |selectBetween|}}
+  {{#task-list
+    tasks=this.tasks
+    reorderTasks=(route-action "reorderTasks")
+    as |task|
+  }}
+    {{task-item
+      task=task
+      saveTask=(route-action "saveTask")
+      completeTask=(route-action "completeTask")
+      uncompleteTask=(route-action "uncompleteTask")
+      selectBetween=selectBetween
+      data-test-task=task.id
     }}
-      {{task-item
-        task=task
-        saveTask=(route-action "saveTask")
-        completeTask=(route-action "completeTask")
-        uncompleteTask=(route-action "uncompleteTask")
-        selectBetween=selectBetween
-        data-test-task=task.id
-      }}
-    {{/task-list}}
-  {{else}}
-    {{list-placeholder folder="inbox"}}
-  {{/if}}
-</div>
+  {{/task-list}}
+{{/app-main}}
