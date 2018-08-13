@@ -25,6 +25,10 @@
   &--logbook {
     fill: #41ad56;
   }
+
+  &--trash {
+    fill: #b1b6bb;
+  }
 }
 
 .c-folder__title-text {
@@ -44,4 +48,17 @@
   padding-bottom: rem(10px);
   border-bottom: 1px solid #eee;
   font-weight: var(--semi-bold);
+}
+
+.c-folder__buttons {
+  margin-bottom: rem(20px);
+  padding: 0 rem(16px);
+}
+
+.c-folder__button {
+  border: none;
+  border-radius: rem(4px);
+  background: #629cf0;
+  color: #fff;
+  padding: rem(4px) rem(16px);
 }

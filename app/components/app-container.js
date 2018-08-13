@@ -17,7 +17,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   hasSelected: alias('taskSelector.hasTasks'),
 
   canCreateTask: computed('router.currentRouteName', 'isEditing', function() {
-    return !this.isEditing && !['logbook'].includes(this.router.currentRouteName);
+    return !this.isEditing && !['logbook', 'trash'].includes(this.router.currentRouteName);
   }),
 
   shortcutNewTask: on(keyDown('KeyN'), function() {

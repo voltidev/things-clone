@@ -26,6 +26,10 @@
   &--logbook {
     fill: #41ad56;
   }
+
+  &--trash {
+    fill: #b1b6bb;
+  }
 }
 
 .c-sidebar-nav__text {

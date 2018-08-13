@@ -28,6 +28,19 @@ export default Route.extend({
       );
     },
 
+    destroyDeleteTasks() {
+      /* eslint-disable-next-line */
+      if (!confirm('Are you sure you want to remove the items in the Trash permanently?')) {
+        return Promise.resolve();
+      }
+
+      let deletedTasks = this.get('store')
+        .peekAll('task')
+        .filterBy('isDeleted', true);
+
+      return Promise.all(deletedTasks.map(task => task.destroyRecord()));
+    },
+
     reorderTasks(newOrderTasks) {
       let promises = newOrderTasks.reduce((saved, task, newOrder) => {
         if (task.order !== newOrder) {

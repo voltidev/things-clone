@@ -1,7 +1,7 @@
 <div class="c-placeholder" data-test-folder-placeholder>
   {{svg-jar @folder  class="c-placeholder__icon"}}
 
-  {{#if (not-eq @folder 'logbook')}}
+  {{#if (and (not-eq @folder 'logbook') (not-eq @folder 'trash'))}}
     <div class="c-placeholder__tips">
       <div class="c-placeholder__tips-item">
         <div class="c-placeholder__tips-text">Show all shortcuts</div>

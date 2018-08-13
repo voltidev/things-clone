@@ -3,8 +3,8 @@
   <div class="c-folder__title-text">{{or @folderTitle @folder}}</div>
 </h1>
 
-{{#if items}}
+{{#animated-if hasItems use=fade duration=200}}
   {{yield (action "selectBetween")}}
 {{else}}
   {{list-placeholder folder=@folder}}
-{{/if}}
+{{/animated-if}}

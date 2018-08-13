@@ -1,0 +1,21 @@
+{{#app-main items=this.tasks folder="trash" as |selectBetween|}}
+  <div class="c-folder__buttons">
+    <button class="c-folder__button" {{action (route-action "destroyDeleteTasks")}}>Empty Trash</button>
+  </div>
+
+  {{#task-list
+    tasks=this.tasks
+    isNotSortable=true
+    reorderTasks=(route-action "reorderTasks")
+    as |task|
+  }}
+    {{task-item
+      task=task
+      saveTask=(route-action "saveTask")
+      completeTask=(route-action "completeTask")
+      uncompleteTask=(route-action "uncompleteTask")
+      selectBetween=selectBetween
+      data-test-task=task.id
+    }}
+  {{/task-list}}
+{{/app-main}}

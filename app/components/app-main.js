@@ -1,15 +1,18 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
+import { alias, notEmpty } from '@ember/object/computed';
 import { on } from '@ember/object/evented';
 import { run } from '@ember/runloop';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
+import fade from 'ember-animated/transitions/fade';
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskSelector: service(),
   taskEditor: service(),
   classNames: ['l-container__content', 'c-folder'],
+  fade,
   hasSelected: alias('taskSelector.hasTasks'),
+  hasItems: notEmpty('items'),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {
     if (!this.hasSelected) {

@@ -9,6 +9,7 @@ const Router = EmberRouter.extend({
 Router.map(function() {
   this.route('inbox');
   this.route('logbook');
+  this.route('trash');
 });
 
 export default Router;
