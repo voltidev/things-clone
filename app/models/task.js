@@ -20,6 +20,7 @@ export default Model.extend({
   }),
 
   isInbox: equal('folder', 'inbox'),
+  isSomeday: equal('folder', 'someday'),
 
   logbookGroup: computed('completedAt', function() {
     return moment(this.completedAt).calendar(null, {

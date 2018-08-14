@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('inbox');
   this.route('logbook');
   this.route('trash');
+  this.route('someday');
 });
 
 export default Router;

@@ -1,17 +1,25 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
+  router: service(),
+
   model() {
     return this.get('store').findAll('task');
   },
 
   actions: {
     createTask() {
+      let folder = this.router.currentRouteName;
+
       let lastTask = this.get('store')
         .peekAll('task')
-        .sortBy('order').lastObject;
+        .filterBy('folder', folder)
+        .sortBy('order')
+        .lastObject;
+
       let order = lastTask ? lastTask.order + 1 : 0;
-      let newTask = this.store.createRecord('task', { order });
+      let newTask = this.store.createRecord('task', { order, folder });
       return newTask.save();
     },
 

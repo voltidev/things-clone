@@ -29,6 +29,10 @@
   &--trash {
     fill: #b1b6bb;
   }
+
+  &--someday {
+    fill: #bdb176;
+  }
 }
 
 .c-folder__title-text {
