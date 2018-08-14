@@ -36,11 +36,15 @@
   }
 
   &--today {
-    fill: #FFD402;
+    fill: #ffd402;
 
     .icon-today__border {
-      stroke: #F0C402;
+      stroke: #f0c402;
     }
+  }
+
+  &--anytime {
+    fill: #40a69b;
   }
 }
 

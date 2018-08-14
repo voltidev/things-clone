@@ -10,7 +10,9 @@ export default Route.extend({
 
   actions: {
     createTask() {
-      let folder = this.router.currentRouteName;
+      let route = this.router.currentRouteName;
+      let folder = route === 'today' ? 'anytime' : route;
+      let isToday = route === 'today';
 
       let lastTask = this.get('store')
         .peekAll('task')
@@ -19,7 +21,7 @@ export default Route.extend({
         .lastObject;
 
       let order = lastTask ? lastTask.order + 1 : 0;
-      let newTask = this.store.createRecord('task', { order, folder });
+      let newTask = this.store.createRecord('task', { order, folder, isToday });
       return newTask.save();
     },
 

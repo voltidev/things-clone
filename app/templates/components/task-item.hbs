@@ -18,6 +18,10 @@
   ></label>
 </div>
 
+{{#if @task.isToday}}
+  {{svg-jar "today" class="c-task__icon c-task__icon--star"}}
+{{/if}}
+
 {{#if isEditing}}
   {{input
     class="c-task__input js-task-input"

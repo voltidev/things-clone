@@ -8,6 +8,7 @@ export default Model.extend({
   name: attr('string'),
   order: attr('number', { defaultValue: 0 }),
   isCompleted: attr('boolean', { defaultValue: false }),
+  isToday: attr('boolean', { defaultValue: false }),
   completedAt: attr('date'),
   deletedAt: attr('date'),
   folder: attr('string', { defaultValue: 'inbox' }),
@@ -21,7 +22,7 @@ export default Model.extend({
 
   isInbox: equal('folder', 'inbox'),
   isSomeday: equal('folder', 'someday'),
-  isToday: equal('folder', 'today'),
+  isAnytime: equal('folder', 'anytime'),
 
   logbookGroup: computed('completedAt', function() {
     return moment(this.completedAt).calendar(null, {
@@ -33,11 +34,13 @@ export default Model.extend({
   }),
 
   complete() {
+    set(this, 'isToday', false);
     set(this, 'isCompleted', true);
     set(this, 'completedAt', new Date());
   },
 
   delete() {
+    set(this, 'isToday', false);
     set(this, 'isDeleted', true);
     set(this, 'deletedAt', new Date());
   },

@@ -12,6 +12,7 @@ Router.map(function() {
   this.route('trash');
   this.route('someday');
   this.route('today');
+  this.route('anytime');
 });
 
 export default Router;

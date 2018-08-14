@@ -14,7 +14,7 @@
   opacity: 0.06;
 
   &:not(:last-child) {
-    margin-bottom: rem(10px);
+    margin-bottom: rem(20px);
   }
 }
 

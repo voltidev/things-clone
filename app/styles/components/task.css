@@ -30,13 +30,28 @@
   }
 }
 
+.c-task__icon {
+  margin-left: rem(8px);
+  height: rem(14px);
+  width: rem(14px);
+
+  &--star {
+    padding-bottom: rem(1px);
+    fill: #FFD402;
+
+    .icon-today__border {
+      stroke: #F0C402;
+    }
+  }
+}
+
 .c-task__input {
   flex: 1;
   line-height: 1;
   font-size: rem(15px);
   background: transparent;
   border: 0;
-  padding: rem(10px);
+  padding: rem(8px);
   cursor: default;
 
   .is-editing & {
@@ -55,7 +70,7 @@
   flex: 1;
   line-height: 1;
   font-size: rem(15px);
-  padding: rem(10px);
+  padding: rem(8px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
