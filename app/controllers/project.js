@@ -1,13 +1,16 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 export default Controller.extend({
+  project: alias('model'),
+
   filteredTasks: computed(
-    'model.tasks.[]',
-    'model.tasks.@each.{isCompleted,isSomeday,isDeleted}',
+    'project.tasks.[]',
+    'project.tasks.@each.{isCompleted,isAnytime,isDeleted}',
     function() {
-      return this.model.tasks.filter(
-        task => task.isSomeday && !task.isCompleted && !task.isDeleted
+      return this.project.tasks.filter(
+        task => task.isAnytime && !task.isCompleted && !task.isDeleted
       );
     }
   ),

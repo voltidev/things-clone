@@ -46,4 +46,15 @@
       </div>
     {{/link-to}}
   </div>
+
+  <div class="c-sidebar-nav__section">
+    {{#each @projects as |project|}}
+      {{#link-to "project" project.id class="c-sidebar-nav__item" activeClass="is-active"}}
+        {{svg-jar "project" class="c-sidebar-nav__icon c-sidebar-nav__icon--project"}}
+        <div class="c-sidebar-nav__text">
+          {{or project.name 'New project'}}
+        </div>
+      {{/link-to}}
+    {{/each}}
+  </div>
 </div>

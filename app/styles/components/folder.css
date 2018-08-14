@@ -9,12 +9,9 @@
   margin-bottom: rem(40px);
   padding: 0 rem(20px);
   align-items: center;
-  font-weight: var(--semi-bold);
-  text-transform: capitalize;
 }
 
 .c-folder__title-icon {
-  margin-right: rem(6px);
   height: rem(24px);
   width: rem(24px);
 
@@ -45,10 +42,38 @@
   &--anytime {
     fill: #40a69b;
   }
+
+  &--project {
+    fill: #2694E7;
+
+    .icon-project__border {
+      stroke: #208CD9;
+    }
+  }
 }
 
 .c-folder__title-text {
   font-size: rem(24px);
+  font-weight: var(--semi-bold);
+  text-transform: capitalize;
+  padding: 0 rem(6px);
+}
+
+.c-folder__title-input {
+  flex: 1;
+  padding: 0 rem(6px);
+  line-height: 1;
+  font-size: rem(24px);
+  background: transparent;
+  border: 0;
+  cursor: default;
+  font-weight: var(--semi-bold);
+  color: var(--base-text-color);
+
+  &::placeholder {
+    color: #444;
+    opacity: 0.5;
+  }
 }
 
 .c-folder__group {

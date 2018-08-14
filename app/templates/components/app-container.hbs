@@ -1,6 +1,6 @@
 <div class="l-container__sidebar">
   <div class="l-container__content">
-    {{sidebar-nav}}
+    {{sidebar-nav projects=@projects}}
   </div>
   <div class="l-container__footer">
     <div class="c-sidebar-actions c-sidebar-actions--sidebar">
@@ -9,7 +9,13 @@
         title="Create a new list"
       >
         {{svg-jar "plus" class="c-sidebar-actions__icon c-sidebar-actions__icon--plus"}}
-        <div class="c-sidebar-actions__text">New List</div>
+
+        <div
+          class="c-sidebar-actions__text"
+          {{action @createProject}}
+        >
+          New Project
+        </div>
       </div>
     </div>
   </div>

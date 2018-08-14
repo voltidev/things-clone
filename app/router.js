@@ -13,6 +13,7 @@ Router.map(function() {
   this.route('someday');
   this.route('today');
   this.route('anytime');
+  this.route('project', { path: '/project/:id' });
 });
 
 export default Router;

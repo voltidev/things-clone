@@ -46,11 +46,20 @@
   &--anytime {
     fill: #40a69b;
   }
+
+  &--project {
+    fill: #2694E7;
+  }
 }
 
 .c-sidebar-nav__text {
+  flex: 1;
+  overflow: hidden;
   font-size: rem(16px);
   color: var(--base-text-color);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
 }
 
 .c-sidebar-nav__section {

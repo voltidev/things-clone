@@ -1,32 +1,52 @@
 import Route from '@ember/routing/route';
+import { set } from '@ember/object';
 import { inject as service } from '@ember/service';
+import RSVP from 'rsvp';
 
 export default Route.extend({
   router: service(),
 
   model() {
-    return this.get('store').findAll('task');
+    return RSVP.hash({
+      projects: this.get('store').findAll('project'),
+      tasks: this.get('store').findAll('task')
+    });
   },
 
   actions: {
+    createProject() {
+      let lastItem = this.get('store')
+        .peekAll('project')
+        .sortBy('order')
+        .lastObject;
+
+      let order = lastItem ? lastItem.order + 1 : 0;
+      let newItem = this.store.createRecord('project', { order });
+      return newItem.save().then(project => this.transitionTo('project', project));
+    },
+
     createTask() {
       let route = this.router.currentRouteName;
-      let folder = route === 'today' ? 'anytime' : route;
+      let folder = ['today', 'project'].includes(route) ? 'anytime' : route;
       let isToday = route === 'today';
+      let project = route === 'project'
+        ? this.store.peekRecord('project', this.router.currentURL.split('/')[2])
+        : null;
 
-      let lastTask = this.get('store')
+      let lastItem = this.get('store')
         .peekAll('task')
         .filterBy('folder', folder)
         .sortBy('order')
         .lastObject;
 
-      let order = lastTask ? lastTask.order + 1 : 0;
-      let newTask = this.store.createRecord('task', { order, folder, isToday });
-      return newTask.save();
+      let order = lastItem ? lastItem.order + 1 : 0;
+      let newItem = this.store.createRecord('task', { order, folder, isToday, project });
+      return newItem.save();
     },
 
-    saveTask(task) {
-      return task.save();
+    updateTaskName(task, name) {
+      set(task, 'name', name);
+      return task.save().catch(() => task.rollbackAttributes());
     },
 
     deleteTasks(tasks) {
@@ -71,6 +91,11 @@ export default Route.extend({
     uncompleteTask(task) {
       task.uncomplete();
       return task.save();
+    },
+
+    updateProjectName(project, name) {
+      set(project, 'name', name);
+      return project.save().catch(() => project.rollbackAttributes());
     }
   }
 });

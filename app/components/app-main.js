@@ -11,6 +11,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskEditor: service(),
   classNames: ['l-container__content', 'c-folder'],
   fade,
+  titleInputPlaceholder: 'New project',
   hasSelected: alias('taskSelector.hasTasks'),
   hasItems: notEmpty('items'),
 
@@ -82,6 +83,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   didRender() {
     this._super(...arguments);
     this.startHandlingRootClick();
+
+    if (this.project && !this.project.name) {
+      this.focusTitleInput();
+    }
   },
 
   willDestroyElement() {
@@ -89,6 +94,14 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   },
 
   actions: {
+    blurTitleInput() {
+      let input = this.element.querySelector('.js-title-input');
+
+      if (input) {
+        input.blur();
+      }
+    },
+
     selectBetween(clickedTask) {
       this.taskSelector.select(clickedTask);
       let selectedTasks = this.taskSelector.sortedTasks;
@@ -119,5 +132,13 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
   stopHandlingRootClick() {
     document.removeEventListener('mousedown', this.deselectAllOnSideClick, true);
+  },
+
+  focusTitleInput() {
+    let input = this.element.querySelector('.js-title-input');
+
+    if (input) {
+      input.focus();
+    }
   }
 });

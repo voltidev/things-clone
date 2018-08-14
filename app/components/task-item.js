@@ -7,11 +7,16 @@ import { run } from '@ember/runloop';
 export default Component.extend({
   taskEditor: service(),
   taskSelector: service(),
+  router: service(),
   classNames: ['c-task', 'js-task'],
   classNameBindings: ['isEditing', 'isCompleted'],
   task: null,
   placeholder: 'New To-Do',
   isCompleted: alias('task.isCompleted'),
+
+  isProjectShown: computed('router.currentRouteName', function() {
+    return ['logbook', 'trash', 'today'].includes(this.router.currentRouteName);
+  }),
 
   isEditing: computed('taskEditor.task', function() {
     return this.taskEditor.isEditing(this.task);
@@ -44,12 +49,12 @@ export default Component.extend({
   },
 
   actions: {
-    onEnter() {
+    stopEditing() {
       this.stopEditing();
     },
 
-    onEscape() {
-      this.stopEditing();
+    updateName(name) {
+      this.updateTaskName(this.task, name);
     },
 
     toggleTask(isChecked) {
@@ -92,20 +97,15 @@ export default Component.extend({
   },
 
   startEditing() {
-    if (this.isEditing) {
-      return;
+    if (!this.isEditing) {
+      this.taskEditor.edit(this.task);
     }
-
-    this.taskEditor.edit(this.task);
   },
 
   stopEditing() {
-    if (!this.isEditing) {
-      return;
+    if (this.isEditing) {
+      this.taskEditor.clear();
     }
-
-    this.taskEditor.clear();
-    this.saveTask(this.task);
   },
 
   startHandlingRootClick() {

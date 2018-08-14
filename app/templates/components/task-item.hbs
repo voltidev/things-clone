@@ -23,12 +23,13 @@
 {{/if}}
 
 {{#if isEditing}}
-  {{input
+  {{text-input
     class="c-task__input js-task-input"
     placeholder=this.placeholder
     value=@task.name
-    enter=(action "onEnter")
-    escape-press=(action "onEscape")
+    update=(action "updateName")
+    enter=(action "stopEditing")
+    escape-press=(action "stopEditing")
     data-test-task-name-input=true
   }}
 {{else}}
@@ -38,4 +39,10 @@
   >
     {{if @task.name @task.name this.placeholder}}
   </div>
+
+  {{#if (and @task.project this.isProjectShown)}}
+    <div class="c-task__project">
+      {{if @task.project.name @task.project.name 'New project'}}
+    </div>
+  {{/if}}
 {{/if}}

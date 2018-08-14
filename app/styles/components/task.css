@@ -119,3 +119,8 @@
     transform: rotate(-45deg);
   }
 }
+
+.c-task__project {
+  opacity: 0.5;
+  font-size: rem(13px);
+}

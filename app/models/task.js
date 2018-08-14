@@ -1,5 +1,6 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
+import { belongsTo } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import moment from 'moment';
@@ -19,6 +20,8 @@ export default Model.extend({
       return new Date();
     }
   }),
+
+  project: belongsTo('project'),
 
   isInbox: equal('folder', 'inbox'),
   isSomeday: equal('folder', 'someday'),

@@ -1,7 +1,29 @@
-<h1 class="c-folder__title">
-  {{svg-jar @folder class=(concat "c-folder__title-icon c-folder__title-icon--" @folder)}}
-  <div class="c-folder__title-text">{{or @folderTitle @folder}}</div>
-</h1>
+{{#if @project}}
+  <div class="c-folder__title">
+    {{svg-jar
+      @folder
+      class=(concat "c-folder__title-icon c-folder__title-icon--" @folder)
+    }}
+
+    {{text-input
+      class="c-folder__title-input js-title-input"
+      placeholder=this.titleInputPlaceholder
+      value=@project.name
+      update=(action @updateProjectName)
+      enter=(action "blurTitleInput")
+      escape-press=(action "blurTitleInput")
+    }}
+  </div>
+{{else}}
+  <div class="c-folder__title">
+    {{svg-jar
+      @folder
+      class=(concat "c-folder__title-icon c-folder__title-icon--" @folder)
+    }}
+
+    <div class="c-folder__title-text">{{@folder}}</div>
+  </div>
+{{/if}}
 
 {{#animated-if hasItems use=fade duration=200}}
   {{yield (action "selectBetween")}}
