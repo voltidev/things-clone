@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('logbook');
   this.route('trash');
   this.route('someday');
+  this.route('today');
 });
 
 export default Router;

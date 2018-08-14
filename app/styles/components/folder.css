@@ -33,6 +33,14 @@
   &--someday {
     fill: #bdb176;
   }
+
+  &--today {
+    fill: #FFD402;
+
+    .icon-today__border {
+      stroke: #F0C402;
+    }
+  }
 }
 
 .c-folder__title-text {

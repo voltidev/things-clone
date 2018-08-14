@@ -21,6 +21,7 @@ export default Model.extend({
 
   isInbox: equal('folder', 'inbox'),
   isSomeday: equal('folder', 'someday'),
+  isToday: equal('folder', 'today'),
 
   logbookGroup: computed('completedAt', function() {
     return moment(this.completedAt).calendar(null, {
