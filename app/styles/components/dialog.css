@@ -1,28 +1,42 @@
 .c-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: var(--z-index-dialog);
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   outline: 0;
-  background: #fff;
+  background: rgba(0, 0, 0, 0.2);
   animation: fade-in 150ms ease-out;
 }
 
 .c-dialog__inner {
-  max-width: rem(600px);
-  margin: 0 auto;
+  display: flex;
+  flex-flow: column;
+  width: rem(300px);
+  max-height: rem(400px);
+  background: #2b323a;
+  border-radius: rem(6px);
+  box-shadow: 0 rem(2px) rem(6px) rgba(0, 0, 0, 0.2);
 }
 
 .c-dialog__header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  height: rem(80px);
-  margin-bottom: rem(40px);
-  border-bottom: 1px solid #e8e9ea;
+}
+
+.c-dialog__title {
+  padding: rem(10px);
+  font-size: rem(18px);
+  font-weight: var(--book);
+  text-align: center;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .c-dialog__buttons-wrap {
@@ -33,24 +47,83 @@
   }
 }
 
-.c-dialog__title {
-  font-size: rem(26px);
-  text-align: center;
-  white-space: nowrap;
-}
-
-.c-dialog__close {
+.c-dialog__button {
   margin: 0;
   padding: rem(10px);
   border: 0;
   background: none;
   font-size: rem(16px);
-  font-weight: var(--light);
-  color: #aaa;
+  color: rgba(255, 255, 255, 0.6);
   transition: color 0.2s ease-out;
   cursor: pointer;
 
   &:hover {
     color: #777;
   }
+}
+
+.c-dialog__body {
+  flex: 1;
+  padding: 0 rem(10px);
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: rem(20px);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #2b323a;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: rem(6px) solid #2b323a;
+    border-radius: rem(10px);
+    background-color: #777;
+  }
+}
+
+.c-dialog__footer {
+  flex-shrink: 0;
+  height: rem(2px);
+}
+
+.c-dialog__options-item {
+  display: flex;
+  align-items: center;
+  padding: rem(4px) rem(8px);
+  border-radius: rem(4px);
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.1s ease-out;
+
+  &:hover,
+  &.is-active {
+    background: #0d95ec;
+    color: rgba(255, 255, 255, 1);
+  }
+}
+
+.c-dialog__options-icon {
+  margin-right: rem(8px);
+  height: rem(18px);
+  width: rem(18px);
+  fill: currentColor;
+
+  &--no {
+    padding: rem(2px);
+  }
+}
+
+.c-dialog__options-text {
+  flex: 1;
+  overflow: hidden;
+  font-size: rem(16px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
+  text-transform: capitalize;
+}
+
+.c-dialog__options-section {
+  margin-bottom: rem(14px);
 }

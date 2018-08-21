@@ -44,10 +44,10 @@
   }
 
   &--project {
-    fill: #2694E7;
+    fill: #2694e7;
 
     .icon-project__border {
-      stroke: #208CD9;
+      stroke: #208cd9;
     }
   }
 }
@@ -66,7 +66,6 @@
   font-size: rem(24px);
   background: transparent;
   border: 0;
-  cursor: default;
   font-weight: var(--semi-bold);
   color: var(--base-text-color);
 

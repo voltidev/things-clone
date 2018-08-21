@@ -4,6 +4,7 @@
 
 @import "shortcuts";
 @import "dialog";
+@import "fs-dialog";
 @import "folder";
 @import "sortable-item";
 @import "sidebar-nav";

@@ -4,10 +4,10 @@ import { computed } from '@ember/object';
 export default Controller.extend({
   filteredTasks: computed(
     'model.tasks.[]',
-    'model.tasks.@each.{isCompleted,isAnytime,isDeleted}',
+    'model.tasks.@each.{isCompleted,isAnytime,isToday,isDeleted}',
     function() {
       return this.model.tasks.filter(
-        task => task.isAnytime && !task.isCompleted && !task.isDeleted
+        task => (task.isAnytime || task.isToday) && !task.isCompleted && !task.isDeleted
       );
     }
   ),

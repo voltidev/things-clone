@@ -1,0 +1,56 @@
+.c-fs-dialog {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-index-dialog);
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  background: #fff;
+  animation: fade-in 150ms ease-out;
+}
+
+.c-fs-dialog__inner {
+  max-width: rem(600px);
+  margin: 0 auto;
+}
+
+.c-fs-dialog__header {
+  display: flex;
+  align-items: center;
+  height: rem(80px);
+  margin-bottom: rem(40px);
+  border-bottom: 1px solid #e8e9ea;
+}
+
+.c-fs-dialog__buttons-wrap {
+  flex: 1;
+
+  &:last-child {
+    text-align: right;
+  }
+}
+
+.c-fs-dialog__title {
+  font-size: rem(26px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.c-fs-dialog__close {
+  margin: 0;
+  padding: rem(10px);
+  border: 0;
+  background: none;
+  font-size: rem(16px);
+  font-weight: var(--light);
+  color: #aaa;
+  transition: color 0.2s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    color: #777;
+  }
+}

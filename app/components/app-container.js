@@ -13,8 +13,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskEditor: service(),
   classNames: ['l-container'],
   isShortcutsDialogOpen: false,
+  isMoveDialogOpen: false,
   isEditing: alias('taskEditor.hasTask'),
   hasSelected: alias('taskSelector.hasTasks'),
+  folders: Object.freeze(['inbox', 'today', 'anytime', 'someday']),
 
   canCreateTask: computed('router.currentRouteName', 'isEditing', function() {
     return !this.isEditing && !['logbook', 'trash'].includes(this.router.currentRouteName);
@@ -37,17 +39,48 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.toggleShortcutsDialog();
     },
 
+    toggleMoveDialog() {
+      this.toggleMoveDialog();
+    },
+
     createNewTask() {
       this.createNewTask();
     },
 
     deleteSelected() {
       this.deleteSelected();
+    },
+
+    moveSelectedToFolder(folder) {
+      if (!this.hasSelected) {
+        return;
+      }
+
+      this.toggleMoveDialog();
+      this.moveTasksToFolder(this.taskSelector.tasks, folder);
+    },
+
+    moveSelectedToProject(project) {
+      if (!this.hasSelected) {
+        return;
+      }
+
+      this.toggleMoveDialog();
+
+      if (project) {
+        this.moveTasksToProject(this.taskSelector.tasks, project);
+      } else {
+        this.removeTasksFromProject(this.taskSelector.tasks);
+      }
     }
   },
 
   toggleShortcutsDialog() {
     set(this, 'isShortcutsDialogOpen', !this.isShortcutsDialogOpen);
+  },
+
+  toggleMoveDialog() {
+    set(this, 'isMoveDialogOpen', !this.isMoveDialogOpen);
   },
 
   createNewTask() {

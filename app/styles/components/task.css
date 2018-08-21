@@ -37,10 +37,10 @@
 
   &--star {
     padding-bottom: rem(1px);
-    fill: #FFD402;
+    fill: #ffd402;
 
     .icon-today__border {
-      stroke: #F0C402;
+      stroke: #f0c402;
     }
   }
 }

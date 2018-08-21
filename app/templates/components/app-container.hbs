@@ -29,6 +29,7 @@
 
   {{#animated-if this.hasSelected use=transition duration=200}}
     {{actions-bar
+      openMoveDialog=(action "toggleMoveDialog")
       deleteSelected=(action "deleteSelected")
     }}
   {{/animated-if}}
@@ -37,6 +38,16 @@
 {{#if this.isShortcutsDialogOpen}}
   {{shortcuts-dialog
     close=(action "toggleShortcutsDialog")
+  }}
+{{/if}}
+
+{{#if this.isMoveDialogOpen}}
+  {{move-dialog
+    folders=this.folders
+    projects=@projects
+    close=(action "toggleMoveDialog")
+    moveSelectedToFolder=(action "moveSelectedToFolder")
+    moveSelectedToProject=(action "moveSelectedToProject")
   }}
 {{/if}}
 

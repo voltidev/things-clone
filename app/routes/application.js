@@ -58,6 +58,39 @@ export default Route.extend({
       );
     },
 
+    moveTasksToProject(tasks, project) {
+      return Promise.all(
+        tasks.map(task => {
+          task.moveToProject(project);
+          task.save();
+        })
+      );
+    },
+
+    removeTasksFromProject(tasks) {
+      return Promise.all(
+        tasks.map(task => {
+          task.removeFromProject();
+          task.save();
+        })
+      );
+    },
+
+    moveTasksToFolder(tasks, folder) {
+      return Promise.all(
+        tasks.map(task => {
+          task.moveToFolder(folder);
+
+          if (['logbook', 'trash'].includes(this.router.currentRouteName)) {
+            task.uncomplete();
+            task.undelete();
+          }
+
+          task.save();
+        })
+      );
+    },
+
     destroyDeleteTasks() {
       /* eslint-disable-next-line */
       if (!confirm('Are you sure you want to remove the items in the Trash permanently?')) {

@@ -7,10 +7,10 @@ export default Controller.extend({
 
   filteredTasks: computed(
     'project.tasks.[]',
-    'project.tasks.@each.{isCompleted,isAnytime,isDeleted}',
+    'project.tasks.@each.{isCompleted,isAnytime,isToday,isDeleted}',
     function() {
       return this.project.tasks.filter(
-        task => task.isAnytime && !task.isCompleted && !task.isDeleted
+        task => (task.isAnytime || task.isToday) && !task.isCompleted && !task.isDeleted
       );
     }
   ),

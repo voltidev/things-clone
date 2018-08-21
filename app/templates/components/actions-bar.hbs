@@ -1,4 +1,12 @@
 <div class="c-actions-bar js-actions-bar">
+  <div class="c-actions-bar__action" {{action @openMoveDialog}}>
+    {{svg-jar "move" class="c-actions-bar__icon"}}
+
+    <div class="c-actions-bar__text">
+      Move
+    </div>
+  </div>
+
   <div class="c-actions-bar__action" {{action @deleteSelected}}>
     {{svg-jar "delete" class="c-actions-bar__icon c-actions-bar__icon--delete"}}
 

@@ -119,8 +119,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       let isInternalClick = this.element.contains(target);
       let actionsBarEl = document.querySelector('.js-actions-bar');
       let isActionsBar = actionsBarEl && actionsBarEl.contains(target);
+      let moveDialogEl = document.querySelector('.js-move-dialog');
+      let isMoveDialog = moveDialogEl && moveDialogEl.contains(target);
 
-      if (!isInternalClick && !isActionsBar) {
+      if (!isInternalClick && !isActionsBar && !isMoveDialog) {
         this.taskSelector.clear();
       }
     });
