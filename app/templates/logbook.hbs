@@ -1,9 +1,16 @@
-{{#app-main items=this.tasks folder="logbook" as |selectBetween|}}
+{{#app-main
+  items=this.tasks
+  hasContent=this.hasContent
+  folder="logbook"
+  as |selectBetween|
+}}
   {{#each-in (group-by "logbookGroup" this.tasks) as |groupName groupItems|}}
     <div class="c-folder__group">
-      <div class="c-folder__group-name">
-        <div class="c-folder__group-name-text">
-          {{groupName}}
+      <div class="c-folder__group-title">
+        <div class="c-folder__group-title-inner">
+          <div class="c-folder__group-text">
+            {{groupName}}
+          </div>
         </div>
       </div>
 

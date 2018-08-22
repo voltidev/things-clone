@@ -1,4 +1,9 @@
-{{#app-main items=this.tasks folder="someday" as |selectBetween|}}
+{{#app-main
+  items=this.tasks
+  hasContent=this.hasContent
+  folder="someday"
+  as |selectBetween|
+}}
   {{#task-list
     tasks=this.tasks
     reorderTasks=(route-action "reorderTasks")

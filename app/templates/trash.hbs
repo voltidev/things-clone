@@ -1,4 +1,9 @@
-{{#app-main items=this.tasks folder="trash" as |selectBetween|}}
+{{#app-main
+  items=this.tasks
+  hasContent=this.hasContent
+  folder="trash"
+  as |selectBetween|
+}}
   <div class="c-folder__buttons">
     <button class="c-folder__button" {{action (route-action "destroyDeleteTasks")}}>Empty Trash</button>
   </div>

@@ -1,7 +1,7 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { hasMany } from 'ember-data/relationships';
-import { set } from '@ember/object';
+import { set, computed } from '@ember/object';
 
 export default Model.extend({
   name: attr('string'),
@@ -18,6 +18,10 @@ export default Model.extend({
   }),
 
   tasks: hasMany('task'),
+
+  isShownInAnytime: computed('tasks.[]', 'tasks.@each.{isShownInAnytime}', function() {
+    return this.tasks.any(task => task.isShownInAnytime);
+  }),
 
   complete() {
     set(this, 'isCompleted', true);

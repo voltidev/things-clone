@@ -79,14 +79,26 @@
   margin-bottom: rem(34px);
 }
 
-.c-folder__group-name {
+.c-folder__group-title {
   padding: 0 rem(16px);
   margin-bottom: rem(10px);
 }
 
-.c-folder__group-name-text {
+.c-folder__group-title-inner {
+  display: flex;
+  align-items: center;
   padding-bottom: rem(10px);
   border-bottom: 1px solid #eee;
+}
+
+.c-folder__group-icon {
+  margin-right: rem(8px);
+  height: rem(18px);
+  width: rem(18px);
+  fill: #2694e7;
+}
+
+.c-folder__group-text {
   font-weight: var(--semi-bold);
 }
 

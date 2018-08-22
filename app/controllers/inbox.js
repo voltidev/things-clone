@@ -1,16 +1,10 @@
 import Controller from '@ember/controller';
+import { filterBy, notEmpty } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
 export default Controller.extend({
-  filteredTasks: computed(
-    'model.tasks.[]',
-    'model.tasks.@each.{isCompleted,isInbox,isDeleted}',
-    function() {
-      return this.model.tasks.filter(
-        task => task.isInbox && !task.isCompleted && !task.isDeleted
-      );
-    }
-  ),
+  hasContent: notEmpty('filteredTasks'),
+  filteredTasks: filterBy('model.tasks', 'isShownInInbox'),
 
   tasks: computed('filteredTasks.{[],@each.order}', function() {
     return this.filteredTasks.sortBy('order');

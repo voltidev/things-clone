@@ -1,18 +1,27 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
+import { filterBy } from '@ember/object/computed';
+import move from 'ember-animated/motions/move';
+import { fadeIn, fadeOut } from 'ember-animated/motions/opacity';
 
 export default Controller.extend({
-  filteredTasks: computed(
+  anytimeProjects: filterBy('model.projects', 'isShownInAnytime'),
+
+  noProjectTasks: computed(
     'model.tasks.[]',
-    'model.tasks.@each.{isCompleted,isAnytime,isToday,isDeleted}',
+    'model.tasks.@each.{isShownInAnytime,hasProject}',
     function() {
-      return this.model.tasks.filter(
-        task => (task.isAnytime || task.isToday) && !task.isCompleted && !task.isDeleted
-      );
+      return this.model.tasks.filter(task => task.isShownInAnytime && !task.hasProject);
     }
   ),
 
-  tasks: computed('filteredTasks.{[],@each.order}', function() {
-    return this.filteredTasks.sortBy('order');
-  })
+  hasContent: computed('noProjectTasks.[]', 'anytimeProjects.[]', function() {
+    return this.noProjectTasks.length || this.anytimeProjects.length;
+  }),
+
+  * eachTransition({ keptSprites, insertedSprites, removedSprites }) {
+    keptSprites.forEach(move);
+    insertedSprites.forEach(fadeIn);
+    removedSprites.forEach(fadeOut);
+  }
 });

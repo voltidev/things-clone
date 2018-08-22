@@ -2,7 +2,7 @@ import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { belongsTo } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
+import { equal, or } from '@ember/object/computed';
 import moment from 'moment';
 
 const FOLDERS = ['inbox', 'today', 'anytime', 'someday'];
@@ -28,6 +28,36 @@ export default Model.extend({
   isToday: equal('folder', 'today'),
   isAnytime: equal('folder', 'anytime'),
   isSomeday: equal('folder', 'someday'),
+
+  isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
+
+  hasProject: computed('project', function() {
+    return this.belongsTo('project').id() !== null;
+  }),
+
+  isShownInInbox: computed('isInbox', 'isCompletedOrDeleted', function() {
+    return this.isInbox && !this.isCompletedOrDeleted;
+  }),
+
+  isShownInToday: computed('isToday', 'isCompletedOrDeleted', function() {
+    return this.isToday && !this.isCompletedOrDeleted;
+  }),
+
+  isShownInAnytime: computed('isAnytime', 'isToday', 'isCompletedOrDeleted', function() {
+    return (this.isAnytime || this.isToday) && !this.isCompletedOrDeleted;
+  }),
+
+  isShownInSomeday: computed('isSomeday', 'isCompletedOrDeleted', function() {
+    return this.isSomeday && !this.isCompletedOrDeleted;
+  }),
+
+  isShownInLogbook: computed('isCompleted', 'isDeleted', function() {
+    return this.isCompleted && !this.isDeleted;
+  }),
+
+  isShownInTrash: computed('isDeleted', function() {
+    return this.isDeleted;
+  }),
 
   logbookGroup: computed('completedAt', function() {
     return moment(this.completedAt).calendar(null, {

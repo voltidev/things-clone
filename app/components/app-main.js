@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { alias, notEmpty } from '@ember/object/computed';
+import { alias } from '@ember/object/computed';
 import { on } from '@ember/object/evented';
 import { run } from '@ember/runloop';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
@@ -13,7 +13,6 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   fade,
   titleInputPlaceholder: 'New project',
   hasSelected: alias('taskSelector.hasTasks'),
-  hasItems: notEmpty('items'),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {
     if (!this.hasSelected) {

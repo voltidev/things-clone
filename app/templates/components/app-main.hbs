@@ -25,7 +25,7 @@
   </div>
 {{/if}}
 
-{{#animated-if hasItems use=fade duration=200}}
+{{#animated-if hasContent use=fade duration=200}}
   {{yield (action "selectBetween")}}
 {{else}}
   {{list-placeholder folder=@folder}}
