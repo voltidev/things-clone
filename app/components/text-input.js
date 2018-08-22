@@ -1,10 +1,8 @@
 import Component from '@ember/component';
-import { EKMixin, EKFirstResponderOnFocusMixin } from 'ember-keyboard';
+import { on } from '@ember/object/evented';
+import { EKMixin, EKOnInsertMixin, EKFirstResponderOnFocusMixin, keyUp } from 'ember-keyboard';
 
-const ENTER_KEY = 13;
-const ESCAPE_KEY = 27;
-
-export default Component.extend(EKMixin, EKFirstResponderOnFocusMixin, {
+export default Component.extend(EKMixin, EKOnInsertMixin, EKFirstResponderOnFocusMixin, {
   tagName: 'input',
   type: 'text',
 
@@ -13,17 +11,13 @@ export default Component.extend(EKMixin, EKFirstResponderOnFocusMixin, {
     'placeholder'
   ],
 
-  keyUp(event) {
-    if (event.keyCode === ENTER_KEY && this.enter) {
-      this.enter(event);
-    } else if (event.keyCode === ESCAPE_KEY && this['escape-press']) {
-      this['escape-press'](event);
-    } else {
-      return;
-    }
+  onEnter: on(keyUp('Enter'), function(event) {
+    this.enter(event);
+  }),
 
-    event.stopPropagation();
-  },
+  onEscape: on(keyUp('Escape'), function(event) {
+    this['escape-press'](event);
+  }),
 
   change(event) {
     this._processNewValue(event.target.value);
