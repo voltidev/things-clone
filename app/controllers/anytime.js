@@ -1,11 +1,14 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { filterBy } from '@ember/object/computed';
+import { filterBy, notEmpty, or } from '@ember/object/computed';
 import move from 'ember-animated/motions/move';
 import { fadeIn, fadeOut } from 'ember-animated/motions/opacity';
 
 export default Controller.extend({
   anytimeProjects: filterBy('model.projects', 'isShownInAnytime'),
+  hasTasks: notEmpty('noProjectTasks'),
+  hasProjects: notEmpty('anytimeProjects'),
+  hasContent: or('hasTasks', 'hasProjects'),
 
   noProjectTasks: computed(
     'model.tasks.[]',
@@ -14,10 +17,6 @@ export default Controller.extend({
       return this.model.tasks.filter(task => task.isShownInAnytime && !task.hasProject);
     }
   ),
-
-  hasContent: computed('noProjectTasks.[]', 'anytimeProjects.[]', function() {
-    return this.noProjectTasks.length || this.anytimeProjects.length;
-  }),
 
   * eachTransition({ keptSprites, insertedSprites, removedSprites }) {
     keptSprites.forEach(move);
