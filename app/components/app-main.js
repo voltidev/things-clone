@@ -2,9 +2,25 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import { on } from '@ember/object/evented';
-import { run } from '@ember/runloop';
+import { run, scheduleOnce } from '@ember/runloop';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
 import fade from 'ember-animated/transitions/fade';
+
+function selectOnlyElement(element) {
+  if (!element) {
+    return;
+  }
+
+  element.dispatchEvent(new CustomEvent('selectonlyitem', { bubbles: true }));
+}
+
+function selectElement(element) {
+  if (!element) {
+    return;
+  }
+
+  element.dispatchEvent(new CustomEvent('selectitem', { bubbles: true }));
+}
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskSelector: service(),
@@ -25,52 +41,60 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   shortcutSelectNext: on(keyDown('ArrowDown'), function() {
+    let allElements = [...document.querySelectorAll('.js-task')];
+
     if (!this.taskSelector.hasTasks) {
-      this.taskSelector.select(this.items.firstObject);
+      selectOnlyElement(allElements.firstObject);
       return;
     }
 
-    let selectedTask = this.taskSelector.sortedTasks.firstObject;
-    let nextTask = this.items[this.items.indexOf(selectedTask) + 1];
-    this.taskSelector.selectOnly(nextTask || selectedTask);
+    let lastSelectedElement = [...document.querySelectorAll('.js-task.is-selected')].lastObject;
+    let nextElement = allElements[allElements.indexOf(lastSelectedElement) + 1];
+    selectOnlyElement(nextElement || lastSelectedElement);
   }),
 
   shortcutSelectNextWithShift: on(keyDown('ArrowDown+shift'), function() {
+    let allElements = [...document.querySelectorAll('.js-task')];
+
     if (!this.taskSelector.hasTasks) {
-      this.taskSelector.select(this.items.firstObject);
+      selectOnlyElement(allElements.firstObject);
       return;
     }
 
-    let selectedTask = this.taskSelector.sortedTasks.lastObject;
-    let nextTask = this.items[this.items.indexOf(selectedTask) + 1];
+    let lastSelectedElement = [...document.querySelectorAll('.js-task.is-selected')].lastObject;
+    let nextElement = allElements[allElements.indexOf(lastSelectedElement) + 1];
 
-    if (nextTask) {
-      this.taskSelector.select(nextTask);
+    if (nextElement) {
+      selectElement(nextElement);
     }
   }),
 
   shortcutSelecPrevious: on(keyDown('ArrowUp'), function() {
+    let allElements = [...document.querySelectorAll('.js-task')];
+
     if (!this.taskSelector.hasTasks) {
-      this.taskSelector.select(this.items.lastObject);
+      selectOnlyElement(allElements.lastObject);
       return;
     }
 
-    let selectedTask = this.taskSelector.sortedTasks.firstObject;
-    let previousTask = this.items[this.items.indexOf(selectedTask) - 1];
-    this.taskSelector.selectOnly(previousTask || selectedTask);
+    let firstSelectedElement = document.querySelector('.js-task.is-selected');
+    let previousElement = allElements[allElements.indexOf(firstSelectedElement) - 1];
+    selectOnlyElement(previousElement || firstSelectedElement);
   }),
 
   shortcutSelecPreviousWithShift: on(keyDown('ArrowUp+shift'), function() {
+    let allElements = [...document.querySelectorAll('.js-task')];
+
     if (!this.taskSelector.hasTasks) {
-      this.taskSelector.select(this.items.lastObject);
+      selectOnlyElement(allElements.lastObject);
       return;
     }
 
-    let selectedTask = this.taskSelector.sortedTasks.firstObject;
-    let previousTask = this.items[this.items.indexOf(selectedTask) - 1];
+    let firstSelectedElement = document.querySelector('.js-task.is-selected');
+    let previousElement = allElements[allElements.indexOf(firstSelectedElement) - 1];
 
-    if (previousTask) {
-      this.taskSelector.select(previousTask);
+    if (previousElement) {
+      selectElement(previousElement);
     }
   }),
 
@@ -101,16 +125,26 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       }
     },
 
-    selectBetween(clickedTask) {
-      this.taskSelector.select(clickedTask);
-      let selectedTasks = this.taskSelector.sortedTasks;
-      let firstTask = selectedTasks.firstObject;
-      let lastTask = clickedTask !== firstTask ? clickedTask : selectedTasks.lastObject;
-
-      this.taskSelector.selectOnly(
-        ...this.items.filter(({ order }) => order >= firstTask.order && order <= lastTask.order)
-      );
+    selectBetween(clickedElement) {
+      scheduleOnce('afterRender', this, this.handleSelectBetween, clickedElement);
     }
+  },
+
+  handleSelectBetween(clickedElement) {
+    let allElements = [...document.querySelectorAll('.js-task')];
+    let selectedElements = [...document.querySelectorAll('.js-task.is-selected')];
+    let firstSelectedElement = selectedElements.firstObject;
+    let lastSelectedElement = clickedElement === firstSelectedElement
+      ? selectedElements.lastObject
+      : clickedElement;
+
+    let firstElementIndex = allElements.indexOf(firstSelectedElement);
+    let lastElementIndex = allElements.indexOf(lastSelectedElement);
+
+    this.taskSelector.clear();
+    allElements
+      .filter((_, index) => index >= firstElementIndex && index <= lastElementIndex)
+      .forEach(element => selectElement(element));
   },
 
   deselectAllOnSideClick({ target }) {

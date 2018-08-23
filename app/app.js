@@ -3,13 +3,14 @@ import loadInitializers from 'ember-load-initializers';
 import config from 'things/config/environment';
 import Resolver from './resolver';
 
-// Disable velocity during testing
-// velocity.mock = config.isTest;
-
 const App = Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
-  Resolver
+  Resolver,
+  customEvents: Object.freeze({
+    selectitem: 'onSelectItem',
+    selectonlyitem: 'onSelectOnlyItem'
+  })
 });
 
 loadInitializers(App, config.modulePrefix);

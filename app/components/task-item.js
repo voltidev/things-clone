@@ -9,7 +9,7 @@ export default Component.extend({
   taskSelector: service(),
   router: service(),
   classNames: ['c-task', 'js-task'],
-  classNameBindings: ['isEditing', 'isCompleted'],
+  classNameBindings: ['isEditing', 'isCompleted', 'isSelected'],
   task: null,
   placeholder: 'New To-Do',
   isCompleted: alias('task.isCompleted'),
@@ -74,6 +74,14 @@ export default Component.extend({
     this.startEditing();
   },
 
+  onSelectOnlyItem() {
+    this.taskSelector.selectOnly(this.task);
+  },
+
+  onSelectItem() {
+    this.taskSelector.select(this.task);
+  },
+
   focusInput() {
     let input = this.element.querySelector('.js-task-input');
 
@@ -88,7 +96,8 @@ export default Component.extend({
     }
 
     if (shiftKey && this.taskSelector.hasTasks) {
-      this.selectBetween(this.task);
+      this.taskSelector.select(this.task);
+      this.selectBetween(this.element);
     } else if (metaKey) {
       this.taskSelector.toggle(this.task);
     } else {
