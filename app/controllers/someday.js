@@ -5,6 +5,7 @@ import move from 'ember-animated/motions/move';
 import { fadeIn, fadeOut } from 'ember-animated/motions/opacity';
 
 export default Controller.extend({
+  isProjectListShown: false,
   hasTasks: notEmpty('noProjectTasks'),
   hasProjects: notEmpty('somedayProjects'),
   hasContent: or('hasTasks', 'hasProjects'),

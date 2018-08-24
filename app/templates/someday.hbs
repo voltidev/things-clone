@@ -20,32 +20,42 @@
     {{/task-list}}
   </div>
 
-  {{#animated-each (sort-by "order" somedayProjects) use=eachTransition duration=200 as |project|}}
-    <div class="c-folder__group">
-      <div class="c-folder__group-title">
-        <div class="c-folder__group-title-inner">
-          {{svg-jar "project" class="c-folder__group-icon"}}
+  {{#if hasProjects}}
+    <div class="c-folder__buttons">
+      <button class="c-folder__button" {{action (toggle "isProjectListShown" this)}}>
+        {{if isProjectListShown "Hide items from projects" "Show items from projects"}}
+      </button>
+    </div>
+  {{/if}}
 
-          <div class="c-folder__group-text">
-            {{project.name}}
+  {{#animated-if this.isProjectListShown use=eachTransition duration=200}}
+    {{#animated-each (sort-by "order" somedayProjects) use=eachTransition duration=200 as |project|}}
+      <div class="c-folder__group">
+        <div class="c-folder__group-title">
+          <div class="c-folder__group-title-inner">
+            {{svg-jar "project" class="c-folder__group-icon"}}
+
+            <div class="c-folder__group-text">
+              {{project.name}}
+            </div>
           </div>
         </div>
-      </div>
 
-      {{#task-list
-        tasks=(sort-by "order" (filter-by "isShownInSomeday" project.tasks))
-        reorderItems=(route-action "reorderItems")
-        as |task|
-      }}
-        {{task-item
-          task=task
-          updateTaskName=(route-action "updateTaskName")
-          completeTask=(route-action "completeTask")
-          uncompleteTask=(route-action "uncompleteTask")
-          selectBetween=selectBetween
-          data-test-task=task.id
+        {{#task-list
+          tasks=(sort-by "order" (filter-by "isShownInSomeday" project.tasks))
+          reorderItems=(route-action "reorderItems")
+          as |task|
         }}
-      {{/task-list}}
-    </div>
-  {{/animated-each}}
+          {{task-item
+            task=task
+            updateTaskName=(route-action "updateTaskName")
+            completeTask=(route-action "completeTask")
+            uncompleteTask=(route-action "uncompleteTask")
+            selectBetween=selectBetween
+            data-test-task=task.id
+          }}
+        {{/task-list}}
+      </div>
+    {{/animated-each}}
+  {{/animated-if}}
 {{/app-main}}

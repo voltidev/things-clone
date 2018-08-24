@@ -104,13 +104,42 @@
 
 .c-folder__buttons {
   margin-bottom: rem(20px);
-  padding: 0 rem(16px);
+  padding: 0 rem(12px);
 }
 
 .c-folder__button {
-  border: none;
+  padding: rem(4px) rem(12px);
+  border: 1px solid #eee;
   border-radius: rem(4px);
+  line-height: 1;
+  text-align: center;
+  color: #999;
+  cursor: pointer;
+  background: none;
+
+  &:hover {
+    border-color: #ddd;
+    color: #888;
+  }
+
+  &:active {
+    background-color: #eee;
+    border-color: #eee;
+  }
+}
+
+.c-folder__button--action {
+  border-color: transparent;
   background: #629cf0;
   color: #fff;
-  padding: rem(4px) rem(16px);
+
+  &:hover {
+    border-color: transparent;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: #5b8fe0;
+    border-color: transparent;
+  }
 }

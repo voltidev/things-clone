@@ -4,7 +4,12 @@
   as |selectBetween|
 }}
   <div class="c-folder__buttons">
-    <button class="c-folder__button" {{action (route-action "destroyDeleteTasks")}}>Empty Trash</button>
+    <button
+      class="c-folder__button c-folder__button--action"
+      {{action (route-action "destroyDeleteTasks")}}
+    >
+      Empty Trash
+    </button>
   </div>
 
   {{#task-list
