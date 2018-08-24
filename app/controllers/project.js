@@ -1,13 +1,14 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { filterBy, alias, notEmpty } from '@ember/object/computed';
+import { filterBy, alias, notEmpty, or } from '@ember/object/computed';
+import fade from 'ember-animated/transitions/fade';
 
 export default Controller.extend({
+  fade,
+  areLaterItemsShown: false,
   project: alias('model'),
-  filteredTasks: filterBy('project.tasks', 'isShownInAnytime'),
-  hasContent: notEmpty('filteredTasks'),
-
-  tasks: computed('filteredTasks.{[],@each.order}', function() {
-    return this.filteredTasks.sortBy('order');
-  })
+  anytimeTasks: filterBy('project.tasks', 'isShownInAnytime'),
+  somedayTasks: filterBy('project.tasks', 'isShownInSomeday'),
+  hasAnytime: notEmpty('anytimeTasks'),
+  hasSomeday: notEmpty('somedayTasks'),
+  hasContent: or('hasAnytime', 'hasSomeday')
 });
