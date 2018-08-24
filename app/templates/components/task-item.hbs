@@ -12,7 +12,7 @@
     data-test-task-checkbox
   >
   <label
-    class="c-task__checkbox-label js-checkbox"
+    class="c-task__checkbox-label js-checkbox {{if @task.isShownInSomeday 'c-task__checkbox-label--someday'}}"
     for="task-checkbox-{{@task.id}}"
     data-test-task-checkbox-label
   ></label>

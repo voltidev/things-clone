@@ -99,6 +99,10 @@
   background: transparent;
   transition: all 300ms ease-out;
 
+  &--someday {
+    border-style: dashed;
+  }
+
   .is-completed & {
     animation: pulse 500ms;
   }
