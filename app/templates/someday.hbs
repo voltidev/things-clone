@@ -3,18 +3,49 @@
   folder="someday"
   as |selectBetween|
 }}
-  {{#task-list
-    tasks=this.tasks
-    reorderItems=(route-action "reorderItems")
-    as |task|
-  }}
-    {{task-item
-      task=task
-      updateTaskName=(route-action "updateTaskName")
-      completeTask=(route-action "completeTask")
-      uncompleteTask=(route-action "uncompleteTask")
-      selectBetween=selectBetween
-      data-test-task=task.id
+  <div class="c-folder__group">
+    {{#task-list
+      tasks=(sort-by "order" this.noProjectTasks)
+      reorderItems=(route-action "reorderItems")
+      as |task|
     }}
-  {{/task-list}}
+      {{task-item
+        task=task
+        updateTaskName=(route-action "updateTaskName")
+        completeTask=(route-action "completeTask")
+        uncompleteTask=(route-action "uncompleteTask")
+        selectBetween=selectBetween
+        data-test-task=task.id
+      }}
+    {{/task-list}}
+  </div>
+
+  {{#animated-each (sort-by "order" somedayProjects) use=eachTransition duration=200 as |project|}}
+    <div class="c-folder__group">
+      <div class="c-folder__group-title">
+        <div class="c-folder__group-title-inner">
+          {{svg-jar "project" class="c-folder__group-icon"}}
+
+          <div class="c-folder__group-text">
+            {{project.name}}
+          </div>
+        </div>
+      </div>
+
+      {{#task-list
+        tasks=(sort-by "order" (filter-by "isShownInSomeday" project.tasks))
+        reorderItems=(route-action "reorderItems")
+        as |task|
+      }}
+        {{task-item
+          task=task
+          updateTaskName=(route-action "updateTaskName")
+          completeTask=(route-action "completeTask")
+          uncompleteTask=(route-action "uncompleteTask")
+          selectBetween=selectBetween
+          data-test-task=task.id
+        }}
+      {{/task-list}}
+    </div>
+  {{/animated-each}}
 {{/app-main}}

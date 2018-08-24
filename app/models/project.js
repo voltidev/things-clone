@@ -23,6 +23,10 @@ export default Model.extend({
     return this.tasks.any(task => task.isShownInAnytime);
   }),
 
+  isShownInSomeday: computed('tasks.[]', 'tasks.@each.{isShownInSomeday}', function() {
+    return this.tasks.any(task => task.isShownInSomeday);
+  }),
+
   complete() {
     set(this, 'isCompleted', true);
     set(this, 'completedAt', new Date());

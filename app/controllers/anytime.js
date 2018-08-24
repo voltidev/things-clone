@@ -5,10 +5,10 @@ import move from 'ember-animated/motions/move';
 import { fadeIn, fadeOut } from 'ember-animated/motions/opacity';
 
 export default Controller.extend({
-  anytimeProjects: filterBy('model.projects', 'isShownInAnytime'),
   hasTasks: notEmpty('noProjectTasks'),
   hasProjects: notEmpty('anytimeProjects'),
   hasContent: or('hasTasks', 'hasProjects'),
+  anytimeProjects: filterBy('model.projects', 'isShownInAnytime'),
 
   noProjectTasks: computed(
     'model.tasks.[]',
