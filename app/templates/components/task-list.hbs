@@ -12,7 +12,7 @@
     {{/animated-container}}
   </div>
 {{else}}
-  {{#sortable-group class="c-task-list" onChange=@reorderTasks as |group|}}
+  {{#sortable-group class="c-task-list" onChange=@reorderItems as |group|}}
     {{#animated-container}}
       {{#animated-each this.tasks use=eachTransition duration=200 as |task|}}
         {{#sortable-item

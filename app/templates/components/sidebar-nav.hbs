@@ -1,60 +1,66 @@
-<div class="c-sidebar-nav">
-  <div class="c-sidebar-nav__section">
-    {{#link-to "inbox" class="c-sidebar-nav__item" activeClass="is-active"}}
-      {{svg-jar "inbox" class="c-sidebar-nav__icon c-sidebar-nav__icon--inbox"}}
-      <div class="c-sidebar-nav__text">
-        Inbox
-      </div>
-    {{/link-to}}
-  </div>
-
-  <div class="c-sidebar-nav__section">
-    {{#link-to "today" class="c-sidebar-nav__item" activeClass="is-active"}}
-      {{svg-jar "today" class="c-sidebar-nav__icon c-sidebar-nav__icon--today"}}
-      <div class="c-sidebar-nav__text">
-        Today
-      </div>
-    {{/link-to}}
-
-    {{#link-to "anytime" class="c-sidebar-nav__item" activeClass="is-active"}}
-      {{svg-jar "anytime" class="c-sidebar-nav__icon c-sidebar-nav__icon--anytime"}}
-      <div class="c-sidebar-nav__text">
-        Anytime
-      </div>
-    {{/link-to}}
-
-    {{#link-to "someday" class="c-sidebar-nav__item" activeClass="is-active"}}
-      {{svg-jar "someday" class="c-sidebar-nav__icon c-sidebar-nav__icon--someday"}}
-      <div class="c-sidebar-nav__text">
-        Someday
-      </div>
-    {{/link-to}}
-  </div>
-
-  <div class="c-sidebar-nav__section">
-    {{#link-to "logbook" class="c-sidebar-nav__item" activeClass="is-active"}}
-      {{svg-jar "logbook" class="c-sidebar-nav__icon c-sidebar-nav__icon--logbook"}}
-      <div class="c-sidebar-nav__text">
-        Logbook
-      </div>
-    {{/link-to}}
-
-    {{#link-to "trash" class="c-sidebar-nav__item" activeClass="is-active"}}
-      {{svg-jar "trash" class="c-sidebar-nav__icon c-sidebar-nav__icon--trash"}}
-      <div class="c-sidebar-nav__text">
-        Trash
-      </div>
-    {{/link-to}}
-  </div>
-
-  <div class="c-sidebar-nav__section">
-    {{#each @projects as |project|}}
-      {{#link-to "project" project.id class="c-sidebar-nav__item" activeClass="is-active"}}
-        {{svg-jar "project" class="c-sidebar-nav__icon c-sidebar-nav__icon--project"}}
-        <div class="c-sidebar-nav__text">
-          {{or project.name 'New project'}}
-        </div>
-      {{/link-to}}
-    {{/each}}
-  </div>
+<div class="c-sidebar-nav__section">
+  {{#link-to "inbox" class="c-sidebar-nav__item" activeClass="is-active"}}
+    {{svg-jar "inbox" class="c-sidebar-nav__icon c-sidebar-nav__icon--inbox"}}
+    <div class="c-sidebar-nav__text">
+      Inbox
+    </div>
+  {{/link-to}}
 </div>
+
+<div class="c-sidebar-nav__section">
+  {{#link-to "today" class="c-sidebar-nav__item" activeClass="is-active"}}
+    {{svg-jar "today" class="c-sidebar-nav__icon c-sidebar-nav__icon--today"}}
+    <div class="c-sidebar-nav__text">
+      Today
+    </div>
+  {{/link-to}}
+
+  {{#link-to "anytime" class="c-sidebar-nav__item" activeClass="is-active"}}
+    {{svg-jar "anytime" class="c-sidebar-nav__icon c-sidebar-nav__icon--anytime"}}
+    <div class="c-sidebar-nav__text">
+      Anytime
+    </div>
+  {{/link-to}}
+
+  {{#link-to "someday" class="c-sidebar-nav__item" activeClass="is-active"}}
+    {{svg-jar "someday" class="c-sidebar-nav__icon c-sidebar-nav__icon--someday"}}
+    <div class="c-sidebar-nav__text">
+      Someday
+    </div>
+  {{/link-to}}
+</div>
+
+<div class="c-sidebar-nav__section">
+  {{#link-to "logbook" class="c-sidebar-nav__item" activeClass="is-active"}}
+    {{svg-jar "logbook" class="c-sidebar-nav__icon c-sidebar-nav__icon--logbook"}}
+    <div class="c-sidebar-nav__text">
+      Logbook
+    </div>
+  {{/link-to}}
+
+  {{#link-to "trash" class="c-sidebar-nav__item" activeClass="is-active"}}
+    {{svg-jar "trash" class="c-sidebar-nav__icon c-sidebar-nav__icon--trash"}}
+    <div class="c-sidebar-nav__text">
+      Trash
+    </div>
+  {{/link-to}}
+</div>
+
+{{#sortable-group class="c-sidebar-nav__section" onChange=@reorderItems as |group|}}
+  {{#animated-container}}
+    {{#animated-each (sort-by 'order' @projects) use=eachTransition duration=200 as |project|}}
+      {{#sortable-item
+        model=project
+        group=group
+        distance=2
+      }}
+        {{#link-to "project" project.id class="c-sidebar-nav__item" activeClass="is-active"}}
+          {{svg-jar "project" class="c-sidebar-nav__icon c-sidebar-nav__icon--project"}}
+          <div class="c-sidebar-nav__text">
+            {{or project.name 'New project'}}
+          </div>
+        {{/link-to}}
+      {{/sortable-item}}
+    {{/animated-each}}
+  {{/animated-container}}
+{{/sortable-group}}

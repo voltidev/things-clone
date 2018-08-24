@@ -103,11 +103,11 @@ export default Route.extend({
       return Promise.all(deletedTasks.map(task => task.destroyRecord()));
     },
 
-    reorderTasks(newOrderTasks) {
-      let promises = newOrderTasks.reduce((saved, task, newOrder) => {
-        if (task.order !== newOrder) {
-          task.set('order', newOrder);
-          saved.push(task.save());
+    reorderItems(newOrderItems) {
+      let promises = newOrderItems.reduce((saved, item, newOrder) => {
+        if (item.order !== newOrder) {
+          item.set('order', newOrder);
+          saved.push(item.save());
         }
         return saved;
       }, []);

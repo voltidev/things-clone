@@ -6,7 +6,7 @@
   <div class="c-folder__group">
     {{#task-list
       tasks=(sort-by "order" this.noProjectTasks)
-      reorderTasks=(route-action "reorderTasks")
+      reorderItems=(route-action "reorderItems")
       as |task|
     }}
       {{task-item
@@ -34,7 +34,7 @@
 
       {{#task-list
         tasks=(sort-by "order" (filter-by "isShownInAnytime" project.tasks))
-        reorderTasks=(route-action "reorderTasks")
+        reorderItems=(route-action "reorderItems")
         as |task|
       }}
         {{task-item

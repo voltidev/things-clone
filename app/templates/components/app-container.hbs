@@ -1,6 +1,9 @@
 <div class="l-container__sidebar">
   <div class="l-container__content">
-    {{sidebar-nav projects=@projects}}
+    {{sidebar-nav
+      projects=@projects
+      reorderItems=@reorderItems
+    }}
   </div>
   <div class="l-container__footer">
     <div class="c-sidebar-actions c-sidebar-actions--sidebar">
