@@ -30,6 +30,21 @@
   }
 }
 
+.c-task__completed-at {
+  font-size: rem(14px);
+  margin-left: rem(10px);
+  color: #2560bd;
+}
+
+.c-task__project {
+  margin-left: rem(8px);
+  padding: rem(1px) rem(8px);
+  background: rgba(0, 0, 0, 0.07);
+  border-radius: rem(4px);
+  font-size: rem(14px);
+  color: rgba(0, 0, 0, 0.4);
+}
+
 .c-task__icon {
   margin-left: rem(8px);
   height: rem(14px);
@@ -77,8 +92,7 @@
   user-select: none;
   transition: opacity 300ms ease-out;
 
-  &--placeholder,
-  .is-completed & {
+  &--placeholder {
     opacity: 0.5;
   }
 }
@@ -122,9 +136,4 @@
     border-bottom: 1px solid var(--white);
     transform: rotate(-45deg);
   }
-}
-
-.c-task__project {
-  opacity: 0.5;
-  font-size: rem(13px);
 }

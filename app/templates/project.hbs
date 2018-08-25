@@ -2,7 +2,11 @@
   hasContent=this.hasContent
   folder="project"
   project=this.project
-  updateProjectName=(route-action "updateProjectName" this.project)
+  updateProjectName=(route-action "updateItemName" this.project)
+  completeProject=(pipe (route-action "completeItem" this.project) (route-action "replaceRoute" "today"))
+  uncompleteProject=(route-action "uncompleteItem" this.project)
+  deleteProject=(pipe (route-action "deleteItem" this.project) (route-action "replaceRoute" "today"))
+  undeleteProject=(route-action "undeleteItem" this.project)
   as |selectBetween|
 }}
   <div class="c-folder__group">
@@ -13,9 +17,9 @@
     }}
       {{task-item
         task=task
-        updateTaskName=(route-action "updateTaskName")
-        completeTask=(route-action "completeTask")
-        uncompleteTask=(route-action "uncompleteTask")
+        updateItemName=(route-action "updateItemName")
+        completeItem=(route-action "completeItem")
+        uncompleteItem=(route-action "uncompleteItem")
         selectBetween=selectBetween
         data-test-task=task.id
       }}
@@ -25,27 +29,58 @@
   {{#if hasSomeday}}
     <div class="c-folder__buttons">
       <button class="c-folder__button" {{action (toggle "areLaterItemsShown" this)}}>
-        {{if areLaterItemsShown "Hide" "Show"}} later items
+        {{if this.areLaterItemsShown "Hide" "Show"}} later items
       </button>
     </div>
   {{/if}}
 
-  {{#animated-if this.areLaterItemsShown use=fade duration=200}}
-    <div class="c-folder__group">
-      {{#task-list
-        tasks=(sort-by "order" this.somedayTasks)
-        reorderItems=(route-action "reorderItems")
-        as |task|
-      }}
-        {{task-item
-          task=task
-          updateTaskName=(route-action "updateTaskName")
-          completeTask=(route-action "completeTask")
-          uncompleteTask=(route-action "uncompleteTask")
-          selectBetween=selectBetween
-          data-test-task=task.id
+  {{#animated-container}}
+    {{#animated-if this.areLaterItemsShown use=fade duration=200}}
+      <div class="c-folder__group">
+        {{#task-list
+          tasks=(sort-by "order" this.somedayTasks)
+          reorderItems=(route-action "reorderItems")
+          as |task|
         }}
-      {{/task-list}}
+          {{task-item
+            task=task
+            updateItemName=(route-action "updateItemName")
+            completeItem=(route-action "completeItem")
+            uncompleteItem=(route-action "uncompleteItem")
+            selectBetween=selectBetween
+            data-test-task=task.id
+          }}
+        {{/task-list}}
+      </div>
+    {{/animated-if}}
+  {{/animated-container}}
+
+  {{#if hasLogbook}}
+    <div class="c-folder__buttons">
+      <button class="c-folder__button" {{action (toggle "areLoggedItemsShown" this)}}>
+        {{if this.areLoggedItemsShown "Hide" "Show"}} logged items
+      </button>
     </div>
-  {{/animated-if}}
+  {{/if}}
+
+  {{#animated-container}}
+    {{#animated-if this.areLoggedItemsShown use=fade duration=200}}
+      <div class="c-folder__group">
+        {{#task-list
+          tasks=(sort-by "order" this.logbookTasks)
+          reorderItems=(route-action "reorderItems")
+          as |task|
+        }}
+          {{task-item
+            task=task
+            updateItemName=(route-action "updateItemName")
+            completeItem=(route-action "completeItem")
+            uncompleteItem=(route-action "uncompleteItem")
+            selectBetween=selectBetween
+            data-test-task=task.id
+          }}
+        {{/task-list}}
+      </div>
+    {{/animated-if}}
+  {{/animated-container}}
 {{/app-main}}

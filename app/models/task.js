@@ -68,13 +68,25 @@ export default Model.extend({
     });
   }),
 
-  complete() {
-    set(this, 'isCompleted', true);
-    set(this, 'completedAt', new Date());
+  completedAtDisplay: computed('completedAt', function() {
+    return moment(this.completedAt).calendar(null, {
+      sameDay: '[Today]',
+      lastDay: '[Yesterday]',
+      lastWeek: 'MMMM',
+      sameElse: 'MMMM'
+    });
+  }),
 
+  unstar() {
     if (this.isToday) {
       this.moveToFolder('anytime');
     }
+  },
+
+  complete() {
+    set(this, 'isCompleted', true);
+    set(this, 'completedAt', new Date());
+    this.unstar();
   },
 
   uncomplete() {
@@ -84,10 +96,7 @@ export default Model.extend({
   delete() {
     set(this, 'isDeleted', true);
     set(this, 'deletedAt', new Date());
-
-    if (this.isToday) {
-      this.moveToFolder('anytime');
-    }
+    this.unstar();
   },
 
   undelete() {

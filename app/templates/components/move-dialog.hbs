@@ -37,7 +37,7 @@
 
           {{#each @projects as |project|}}
             <div class="c-dialog__options-item" {{action @moveSelectedToProject project}}>
-              {{svg-jar "project" class="c-dialog__options-icon"}}
+              {{svg-jar "project" class="c-dialog__options-icon c-dialog__options-icon--project"}}
 
               <div class="c-dialog__options-text">
                 {{or project.name 'New project'}}

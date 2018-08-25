@@ -6,12 +6,18 @@
 
 .c-folder__title {
   display: flex;
+  align-items: center;
   margin-bottom: rem(40px);
   padding: 0 rem(20px);
-  align-items: center;
 }
 
-.c-folder__title-icon {
+.c-folder__title-action {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.c-folder__icon {
   height: rem(24px);
   width: rem(24px);
 
@@ -44,11 +50,7 @@
   }
 
   &--project {
-    fill: #2694e7;
-
-    .icon-project__border {
-      stroke: #208cd9;
-    }
+    fill: #1b61c2;
   }
 }
 
@@ -82,6 +84,15 @@
 .c-folder__group-title {
   padding: 0 rem(16px);
   margin-bottom: rem(10px);
+  color: var(--base-text-color);
+}
+
+.c-folder__project-link {
+  text-decoration: none;
+
+  &:hover {
+    color: #3493e2;
+  }
 }
 
 .c-folder__group-title-inner {

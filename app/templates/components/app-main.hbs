@@ -1,9 +1,48 @@
 {{#if @project}}
   <div class="c-folder__title">
-    {{svg-jar
-      @folder
-      class=(concat "c-folder__title-icon c-folder__title-icon--" @folder)
-    }}
+    {{#basic-dropdown class="c-dropdown" renderInPlace=true as |dropdown|}}
+      {{#dropdown.trigger class="c-dropdown__trigger"}}
+        {{svg-jar "arrow-down" class="c-dropdown__trigger-icon"}}
+      {{/dropdown.trigger}}
+
+      {{#dropdown.content class="c-dropdown__content"}}
+        <div class="c-dropdown__section">
+          {{#if @project.isCompleted}}
+            <div class="c-dropdown__item" {{action (queue dropdown.actions.close @uncompleteProject)}}>
+              {{svg-jar "project" class="c-dropdown__item-icon"}}
+              <div class="c-dropdown__item-text">Mark project as incomplete</div>
+            </div>
+          {{else}}
+            <div class="c-dropdown__item" {{action (queue dropdown.actions.close @completeProject)}}>
+              {{svg-jar "complete-project" class="c-dropdown__item-icon"}}
+              <div class="c-dropdown__item-text">Complete project</div>
+            </div>
+          {{/if}}
+
+          {{#if @project.isDeleted}}
+            <div class="c-dropdown__item" {{action (queue dropdown.actions.close @undeleteProject)}}>
+              {{svg-jar "redo" class="c-dropdown__item-icon"}}
+              <div class="c-dropdown__item-text">Put back deleted project</div>
+            </div>
+          {{else}}
+            <div class="c-dropdown__item" {{action (queue dropdown.actions.close @deleteProject)}}>
+              {{svg-jar "delete2" class="c-dropdown__item-icon"}}
+              <div class="c-dropdown__item-text">Delete project</div>
+            </div>
+          {{/if}}
+        </div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+
+    {{#if @project.isCompleted}}
+      <div class="c-folder__title-action" title="Mark project as incomplete" {{action @uncompleteProject}}>
+        {{svg-jar "completed-project" class="c-folder__icon"}}
+      </div>
+    {{else}}
+      <div class="c-folder__title-action" title="Mark project as complete" {{action @completeProject}}>
+        {{svg-jar "project" class="c-folder__icon c-folder__icon--project"}}
+      </div>
+    {{/if}}
 
     {{text-input
       class="c-folder__title-input js-title-input"
@@ -18,7 +57,7 @@
   <div class="c-folder__title">
     {{svg-jar
       @folder
-      class=(concat "c-folder__title-icon c-folder__title-icon--" @folder)
+      class=(concat "c-folder__icon c-folder__icon--" @folder)
     }}
 
     <div class="c-folder__title-text">{{@folder}}</div>

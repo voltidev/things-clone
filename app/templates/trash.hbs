@@ -6,7 +6,7 @@
   <div class="c-folder__buttons">
     <button
       class="c-folder__button c-folder__button--action"
-      {{action (route-action "destroyDeleteTasks")}}
+      {{action (route-action "destroyDeletedItems")}}
     >
       Empty Trash
     </button>
@@ -20,9 +20,9 @@
   }}
     {{task-item
       task=task
-      updateTaskName=(route-action "updateTaskName")
-      completeTask=(route-action "completeTask")
-      uncompleteTask=(route-action "uncompleteTask")
+      updateItemName=(route-action "updateItemName")
+      completeItem=(route-action "completeItem")
+      uncompleteItem=(route-action "uncompleteItem")
       selectBetween=selectBetween
       data-test-task=task.id
     }}

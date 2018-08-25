@@ -4,11 +4,13 @@ import fade from 'ember-animated/transitions/fade';
 
 export default Controller.extend({
   fade,
-  areLaterItemsShown: false,
   project: alias('model'),
   anytimeTasks: filterBy('project.tasks', 'isShownInAnytime'),
   somedayTasks: filterBy('project.tasks', 'isShownInSomeday'),
+  logbookTasks: filterBy('project.tasks', 'isShownInLogbook'),
+
   hasAnytime: notEmpty('anytimeTasks'),
   hasSomeday: notEmpty('somedayTasks'),
-  hasContent: or('hasAnytime', 'hasSomeday')
+  hasLogbook: notEmpty('logbookTasks'),
+  hasContent: or('hasAnytime', 'hasSomeday', 'hasLogbook')
 });

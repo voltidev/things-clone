@@ -11,8 +11,8 @@ function renderComponent() {
     {{task-item
       task=task
       saveTask=saveTask
-      completeTask=completeTask
-      uncompleteTask=uncompleteTask
+      completeItem=completeItem
+      uncompleteItem=uncompleteItem
       selectBetween=selectBetween
       data-test-task=true
     }}
@@ -27,8 +27,8 @@ module('Integration | Component | task-item', function(hooks) {
     this.task = make('task');
     this.set('task', this.task);
     this.set('saveTask', () => null);
-    this.set('completeTask', () => null);
-    this.set('uncompleteTask', () => null);
+    this.set('completeItem', () => null);
+    this.set('uncompleteItem', () => null);
     this.set('selectBetween', () => null);
   });
 
@@ -177,23 +177,23 @@ module('Integration | Component | task-item', function(hooks) {
     assert.notOk(taskSelector.isSelected(this.task), 'task is not selected');
   });
 
-  test('it calls completeTask action on checkbox click', async function(assert) {
-    let completeTask = spy();
-    this.set('completeTask', completeTask);
+  test('it calls completeItem action on checkbox click', async function(assert) {
+    let completeItem = spy();
+    this.set('completeItem', completeItem);
     this.task.set('isCompleted', false);
     await renderComponent();
     await click('[data-test-task-checkbox]');
     await new Promise(resolve => setTimeout(() => resolve(), 100));
-    assert.ok(completeTask.calledOnceWith(this.task));
+    assert.ok(completeItem.calledOnceWith(this.task));
   });
 
-  test('it calls uncompleteTask action on checkbox click', async function(assert) {
-    let uncompleteTask = spy();
-    this.set('uncompleteTask', uncompleteTask);
+  test('it calls uncompleteItem action on checkbox click', async function(assert) {
+    let uncompleteItem = spy();
+    this.set('uncompleteItem', uncompleteItem);
     this.task.set('isCompleted', true);
     await renderComponent();
     await click('[data-test-task-checkbox]');
-    assert.ok(uncompleteTask.calledOnceWith(this.task));
+    assert.ok(uncompleteItem.calledOnceWith(this.task));
   });
 
   test('it is not editing by default', async function(assert) {

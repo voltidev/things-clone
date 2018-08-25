@@ -14,15 +14,73 @@ export default Route.extend({
   },
 
   actions: {
-    createProject() {
-      let lastItem = this.get('store')
-        .peekAll('project')
-        .sortBy('order')
-        .lastObject;
+    replaceRoute(route) {
+      this.replaceWith(route);
+    },
 
-      let order = lastItem ? lastItem.order + 1 : 0;
-      let newItem = this.store.createRecord('project', { order });
-      return newItem.save().then(project => this.transitionTo('project', project));
+    updateItemName(item, name) {
+      set(item, 'name', name);
+      return item.save().catch(() => item.rollbackAttributes());
+    },
+
+    completeItem(item) {
+      item.complete();
+      return item.save();
+    },
+
+    uncompleteItem(item) {
+      item.uncomplete();
+      return item.save();
+    },
+
+    reorderItems(newOrderItems) {
+      let promises = newOrderItems.reduce((saved, item, newOrder) => {
+        if (item.order !== newOrder) {
+          item.set('order', newOrder);
+          saved.push(item.save());
+        }
+        return saved;
+      }, []);
+
+      return Promise.all(promises);
+    },
+
+    deleteItem(item) {
+      item.delete();
+      return item.save();
+    },
+
+    deleteItems(tasks) {
+      return Promise.all(
+        tasks.map(task => {
+          task.delete();
+          return task.save();
+        })
+      );
+    },
+
+    undeleteItem(item) {
+      item.undelete();
+      return item.save();
+    },
+
+    destroyDeletedItems() {
+      /* eslint-disable-next-line */
+      if (!confirm('Are you sure you want to remove the items in the Trash permanently?')) {
+        return Promise.resolve();
+      }
+
+      let deletedTasks = this.get('store')
+        .peekAll('task')
+        .filterBy('isDeleted', true);
+
+      let deletedProjects = this.get('store')
+        .peekAll('project')
+        .filterBy('isDeleted', true);
+
+      let deletedItems = [...deletedTasks, ...deletedProjects];
+
+      return Promise.all(deletedItems.map(item => item.destroyRecord()));
     },
 
     createTask() {
@@ -43,25 +101,11 @@ export default Route.extend({
       return newItem.save();
     },
 
-    updateTaskName(task, name) {
-      set(task, 'name', name);
-      return task.save().catch(() => task.rollbackAttributes());
-    },
-
-    deleteTasks(tasks) {
-      return Promise.all(
-        tasks.map(task => {
-          task.delete();
-          task.save();
-        })
-      );
-    },
-
     moveTasksToProject(tasks, project) {
       return Promise.all(
         tasks.map(task => {
           task.moveToProject(project);
-          task.save();
+          return task.save();
         })
       );
     },
@@ -70,7 +114,7 @@ export default Route.extend({
       return Promise.all(
         tasks.map(task => {
           task.removeFromProject();
-          task.save();
+          return task.save();
         })
       );
     },
@@ -85,49 +129,20 @@ export default Route.extend({
             task.undelete();
           }
 
-          task.save();
+          return task.save();
         })
       );
     },
 
-    destroyDeleteTasks() {
-      /* eslint-disable-next-line */
-      if (!confirm('Are you sure you want to remove the items in the Trash permanently?')) {
-        return Promise.resolve();
-      }
+    createProject() {
+      let lastItem = this.get('store')
+        .peekAll('project')
+        .sortBy('order')
+        .lastObject;
 
-      let deletedTasks = this.get('store')
-        .peekAll('task')
-        .filterBy('isDeleted', true);
-
-      return Promise.all(deletedTasks.map(task => task.destroyRecord()));
-    },
-
-    reorderItems(newOrderItems) {
-      let promises = newOrderItems.reduce((saved, item, newOrder) => {
-        if (item.order !== newOrder) {
-          item.set('order', newOrder);
-          saved.push(item.save());
-        }
-        return saved;
-      }, []);
-
-      return Promise.all(promises);
-    },
-
-    completeTask(task) {
-      task.complete();
-      return task.save();
-    },
-
-    uncompleteTask(task) {
-      task.uncomplete();
-      return task.save();
-    },
-
-    updateProjectName(project, name) {
-      set(project, 'name', name);
-      return project.save().catch(() => project.rollbackAttributes());
+      let order = lastItem ? lastItem.order + 1 : 0;
+      let newItem = this.store.createRecord('project', { order });
+      return newItem.save().then(project => this.transitionTo('project', project));
     }
   }
 });

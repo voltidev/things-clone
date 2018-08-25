@@ -54,14 +54,14 @@ export default Component.extend({
     },
 
     updateName(name) {
-      this.updateTaskName(this.task, name);
+      this.updateItemName(this.task, name);
     },
 
     toggleTask(isChecked) {
       if (isChecked) {
-        this.completeTask(this.task);
+        this.completeItem(this.task);
       } else {
-        this.uncompleteTask(this.task);
+        this.uncompleteItem(this.task);
       }
     }
   },

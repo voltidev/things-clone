@@ -33,16 +33,22 @@
     data-test-task-name-input=true
   }}
 {{else}}
-  <div
-    class="c-task__name {{if (not @task.name) 'c-task__name--placeholder'}}"
-    data-test-task-name
-  >
-    {{if @task.name @task.name this.placeholder}}
-  </div>
+  {{#if @task.isShownInLogbook}}
+    <div class="c-task__completed-at">
+      {{@task.completedAtDisplay}}
+    </div>
+  {{/if}}
 
   {{#if (and @task.project this.isProjectShown)}}
     <div class="c-task__project">
       {{if @task.project.name @task.project.name 'New project'}}
     </div>
   {{/if}}
+
+  <div
+    class="c-task__name {{if (not @task.name) 'c-task__name--placeholder'}}"
+    data-test-task-name
+  >
+    {{if @task.name @task.name this.placeholder}}
+  </div>
 {{/if}}

@@ -48,7 +48,7 @@
 
 {{#sortable-group class="c-sidebar-nav__section" onChange=@reorderItems as |group|}}
   {{#animated-container}}
-    {{#animated-each (sort-by 'order' @projects) use=eachTransition duration=200 as |project|}}
+    {{#animated-each (sort-by 'order' (filter-by "isCompletedOrDeleted" false @projects)) use=eachTransition duration=200 as |project|}}
       {{#sortable-item
         model=project
         group=group

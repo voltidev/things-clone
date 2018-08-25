@@ -11,9 +11,9 @@
     }}
       {{task-item
         task=task
-        updateTaskName=(route-action "updateTaskName")
-        completeTask=(route-action "completeTask")
-        uncompleteTask=(route-action "uncompleteTask")
+        updateItemName=(route-action "updateItemName")
+        completeItem=(route-action "completeItem")
+        uncompleteItem=(route-action "uncompleteItem")
         selectBetween=selectBetween
         data-test-task=task.id
       }}
@@ -31,7 +31,7 @@
   {{#animated-if this.isProjectListShown use=eachTransition duration=200}}
     {{#animated-each (sort-by "order" somedayProjects) use=eachTransition duration=200 as |project|}}
       <div class="c-folder__group">
-        <div class="c-folder__group-title">
+        {{#link-to "project" project class="c-folder__group-title c-folder__project-link"}}
           <div class="c-folder__group-title-inner">
             {{svg-jar "project" class="c-folder__group-icon"}}
 
@@ -39,7 +39,7 @@
               {{project.name}}
             </div>
           </div>
-        </div>
+        {{/link-to}}
 
         {{#task-list
           tasks=(sort-by "order" (filter-by "isShownInSomeday" project.tasks))
@@ -48,9 +48,9 @@
         }}
           {{task-item
             task=task
-            updateTaskName=(route-action "updateTaskName")
-            completeTask=(route-action "completeTask")
-            uncompleteTask=(route-action "uncompleteTask")
+            updateItemName=(route-action "updateItemName")
+            completeItem=(route-action "completeItem")
+            uncompleteItem=(route-action "uncompleteItem")
             selectBetween=selectBetween
             data-test-task=task.id
           }}

@@ -99,7 +99,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       return;
     }
 
-    this.deleteTasks(this.taskSelector.tasks);
+    this.deleteItems(this.taskSelector.tasks);
     this.taskSelector.clear();
   },
 

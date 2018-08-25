@@ -18,6 +18,7 @@
   --base-background-color: #fff;
 
   /* z-index */
+  --z-index-fs-dialog: 1000;
   --z-index-dialog: 500;
   --z-index-floating-button: 100;
   --z-index-sortable-item: 10;

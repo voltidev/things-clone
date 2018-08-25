@@ -47,7 +47,7 @@
 {{#if this.isMoveDialogOpen}}
   {{move-dialog
     folders=this.folders
-    projects=@projects
+    projects=(sort-by 'order' (filter-by "isCompletedOrDeleted" false @projects))
     close=(action "toggleMoveDialog")
     moveSelectedToFolder=(action "moveSelectedToFolder")
     moveSelectedToProject=(action "moveSelectedToProject")
