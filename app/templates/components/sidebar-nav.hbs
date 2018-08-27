@@ -55,7 +55,11 @@
         distance=2
       }}
         {{#link-to "project" project.id class="c-sidebar-nav__item" activeClass="is-active"}}
-          {{svg-jar "project" class="c-sidebar-nav__icon c-sidebar-nav__icon--project"}}
+          {{progress-pie
+            class="c-sidebar-nav__icon c-sidebar-nav__icon--project"
+            progress=project.progress
+          }}
+
           <div class="c-sidebar-nav__text">
             {{or project.name 'New project'}}
           </div>

@@ -22,6 +22,23 @@ export default Model.extend({
 
   isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
 
+  progress: computed(
+    'tasks.[]',
+    'tasks.@each.{isCompleted,isDeleted}',
+    function() {
+      let activeTasks = this.tasks.filter(task => !task.isDeleted);
+      let completedTasks = activeTasks.filter(task => task.isCompleted);
+      let activeTasksCount = activeTasks.length;
+      let completedTasksCount = completedTasks.length;
+
+      if (activeTasksCount === 0 || completedTasksCount === 0) {
+        return 0;
+      }
+
+      return 100 / (activeTasksCount / completedTasksCount);
+    }
+  ),
+
   isShownInAnytime: computed(
     'isCompletedOrDeleted',
     'tasks.[]',

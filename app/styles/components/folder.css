@@ -50,7 +50,7 @@
   }
 
   &--project {
-    fill: #1b61c2;
+    color: #1b61c2;
   }
 }
 
@@ -106,7 +106,10 @@
   margin-right: rem(8px);
   height: rem(18px);
   width: rem(18px);
-  fill: #2694e7;
+
+  &--project {
+    color: #1b61c2;
+  }
 }
 
 .c-folder__group-text {

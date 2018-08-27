@@ -24,7 +24,10 @@
     <div class="c-folder__group">
       {{#link-to "project" project class="c-folder__group-title c-folder__project-link"}}
         <div class="c-folder__group-title-inner">
-          {{svg-jar "project" class="c-folder__group-icon"}}
+          {{progress-pie
+            class="c-folder__group-icon c-folder__group-icon--project"
+            progress=project.progress
+          }}
 
           <div class="c-folder__group-text">
             {{project.name}}

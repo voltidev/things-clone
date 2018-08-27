@@ -40,7 +40,10 @@
       </div>
     {{else}}
       <div class="c-folder__title-action" title="Mark project as complete" {{action @completeProject}}>
-        {{svg-jar "project" class="c-folder__icon c-folder__icon--project"}}
+        {{progress-pie
+          class="c-folder__icon c-folder__icon--project"
+          progress=@project.progress
+        }}
       </div>
     {{/if}}
 
