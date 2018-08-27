@@ -13,7 +13,7 @@
   </div>
 
   {{items-list
-    items=this.tasks
+    items=(sort-by "deletedAt:desc" this.items)
     isNotSortable=true
     updateItemName=(route-action "updateItemName")
     completeItem=(route-action "completeItem")

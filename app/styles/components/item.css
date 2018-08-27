@@ -121,22 +121,15 @@
     border-style: dashed;
   }
 
-  .c-item--project & {
-    border-radius: 50%;
-  }
-
   .is-completed & {
     animation: pulse 500ms;
   }
 
   .c-item__checkbox-input:checked + & {
+  transform: scale(1.16);
     background-color: #2560bd;
     border-color: #165abc;
-    transform: scale(1.15);
-  }
-
-  .c-item--project .c-item__checkbox-input:checked + & {
-    transform: scale(1.26);
+    transform: scale(1.16);
   }
 
   .c-item__checkbox-input:checked + &::after {
@@ -148,4 +141,16 @@
     border-bottom: 1px solid var(--white);
     transform: rotate(-45deg);
   }
+}
+
+.c-item__project-pie {
+  display: flex;
+  align-items: center;
+  transform: scale(1.16);
+}
+
+.c-item__project-pie-icon {
+  height: rem(15px);
+  width: rem(15px);
+  color: #2560bd;
 }

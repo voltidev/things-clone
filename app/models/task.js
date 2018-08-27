@@ -2,7 +2,7 @@ import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { belongsTo } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
-import { equal, or } from '@ember/object/computed';
+import { equal, or, alias } from '@ember/object/computed';
 import moment from 'moment';
 
 const FOLDERS = ['inbox', 'today', 'anytime', 'someday'];
@@ -30,6 +30,7 @@ export default Model.extend({
   isSomeday: equal('folder', 'someday'),
 
   isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
+  isShownInTrash: alias('isDeleted'),
 
   hasProject: computed('project', function() {
     return this.belongsTo('project').id() !== null;
@@ -53,10 +54,6 @@ export default Model.extend({
 
   isShownInLogbook: computed('isCompleted', 'isDeleted', function() {
     return this.isCompleted && !this.isDeleted;
-  }),
-
-  isShownInTrash: computed('isDeleted', function() {
-    return this.isDeleted;
   }),
 
   logbookGroup: computed('completedAt', function() {

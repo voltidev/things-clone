@@ -2,7 +2,7 @@ import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { hasMany } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
-import { or } from '@ember/object/computed';
+import { or, alias } from '@ember/object/computed';
 import moment from 'moment';
 
 export default Model.extend({
@@ -22,6 +22,7 @@ export default Model.extend({
   tasks: hasMany('task'),
 
   isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
+  isShownInTrash: alias('isDeleted'),
 
   progress: computed('tasks.[]', 'tasks.@each.{isCompleted,isDeleted}', function() {
     let activeTasks = this.tasks.filter(task => !task.isDeleted);

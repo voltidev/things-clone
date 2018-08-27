@@ -15,16 +15,6 @@ export default Component.extend({
     return this.itemSelector.isSelected(this.item);
   }),
 
-  actions: {
-    toggleItemCompletion(isChecked) {
-      if (isChecked) {
-        this.completeItem(this.item);
-      } else {
-        this.uncompleteItem(this.item);
-      }
-    }
-  },
-
   mouseDown(event) {
     this.selectItem(event);
   },
@@ -42,7 +32,7 @@ export default Component.extend({
   },
 
   selectItem({ target, metaKey, shiftKey }) {
-    if (target.classList.contains('js-checkbox')) {
+    if (this.element.querySelector('.js-project-pie').contains(target)) {
       return;
     }
 

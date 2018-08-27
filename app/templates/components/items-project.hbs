@@ -1,17 +1,12 @@
-<div class="c-item__checkbox">
-  <input
-    class="c-item__checkbox-input js-checkbox"
-    id="item-checkbox-{{@item.id}}"
-    type="checkbox"
-    checked={{@item.isCompleted}}
-    onclick={{action "toggleItemCompletion" value="target.checked"}}
-    data-test-item-checkbox
-  >
-  <label
-    class="c-item__checkbox-label js-checkbox {{if @item.isShownInSomeday 'c-item__checkbox-label--someday'}}"
-    for="item-checkbox-{{@item.id}}"
-  ></label>
-</div>
+{{#if @item.isCompleted}}
+  <div class="c-item__project-pie js-project-pie" title="Mark project as incomplete" {{action @uncompleteItem @item}}>
+    {{svg-jar "completed-project" class="c-item__project-pie-icon" }}
+  </div>
+{{else}}
+  <div class="c-item__project-pie js-project-pie" title="Mark project as complete" {{action @completeItem @item}}>
+    {{progress-pie class="c-item__project-pie-icon" progress=@item.progress}}
+  </div>
+{{/if}}
 
 {{#if @item.isShownInLogbook}}
   <div class="c-item__completed-at">
