@@ -6,5 +6,10 @@
 }
 
 .c-progress-pie__circle {
-  transition: stroke-dasharray 0.3s ease;
+  transition: stroke-dasharray 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+
+  .is-zero > & {
+    opacity: 0;
+  }
 }
