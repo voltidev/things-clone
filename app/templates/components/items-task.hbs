@@ -1,10 +1,10 @@
-<div class="c-task__checkbox">
+<div class="c-item__checkbox">
   {{!-- FIXME:
   Current checkbox implementation can return the input or the label on click event,
   so I have to use the same `js-checkbox` class to check if the checkbox was clicked.
   In a better implementation the same element will always be returned as the target.--}}
   <input
-    class="c-task__checkbox-input js-checkbox"
+    class="c-item__checkbox-input js-checkbox"
     id="task-checkbox-{{@task.id}}"
     type="checkbox"
     checked={{@task.isCompleted}}
@@ -12,19 +12,19 @@
     data-test-task-checkbox
   >
   <label
-    class="c-task__checkbox-label js-checkbox {{if @task.isShownInSomeday 'c-task__checkbox-label--someday'}}"
+    class="c-item__checkbox-label js-checkbox {{if @task.isShownInSomeday 'c-item__checkbox-label--someday'}}"
     for="task-checkbox-{{@task.id}}"
     data-test-task-checkbox-label
   ></label>
 </div>
 
 {{#if @task.isToday}}
-  {{svg-jar "today" class="c-task__icon c-task__icon--star"}}
+  {{svg-jar "today" class="c-item__icon c-item__icon--star"}}
 {{/if}}
 
 {{#if isEditing}}
   {{text-input
-    class="c-task__input js-task-input"
+    class="c-item__input js-item-input"
     placeholder=this.placeholder
     value=@task.name
     update=(action "updateName")
@@ -34,19 +34,19 @@
   }}
 {{else}}
   {{#if @task.isShownInLogbook}}
-    <div class="c-task__completed-at">
+    <div class="c-item__completed-at">
       {{@task.completedAtDisplay}}
     </div>
   {{/if}}
 
   {{#if (and @task.project this.isProjectShown)}}
-    <div class="c-task__project">
+    <div class="c-item__project">
       {{if @task.project.name @task.project.name 'New project'}}
     </div>
   {{/if}}
 
   <div
-    class="c-task__name {{if (not @task.name) 'c-task__name--placeholder'}}"
+    class="c-item__name {{if (not @task.name) 'c-item__name--placeholder'}}"
     data-test-task-name
   >
     {{if @task.name @task.name this.placeholder}}

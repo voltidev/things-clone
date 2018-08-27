@@ -23,45 +23,52 @@ function selectElement(element) {
 }
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
-  taskSelector: service(),
+  router: service(),
+  itemSelector: service(),
   taskEditor: service(),
   classNames: ['l-container__content', 'c-folder'],
   fade,
   titleInputPlaceholder: 'New project',
-  hasSelected: alias('taskSelector.hasTasks'),
+  hasSelected: alias('itemSelector.hasItems'),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {
     if (!this.hasSelected) {
       return;
     }
 
-    let taskToEdit = this.taskSelector.tasks.lastObject;
-    this.taskEditor.edit(taskToEdit);
-    this.taskSelector.selectOnly(taskToEdit);
+    let item = this.itemSelector.items.lastObject;
+
+    if (item.isProject) {
+      this.router.transitionTo('project', item);
+      return;
+    }
+
+    this.taskEditor.edit(item);
+    this.itemSelector.selectOnly(item);
   }),
 
   shortcutSelectNext: on(keyDown('ArrowDown'), function() {
-    let allElements = [...document.querySelectorAll('.js-task')];
+    let allElements = [...document.querySelectorAll('.js-item')];
 
-    if (!this.taskSelector.hasTasks) {
+    if (!this.itemSelector.hasItems) {
       selectOnlyElement(allElements.firstObject);
       return;
     }
 
-    let lastSelectedElement = [...document.querySelectorAll('.js-task.is-selected')].lastObject;
+    let lastSelectedElement = [...document.querySelectorAll('.js-item.is-selected')].lastObject;
     let nextElement = allElements[allElements.indexOf(lastSelectedElement) + 1];
     selectOnlyElement(nextElement || lastSelectedElement);
   }),
 
   shortcutSelectNextWithShift: on(keyDown('ArrowDown+shift'), function() {
-    let allElements = [...document.querySelectorAll('.js-task')];
+    let allElements = [...document.querySelectorAll('.js-item')];
 
-    if (!this.taskSelector.hasTasks) {
+    if (!this.itemSelector.hasItems) {
       selectOnlyElement(allElements.firstObject);
       return;
     }
 
-    let lastSelectedElement = [...document.querySelectorAll('.js-task.is-selected')].lastObject;
+    let lastSelectedElement = [...document.querySelectorAll('.js-item.is-selected')].lastObject;
     let nextElement = allElements[allElements.indexOf(lastSelectedElement) + 1];
 
     if (nextElement) {
@@ -70,27 +77,27 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   shortcutSelecPrevious: on(keyDown('ArrowUp'), function() {
-    let allElements = [...document.querySelectorAll('.js-task')];
+    let allElements = [...document.querySelectorAll('.js-item')];
 
-    if (!this.taskSelector.hasTasks) {
+    if (!this.itemSelector.hasItems) {
       selectOnlyElement(allElements.lastObject);
       return;
     }
 
-    let firstSelectedElement = document.querySelector('.js-task.is-selected');
+    let firstSelectedElement = document.querySelector('.js-item.is-selected');
     let previousElement = allElements[allElements.indexOf(firstSelectedElement) - 1];
     selectOnlyElement(previousElement || firstSelectedElement);
   }),
 
   shortcutSelecPreviousWithShift: on(keyDown('ArrowUp+shift'), function() {
-    let allElements = [...document.querySelectorAll('.js-task')];
+    let allElements = [...document.querySelectorAll('.js-item')];
 
-    if (!this.taskSelector.hasTasks) {
+    if (!this.itemSelector.hasItems) {
       selectOnlyElement(allElements.lastObject);
       return;
     }
 
-    let firstSelectedElement = document.querySelector('.js-task.is-selected');
+    let firstSelectedElement = document.querySelector('.js-item.is-selected');
     let previousElement = allElements[allElements.indexOf(firstSelectedElement) - 1];
 
     if (previousElement) {
@@ -131,8 +138,8 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   },
 
   handleSelectBetween(clickedElement) {
-    let allElements = [...document.querySelectorAll('.js-task')];
-    let selectedElements = [...document.querySelectorAll('.js-task.is-selected')];
+    let allElements = [...document.querySelectorAll('.js-item')];
+    let selectedElements = [...document.querySelectorAll('.js-item.is-selected')];
     let firstSelectedElement = selectedElements.firstObject;
     let lastSelectedElement = clickedElement === firstSelectedElement
       ? selectedElements.lastObject
@@ -141,7 +148,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     let firstElementIndex = allElements.indexOf(firstSelectedElement);
     let lastElementIndex = allElements.indexOf(lastSelectedElement);
 
-    this.taskSelector.clear();
+    this.itemSelector.clear();
     allElements
       .filter((_, index) => index >= firstElementIndex && index <= lastElementIndex)
       .forEach(element => selectElement(element));
@@ -160,7 +167,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       let isMoveDialog = moveDialogEl && moveDialogEl.contains(target);
 
       if (!isInternalClick && !isActionsBar && !isMoveDialog) {
-        this.taskSelector.clear();
+        this.itemSelector.clear();
       }
     });
   },

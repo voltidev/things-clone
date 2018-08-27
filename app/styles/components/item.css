@@ -1,4 +1,4 @@
-.c-task {
+.c-item {
   display: flex;
   align-items: center;
   padding: 0 rem(16px);
@@ -30,13 +30,13 @@
   }
 }
 
-.c-task__completed-at {
+.c-item__completed-at {
   font-size: rem(14px);
   margin-left: rem(10px);
   color: #2560bd;
 }
 
-.c-task__project {
+.c-item__project {
   margin-left: rem(8px);
   padding: rem(1px) rem(8px);
   background: rgba(0, 0, 0, 0.07);
@@ -45,7 +45,7 @@
   color: rgba(0, 0, 0, 0.4);
 }
 
-.c-task__icon {
+.c-item__icon {
   margin-left: rem(8px);
   height: rem(14px);
   width: rem(14px);
@@ -60,7 +60,7 @@
   }
 }
 
-.c-task__input {
+.c-item__input {
   flex: 1;
   line-height: 1;
   font-size: rem(15px);
@@ -81,7 +81,7 @@
   }
 }
 
-.c-task__name {
+.c-item__name {
   flex: 1;
   line-height: 1;
   font-size: rem(15px);
@@ -95,14 +95,18 @@
   &--placeholder {
     opacity: 0.5;
   }
+
+  .c-item--project & {
+    font-weight: var(--bold);
+  }
 }
 
-.c-task__checkbox-input {
+.c-item__checkbox-input {
   opacity: 0;
   position: absolute;
 }
 
-.c-task__checkbox-label {
+.c-item__checkbox-label {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,17 +121,25 @@
     border-style: dashed;
   }
 
+  .c-item--project & {
+    border-radius: 50%;
+  }
+
   .is-completed & {
     animation: pulse 500ms;
   }
 
-  .c-task__checkbox-input:checked + & {
+  .c-item__checkbox-input:checked + & {
     background-color: #2560bd;
     border-color: #165abc;
     transform: scale(1.15);
   }
 
-  .c-task__checkbox-input:checked + &::after {
+  .c-item--project .c-item__checkbox-input:checked + & {
+    transform: scale(1.26);
+  }
+
+  .c-item__checkbox-input:checked + &::after {
     content: "";
     margin-top: rem(-2px);
     height: rem(4px);

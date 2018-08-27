@@ -3,18 +3,12 @@
   folder="inbox"
   as |selectBetween|
 }}
-  {{#task-list
-    tasks=this.tasks
+  {{items-list
+    items=this.tasks
+    updateItemName=(route-action "updateItemName")
+    completeItem=(route-action "completeItem")
+    uncompleteItem=(route-action "uncompleteItem")
     reorderItems=(route-action "reorderItems")
-    as |task|
+    selectBetween=selectBetween
   }}
-    {{task-item
-      task=task
-      updateItemName=(route-action "updateItemName")
-      completeItem=(route-action "completeItem")
-      uncompleteItem=(route-action "uncompleteItem")
-      selectBetween=selectBetween
-      data-test-task=task.id
-    }}
-  {{/task-list}}
 {{/app-main}}

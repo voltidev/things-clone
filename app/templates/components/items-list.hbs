@@ -1,0 +1,58 @@
+{{#if @isNotSortable}}
+  {{#animated-container}}
+    {{#animated-each @items use=eachTransition duration=200 as |item|}}
+      <div
+        class="{{if (is-selected item) 'is-selected'}}"
+      >
+        {{#if item.isProject}}
+          {{items-project
+            item=item
+            updateItemName=@updateItemName
+            completeItem=@completeItem
+            uncompleteItem=@uncompleteItem
+            selectBetween=@selectBetween
+          }}
+        {{else}}
+          {{items-task
+            task=item
+            updateItemName=@updateItemName
+            completeItem=@completeItem
+            uncompleteItem=@uncompleteItem
+            selectBetween=@selectBetween
+          }}
+        {{/if}}
+      </div>
+    {{/animated-each}}
+  {{/animated-container}}
+{{else}}
+  {{#sortable-group onChange=@reorderItems as |group|}}
+    {{#animated-container}}
+      {{#animated-each @items use=eachTransition duration=200 as |item|}}
+        {{#sortable-item
+          model=item
+          group=group
+          distance=2
+          class=(if (is-selected item) 'is-selected')
+        }}
+          {{#if item.isProject}}
+            {{items-project
+              item=item
+              updateItemName=@updateItemName
+              completeItem=@completeItem
+              uncompleteItem=@uncompleteItem
+              selectBetween=@selectBetween
+            }}
+          {{else}}
+            {{items-task
+              task=item
+              updateItemName=@updateItemName
+              completeItem=@completeItem
+              uncompleteItem=@uncompleteItem
+              selectBetween=@selectBetween
+            }}
+          {{/if}}
+        {{/sortable-item}}
+      {{/animated-each}}
+    {{/animated-container}}
+  {{/sortable-group}}
+{{/if}}

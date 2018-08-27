@@ -1,0 +1,27 @@
+<div class="c-item__checkbox">
+  <input
+    class="c-item__checkbox-input js-checkbox"
+    id="item-checkbox-{{@item.id}}"
+    type="checkbox"
+    checked={{@item.isCompleted}}
+    onclick={{action "toggleItemCompletion" value="target.checked"}}
+    data-test-item-checkbox
+  >
+  <label
+    class="c-item__checkbox-label js-checkbox {{if @item.isShownInSomeday 'c-item__checkbox-label--someday'}}"
+    for="item-checkbox-{{@item.id}}"
+  ></label>
+</div>
+
+{{#if @item.isShownInLogbook}}
+  <div class="c-item__completed-at">
+    {{@item.completedAtDisplay}}
+  </div>
+{{/if}}
+
+<div
+  class="c-item__name {{if (not @item.name) 'c-item__name--placeholder'}}"
+  data-test-task-name
+>
+  {{if @item.name @item.name this.placeholder}}
+</div>

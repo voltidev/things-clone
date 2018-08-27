@@ -9,18 +9,18 @@ module('Integration | Helper | is-selected', function(hooks) {
   setupFactoryGuy(hooks);
 
   test('it works properly', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
+    let itemSelector = this.owner.lookup('service:task-selector');
     let task = make('task');
     this.set('task', task);
 
     await render(hbs`{{is-selected task}}`);
     assert.equal(this.element.textContent.trim(), 'false');
 
-    taskSelector.select(task);
+    itemSelector.select(task);
     await settled();
     assert.equal(this.element.textContent.trim(), 'true');
 
-    taskSelector.deselect(task);
+    itemSelector.deselect(task);
     await settled();
     assert.equal(this.element.textContent.trim(), 'false');
   });

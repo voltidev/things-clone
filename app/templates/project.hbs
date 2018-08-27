@@ -3,27 +3,21 @@
   folder="project"
   project=this.project
   updateProjectName=(route-action "updateItemName" this.project)
-  completeProject=(pipe (route-action "completeItem" this.project) (route-action "replaceRoute" "today"))
+  completeProject=(route-action "completeItem" this.project)
   uncompleteProject=(route-action "uncompleteItem" this.project)
   deleteProject=(pipe (route-action "deleteItem" this.project) (route-action "replaceRoute" "today"))
   undeleteProject=(route-action "undeleteItem" this.project)
   as |selectBetween|
 }}
   <div class="c-folder__group">
-    {{#task-list
-      tasks=(sort-by "order" this.anytimeTasks)
+    {{items-list
+      items=(sort-by "order" this.anytimeTasks)
+      updateItemName=(route-action "updateItemName")
+      completeItem=(route-action "completeItem")
+      uncompleteItem=(route-action "uncompleteItem")
       reorderItems=(route-action "reorderItems")
-      as |task|
+      selectBetween=selectBetween
     }}
-      {{task-item
-        task=task
-        updateItemName=(route-action "updateItemName")
-        completeItem=(route-action "completeItem")
-        uncompleteItem=(route-action "uncompleteItem")
-        selectBetween=selectBetween
-        data-test-task=task.id
-      }}
-    {{/task-list}}
   </div>
 
   {{#if hasSomeday}}
@@ -37,20 +31,14 @@
   {{#animated-container}}
     {{#animated-if this.areLaterItemsShown use=fade duration=200}}
       <div class="c-folder__group">
-        {{#task-list
-          tasks=(sort-by "order" this.somedayTasks)
+        {{items-list
+          items=(sort-by "order" this.somedayTasks)
+          updateItemName=(route-action "updateItemName")
+          completeItem=(route-action "completeItem")
+          uncompleteItem=(route-action "uncompleteItem")
           reorderItems=(route-action "reorderItems")
-          as |task|
+          selectBetween=selectBetween
         }}
-          {{task-item
-            task=task
-            updateItemName=(route-action "updateItemName")
-            completeItem=(route-action "completeItem")
-            uncompleteItem=(route-action "uncompleteItem")
-            selectBetween=selectBetween
-            data-test-task=task.id
-          }}
-        {{/task-list}}
       </div>
     {{/animated-if}}
   {{/animated-container}}
@@ -66,20 +54,14 @@
   {{#animated-container}}
     {{#animated-if this.areLoggedItemsShown use=fade duration=200}}
       <div class="c-folder__group">
-        {{#task-list
-          tasks=(sort-by "order" this.logbookTasks)
-          reorderItems=(route-action "reorderItems")
-          as |task|
+        {{items-list
+          items=(sort-by "order" this.logbookTasks)
+          isNotSortable=true
+          updateItemName=(route-action "updateItemName")
+          completeItem=(route-action "completeItem")
+          uncompleteItem=(route-action "uncompleteItem")
+          selectBetween=selectBetween
         }}
-          {{task-item
-            task=task
-            updateItemName=(route-action "updateItemName")
-            completeItem=(route-action "completeItem")
-            uncompleteItem=(route-action "uncompleteItem")
-            selectBetween=selectBetween
-            data-test-task=task.id
-          }}
-        {{/task-list}}
       </div>
     {{/animated-if}}
   {{/animated-container}}

@@ -3,7 +3,7 @@
   folder="logbook"
   as |selectBetween|
 }}
-  {{#each-in (group-by "logbookGroup" this.tasks) as |groupName groupItems|}}
+  {{#each-in (group-by "logbookGroup" (sort-by "completedAt:desc" this.items)) as |groupName groupItems|}}
     <div class="c-folder__group">
       <div class="c-folder__group-title">
         <div class="c-folder__group-title-inner">
@@ -13,20 +13,14 @@
         </div>
       </div>
 
-      {{#task-list
-        tasks=groupItems
+      {{items-list
+        items=groupItems
         isNotSortable=true
-        as |task|
+        updateItemName=(route-action "updateItemName")
+        completeItem=(route-action "completeItem")
+        uncompleteItem=(route-action "uncompleteItem")
+        selectBetween=selectBetween
       }}
-        {{task-item
-          task=task
-          updateItemName=(route-action "updateItemName")
-          completeItem=(route-action "completeItem")
-          uncompleteItem=(route-action "uncompleteItem")
-          selectBetween=selectBetween
-          data-test-task=task.id
-        }}
-      {{/task-list}}
     </div>
   {{/each-in}}
 {{/app-main}}

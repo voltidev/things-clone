@@ -3,6 +3,7 @@ import attr from 'ember-data/attr';
 import { hasMany } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
 import { or } from '@ember/object/computed';
+import moment from 'moment';
 
 export default Model.extend({
   name: attr('string'),
@@ -22,22 +23,19 @@ export default Model.extend({
 
   isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
 
-  progress: computed(
-    'tasks.[]',
-    'tasks.@each.{isCompleted,isDeleted}',
-    function() {
-      let activeTasks = this.tasks.filter(task => !task.isDeleted);
-      let completedTasks = activeTasks.filter(task => task.isCompleted);
-      let activeTasksCount = activeTasks.length;
-      let completedTasksCount = completedTasks.length;
+  progress: computed('tasks.[]', 'tasks.@each.{isCompleted,isDeleted}', function() {
+    let activeTasks = this.tasks.filter(task => !task.isDeleted);
+    let completedTasks = activeTasks.filter(task => task.isCompleted);
+    let activeTasksCount = activeTasks.length;
+    let completedTasksCount = completedTasks.length;
 
-      if (activeTasksCount === 0 || completedTasksCount === 0) {
-        return 0;
-      }
-
-      return 100 / (activeTasksCount / completedTasksCount);
+    if (activeTasksCount === 0 || completedTasksCount === 0) {
+      return 0;
     }
-  ),
+
+    return 100 / (activeTasksCount / completedTasksCount);
+  }),
+
 
   isShownInAnytime: computed(
     'isCompletedOrDeleted',
@@ -56,6 +54,30 @@ export default Model.extend({
       return !this.isCompletedOrDeleted && this.tasks.any(task => task.isShownInSomeday);
     }
   ),
+
+  isShownInLogbook: computed('isCompleted', 'isDeleted', function() {
+    return this.isCompleted && !this.isDeleted;
+  }),
+
+  logbookGroup: computed('completedAt', function() {
+    return moment(this.completedAt).calendar(null, {
+      sameDay: '[Today]',
+      lastDay: '[Yesterday]',
+      lastWeek: 'MMMM',
+      sameElse: 'MMMM'
+    });
+  }),
+
+  completedAtDisplay: computed('completedAt', function() {
+    return moment(this.completedAt).calendar(null, {
+      sameDay: '[Today]',
+      lastDay: '[Yesterday]',
+      lastWeek: 'MMMM',
+      sameElse: 'MMMM'
+    });
+  }),
+
+  isProject: true,
 
   complete() {
     set(this, 'isCompleted', true);

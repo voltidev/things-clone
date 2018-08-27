@@ -8,7 +8,7 @@ export default Component.extend({
   taskEditor: service(),
   itemSelector: service(),
   router: service(),
-  classNames: ['c-task', 'js-item'],
+  classNames: ['c-item', 'js-item'],
   classNameBindings: ['isEditing', 'isCompleted', 'isSelected'],
   task: null,
   placeholder: 'New To-Do',

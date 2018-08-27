@@ -79,63 +79,63 @@ module('Integration | Component | task-item', function(hooks) {
   });
 
   test('it is selected after click', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
+    let itemSelector = this.owner.lookup('service:task-selector');
     await renderComponent();
-    assert.notOk(taskSelector.isSelected(this.task), 'task is not selected before click');
+    assert.notOk(itemSelector.isSelected(this.task), 'task is not selected before click');
 
     await click('[data-test-task]');
-    assert.ok(taskSelector.isSelected(this.task), 'task is selected after click');
+    assert.ok(itemSelector.isSelected(this.task), 'task is selected after click');
   });
 
   test('it deselect other tasks on click', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
+    let itemSelector = this.owner.lookup('service:task-selector');
     let otherTask = {};
 
     await renderComponent();
-    taskSelector.select(otherTask);
-    assert.ok(taskSelector.isSelected(otherTask), 'before click other task is selected');
-    assert.notOk(taskSelector.isSelected(this.task), 'before click target task is not selected');
+    itemSelector.select(otherTask);
+    assert.ok(itemSelector.isSelected(otherTask), 'before click other task is selected');
+    assert.notOk(itemSelector.isSelected(this.task), 'before click target task is not selected');
 
     await triggerEvent('[data-test-task]', 'mousedown');
     assert.notOk(
-      taskSelector.isSelected(otherTask),
+      itemSelector.isSelected(otherTask),
       'after click other task is not selected anymore'
     );
-    assert.ok(taskSelector.isSelected(this.task), 'after click target task is selected');
+    assert.ok(itemSelector.isSelected(this.task), 'after click target task is selected');
   });
 
   test('it selects target task and does not deselect other tasks on click with metaKey', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
+    let itemSelector = this.owner.lookup('service:task-selector');
     let otherTask = {};
 
     await renderComponent();
-    taskSelector.select(otherTask);
-    assert.ok(taskSelector.isSelected(otherTask), 'before click other task is selected');
-    assert.notOk(taskSelector.isSelected(this.task), 'before click target task is not selected');
+    itemSelector.select(otherTask);
+    assert.ok(itemSelector.isSelected(otherTask), 'before click other task is selected');
+    assert.notOk(itemSelector.isSelected(this.task), 'before click target task is not selected');
 
     await triggerEvent('[data-test-task]', 'mousedown', { metaKey: true });
-    assert.ok(taskSelector.isSelected(otherTask), 'after click other task is still selected');
-    assert.ok(taskSelector.isSelected(this.task), 'after click target task is selected too');
+    assert.ok(itemSelector.isSelected(otherTask), 'after click other task is still selected');
+    assert.ok(itemSelector.isSelected(this.task), 'after click target task is selected too');
   });
 
   test('it deselects selected target task on click with metaKey', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
-    taskSelector.select(this.task);
+    let itemSelector = this.owner.lookup('service:task-selector');
+    itemSelector.select(this.task);
     await renderComponent();
-    assert.ok(taskSelector.isSelected(this.task), 'before click target task is selected');
+    assert.ok(itemSelector.isSelected(this.task), 'before click target task is selected');
 
     await triggerEvent('[data-test-task]', 'mousedown', { metaKey: true });
-    assert.notOk(taskSelector.isSelected(this.task), 'after click target task is deselected');
+    assert.notOk(itemSelector.isSelected(this.task), 'after click target task is deselected');
   });
 
   test('it does not deselect selected target task on click without metaKey', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
-    taskSelector.select(this.task);
+    let itemSelector = this.owner.lookup('service:task-selector');
+    itemSelector.select(this.task);
     await renderComponent();
-    assert.ok(taskSelector.isSelected(this.task), 'before click target task is selected');
+    assert.ok(itemSelector.isSelected(this.task), 'before click target task is selected');
 
     await triggerEvent('[data-test-task]', 'mousedown');
-    assert.ok(taskSelector.isSelected(this.task), 'after click target task is still selected');
+    assert.ok(itemSelector.isSelected(this.task), 'after click target task is still selected');
   });
 
   test('it calls selectBetween action on click with shiftKey', async function(assert) {
@@ -168,13 +168,13 @@ module('Integration | Component | task-item', function(hooks) {
   });
 
   test('it is not selected on checkbox or label click', async function(assert) {
-    let taskSelector = this.owner.lookup('service:task-selector');
+    let itemSelector = this.owner.lookup('service:task-selector');
     await renderComponent();
     await click('[data-test-task-checkbox]');
-    assert.notOk(taskSelector.isSelected(this.task), 'task is not selected');
+    assert.notOk(itemSelector.isSelected(this.task), 'task is not selected');
 
     await click('[data-test-task-checkbox-label]');
-    assert.notOk(taskSelector.isSelected(this.task), 'task is not selected');
+    assert.notOk(itemSelector.isSelected(this.task), 'task is not selected');
   });
 
   test('it calls completeItem action on checkbox click', async function(assert) {

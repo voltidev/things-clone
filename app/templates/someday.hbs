@@ -4,20 +4,14 @@
   as |selectBetween|
 }}
   <div class="c-folder__group">
-    {{#task-list
-      tasks=(sort-by "order" this.noProjectTasks)
+    {{items-list
+      items=(sort-by "order" this.noProjectTasks)
+      updateItemName=(route-action "updateItemName")
+      completeItem=(route-action "completeItem")
+      uncompleteItem=(route-action "uncompleteItem")
       reorderItems=(route-action "reorderItems")
-      as |task|
+      selectBetween=selectBetween
     }}
-      {{task-item
-        task=task
-        updateItemName=(route-action "updateItemName")
-        completeItem=(route-action "completeItem")
-        uncompleteItem=(route-action "uncompleteItem")
-        selectBetween=selectBetween
-        data-test-task=task.id
-      }}
-    {{/task-list}}
   </div>
 
   {{#if hasProjects}}
@@ -44,20 +38,14 @@
           </div>
         {{/link-to}}
 
-        {{#task-list
-          tasks=(sort-by "order" (filter-by "isShownInSomeday" project.tasks))
+        {{items-list
+          items=(sort-by "order" (filter-by "isShownInSomeday" project.tasks))
+          updateItemName=(route-action "updateItemName")
+          completeItem=(route-action "completeItem")
+          uncompleteItem=(route-action "uncompleteItem")
           reorderItems=(route-action "reorderItems")
-          as |task|
+          selectBetween=selectBetween
         }}
-          {{task-item
-            task=task
-            updateItemName=(route-action "updateItemName")
-            completeItem=(route-action "completeItem")
-            uncompleteItem=(route-action "uncompleteItem")
-            selectBetween=selectBetween
-            data-test-task=task.id
-          }}
-        {{/task-list}}
       </div>
     {{/animated-each}}
   {{/animated-if}}

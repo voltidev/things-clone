@@ -9,8 +9,7 @@
 @import "sortable-item";
 @import "sidebar-nav";
 @import "sidebar-actions";
-@import "task-list";
-@import "task";
+@import "item";
 @import "floating-button";
 @import "actions-bar";
 @import "placeholder";
