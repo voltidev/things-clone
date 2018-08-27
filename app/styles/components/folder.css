@@ -84,6 +84,7 @@
 .c-folder__group-title {
   padding: 0 rem(16px);
   margin-bottom: rem(10px);
+  display: block;
   color: var(--base-text-color);
 }
 
