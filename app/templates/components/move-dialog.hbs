@@ -1,56 +1,54 @@
-<div class="c-dialog js-move-dialog" data-test-shortcuts>
-  <div class="c-dialog__inner">
-    <div class="c-dialog__header">
-      <div class="c-dialog__buttons-wrap"></div>
+<div class="c-dialog__inner js-dialog-body">
+  <div class="c-dialog__header">
+    <div class="c-dialog__buttons-wrap"></div>
 
-      <div class="c-dialog__title">
-        Move
-      </div>
-
-      <div class="c-dialog__buttons-wrap">
-        <button class="c-dialog__button" {{action @close}}>
-          Cancel
-        </button>
-      </div>
+    <div class="c-dialog__title">
+      Move
     </div>
 
-    <div class="c-dialog__body">
-      <div class="c-dialog__options">
-        <div class="c-dialog__options-section">
-          {{#each @folders as |folder|}}
-            <div class="c-dialog__options-item" {{action @moveSelectedToFolder folder}}>
-              {{svg-jar folder class="c-dialog__options-icon"}}
-
-              <div class="c-dialog__options-text">
-                {{folder}}
-              </div>
-            </div>
-          {{/each}}
-        </div>
-
-        <div class="c-dialog__options-section">
-          <div class="c-dialog__options-item" {{action @moveSelectedToProject null}}>
-            {{svg-jar "no" class="c-dialog__options-icon c-dialog__options-icon--no"}}
-
-            <div class="c-dialog__options-text">No project</div>
-          </div>
-
-          {{#each @projects as |project|}}
-            <div class="c-dialog__options-item" {{action @moveSelectedToProject project}}>
-              {{progress-pie
-                class="c-dialog__options-icon"
-                progress=project.progress
-              }}
-
-              <div class="c-dialog__options-text">
-                {{or project.name 'New project'}}
-              </div>
-            </div>
-          {{/each}}
-        </div>
-      </div>
+    <div class="c-dialog__buttons-wrap">
+      <button class="c-dialog__button" {{action @close}}>
+        Cancel
+      </button>
     </div>
-
-    <div class="c-dialog__footer"></div>
   </div>
+
+  <div class="c-dialog__body">
+    <div class="c-dialog__options">
+      <div class="c-dialog__options-section">
+        {{#each @folders as |folder|}}
+          <div class="c-dialog__options-item" {{action @moveSelectedToFolder folder}}>
+            {{svg-jar folder class="c-dialog__options-icon"}}
+
+            <div class="c-dialog__options-text">
+              {{folder}}
+            </div>
+          </div>
+        {{/each}}
+      </div>
+
+      <div class="c-dialog__options-section">
+        <div class="c-dialog__options-item" {{action @moveSelectedToProject null}}>
+          {{svg-jar "no" class="c-dialog__options-icon c-dialog__options-icon--no"}}
+
+          <div class="c-dialog__options-text">No project</div>
+        </div>
+
+        {{#each @projects as |project|}}
+          <div class="c-dialog__options-item" {{action @moveSelectedToProject project}}>
+            {{progress-pie
+              class="c-dialog__options-icon"
+              progress=project.progress
+            }}
+
+            <div class="c-dialog__options-text">
+              {{or project.name 'New project'}}
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <div class="c-dialog__footer"></div>
 </div>
