@@ -113,6 +113,10 @@ export default Model.extend({
       set(this, 'project', null);
     }
 
+    if (['today', 'someday'].includes(folder) && this.isCompleted) {
+      this.uncomplete();
+    }
+
     set(this, 'folder', folder);
   },
 
