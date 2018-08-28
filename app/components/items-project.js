@@ -32,7 +32,7 @@ export default Component.extend({
   },
 
   selectItem({ target, metaKey, shiftKey }) {
-    if (this.element.querySelector('.js-project-pie').contains(target)) {
+    if (this.element.querySelector('.js-checkbox').contains(target)) {
       return;
     }
 

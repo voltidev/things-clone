@@ -1,0 +1,59 @@
+.c-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: rem(16px);
+  width: rem(16px);
+  border: 1px solid #c3c6c9;
+  border-radius: rem(4px);
+  background: transparent;
+  transition: all 300ms ease-out;
+  cursor: pointer;
+
+  &--big {
+    height: rem(24px);
+    width: rem(24px);
+  }
+
+  &--someday {
+    border-style: dashed;
+  }
+
+  &--project {
+    border-radius: 50%;
+  }
+
+  &.is-checked {
+    background-color: #2560bd;
+    border-color: #165abc;
+    transform: scale(1.1);
+  }
+
+  &--project.is-checked {
+    transform: scale(1.2);
+  }
+
+  &--big.is-checked {
+    transform: none;
+  }
+}
+
+.c-checkbox__icon {
+  height: rem(10px);
+  width: rem(10px);
+  fill: #fff;
+
+  .c-checkbox--big > & {
+    height: rem(14px);
+    width: rem(14px);
+  }
+}
+
+.c-checkbox--pie {
+  border: none;
+  color: #2560bd;
+
+  &:not(.c-checkbox--big) {
+    transform: scale(1.2);
+  }
+}

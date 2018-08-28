@@ -35,15 +35,12 @@
     {{/basic-dropdown}}
 
     {{#if @project.isCompleted}}
-      <div class="c-folder__title-action" title="Mark project as incomplete" {{action @uncompleteProject}}>
-        {{svg-jar "completed-project" class="c-folder__icon"}}
+      <div class="c-checkbox c-checkbox--big c-checkbox--project is-checked" title="Mark project as incomplete" {{action @uncompleteProject}}>
+        {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
       </div>
     {{else}}
-      <div class="c-folder__title-action" title="Mark project as complete" {{action @completeProject}}>
-        {{progress-pie
-          class="c-folder__icon c-folder__icon--project"
-          progress=@project.progress
-        }}
+      <div class="c-checkbox c-checkbox--pie c-checkbox--big" title="Mark project as complete" {{action @completeProject}}>
+        {{progress-pie progress=@project.progress}}
       </div>
     {{/if}}
 

@@ -1,10 +1,10 @@
 {{#if @item.isCompleted}}
-  <div class="c-item__project-pie js-project-pie" title="Mark project as incomplete" {{action @uncompleteItem @item}}>
-    {{svg-jar "completed-project" class="c-item__project-pie-icon" }}
+  <div class="c-checkbox c-checkbox--project is-checked js-checkbox" title="Mark project as incomplete" {{action @uncompleteItem @item}}>
+    {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
   </div>
 {{else}}
-  <div class="c-item__project-pie js-project-pie" title="Mark project as complete" {{action @completeItem @item}}>
-    {{progress-pie class="c-item__project-pie-icon" progress=@item.progress}}
+  <div class="c-checkbox c-checkbox--pie js-checkbox" title="Mark project as complete" {{action @completeItem @item}}>
+    {{progress-pie progress=@item.progress}}
   </div>
 {{/if}}
 

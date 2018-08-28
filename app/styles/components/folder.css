@@ -11,7 +11,7 @@
   padding: 0 rem(20px);
 }
 
-.c-folder__title-action {
+.c-folder__checkbox {
   display: flex;
   align-items: center;
   cursor: pointer;

@@ -57,11 +57,11 @@ export default Component.extend({
       this.updateItemName(this.task, name);
     },
 
-    toggleTask(isChecked) {
-      if (isChecked) {
-        this.completeItem(this.task);
-      } else {
+    toggleTaskCompletion() {
+      if (this.isCompleted) {
         this.uncompleteItem(this.task);
+      } else {
+        this.completeItem(this.task);
       }
     }
   },
