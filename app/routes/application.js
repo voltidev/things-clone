@@ -90,6 +90,10 @@ export default Route.extend({
         ? this.store.peekRecord('project', this.router.currentURL.split('/')[2])
         : null;
 
+      if (project && project.isCompleted && !project.isDeleted) {
+        project.uncomplete();
+      }
+
       let lastItem = this.get('store')
         .peekAll('task')
         .filterBy('folder', folder)

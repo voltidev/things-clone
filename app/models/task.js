@@ -88,6 +88,10 @@ export default Model.extend({
 
   uncomplete() {
     set(this, 'isCompleted', false);
+
+    if (this.get('project.isCompleted') && !this.get('project.isDeleted')) {
+      this.get('project.content').uncomplete();
+    }
   },
 
   delete() {
