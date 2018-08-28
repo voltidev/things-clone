@@ -76,7 +76,7 @@ export default Model.extend({
 
   unstar() {
     if (this.isToday) {
-      this.moveToFolder('anytime');
+      set(this, 'folder', 'anytime');
     }
   },
 
@@ -89,7 +89,7 @@ export default Model.extend({
   uncomplete() {
     set(this, 'isCompleted', false);
 
-    if (this.get('project.isCompleted') && !this.get('project.isDeleted')) {
+    if (this.get('project.isCompleted')) {
       this.get('project.content').uncomplete();
     }
   },
@@ -102,6 +102,10 @@ export default Model.extend({
 
   undelete() {
     set(this, 'isDeleted', false);
+
+    if (!this.isCompleted && this.get('project.isCompleted')) {
+      this.get('project.content').uncomplete();
+    }
   },
 
   moveToFolder(folder) {
@@ -109,12 +113,20 @@ export default Model.extend({
       throw new Error(`Unknown folder name ${folder}`);
     }
 
+    if (folder === 'today' && this.get('project.isDeleted')) {
+      return;
+    }
+
     if (folder === 'inbox') {
       set(this, 'project', null);
     }
 
-    if (['today', 'someday'].includes(folder) && this.isCompleted) {
+    if (this.isCompleted) {
       this.uncomplete();
+    }
+
+    if (this.isDeleted) {
+      this.undelete();
     }
 
     set(this, 'folder', folder);

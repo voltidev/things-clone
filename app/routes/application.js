@@ -127,12 +127,6 @@ export default Route.extend({
       return Promise.all(
         tasks.map(task => {
           task.moveToFolder(folder);
-
-          if (['logbook', 'trash'].includes(this.router.currentRouteName)) {
-            task.uncomplete();
-            task.undelete();
-          }
-
           return task.save();
         })
       );
