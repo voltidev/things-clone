@@ -74,6 +74,8 @@ export default Model.extend({
     });
   }),
 
+  isTask: true,
+
   unstar() {
     if (this.isToday) {
       set(this, 'folder', 'anytime');
@@ -88,10 +90,6 @@ export default Model.extend({
 
   uncomplete() {
     set(this, 'isCompleted', false);
-
-    if (this.get('project.isCompleted')) {
-      this.get('project.content').uncomplete();
-    }
   },
 
   delete() {
@@ -102,10 +100,6 @@ export default Model.extend({
 
   undelete() {
     set(this, 'isDeleted', false);
-
-    if (!this.isCompleted && this.get('project.isCompleted')) {
-      this.get('project.content').uncomplete();
-    }
   },
 
   moveToFolder(folder) {
@@ -119,14 +113,6 @@ export default Model.extend({
 
     if (folder === 'inbox') {
       set(this, 'project', null);
-    }
-
-    if (this.isCompleted) {
-      this.uncomplete();
-    }
-
-    if (this.isDeleted) {
-      this.undelete();
     }
 
     set(this, 'folder', folder);

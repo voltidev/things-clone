@@ -83,13 +83,11 @@ export default Model.extend({
   complete() {
     set(this, 'isCompleted', true);
     set(this, 'completedAt', new Date());
-    this.tasks.forEach(task => task.unstar());
   },
 
   delete() {
     set(this, 'isDeleted', true);
     set(this, 'deletedAt', new Date());
-    this.tasks.forEach(task => task.unstar());
   },
 
   undelete() {

@@ -18,19 +18,27 @@ export default Route.extend({
       this.replaceWith(route);
     },
 
-    updateItemName(item, name) {
+    async updateItemName(item, name) {
       set(item, 'name', name);
-      return item.save().catch(() => item.rollbackAttributes());
+      await item.save();
     },
 
-    completeItem(item) {
-      item.complete();
-      return item.save();
+    async completeItem(item) {
+      if (item.isProject) {
+        await this.completeProject(item);
+      } else {
+        item.complete();
+        await item.save();        
+      }
     },
 
-    uncompleteItem(item) {
-      item.uncomplete();
-      return item.save();
+    async uncompleteItem(item) {
+      if (item.isTask) {
+        await this.uncompleteTask(item);
+      } else {
+        item.uncomplete();
+        await item.save();
+      }
     },
 
     reorderItems(newOrderItems) {
@@ -46,6 +54,10 @@ export default Route.extend({
     },
 
     deleteItem(item) {
+      if (item.isProject) {
+        return this.deleteProject(item);
+      }
+
       item.delete();
       return item.save();
     },
@@ -59,9 +71,13 @@ export default Route.extend({
       );
     },
 
-    undeleteItem(item) {
-      item.undelete();
-      return item.save();
+    async undeleteItem(item) {
+      if (item.isTask) {
+        await this.undeleteTask(item);
+      } else {
+        item.undelete();
+        await item.save();
+      }
     },
 
     destroyDeletedItems() {
@@ -123,11 +139,22 @@ export default Route.extend({
       );
     },
 
-    moveTasksToFolder(tasks, folder) {
-      return Promise.all(
-        tasks.map(task => {
+    async moveTasksToFolder(tasks, folder) {
+      await Promise.all(
+        tasks.map(async task => {
           task.moveToFolder(folder);
-          return task.save();
+
+          if (this.router.currentRouteName === 'trash') {
+            await this.undeleteTask(task);
+          }
+
+          if (task.isCompleted) {
+            await this.uncompleteTask(task);
+          }
+
+          if (task.hasDirtyAttributes) {
+            await task.save();
+          }
         })
       );
     },
@@ -141,6 +168,51 @@ export default Route.extend({
       let order = lastItem ? lastItem.order + 1 : 0;
       let newItem = this.store.createRecord('project', { order });
       return newItem.save().then(project => this.transitionTo('project', project));
+    }
+  },
+
+  completeProject(project) {
+    /* eslint-disable-next-line */
+    if (!confirm('Are you sure you want to complete this project?')) {
+      return Promise.resolve();
+    }
+
+    project.complete();
+    let activeTasks = project.tasks.filter(task => !task.isDeleted && !task.isCompleted);
+
+    return project.save().then(() => {
+      activeTasks.forEach(task => task.complete());
+      return Promise.all(activeTasks.map(task => task.save()));
+    });
+  },
+
+  deleteProject(project) {
+    project.delete();
+    let todayTasks = project.tasks.filter(task => task.isToday);
+
+    return project.save().then(() => {
+      todayTasks.forEach(task => task.unstar());
+      return Promise.all(todayTasks.map(task => task.save()));
+    });
+  },
+
+  async uncompleteTask(task) {
+    task.uncomplete();
+    await task.save();
+
+    if (task.get('project.isCompleted')) {
+      task.get('project.content').uncomplete();
+      await task.get('project.content').save();
+    }
+  },
+
+  async undeleteTask(task) {
+    task.undelete();
+    await task.save();
+
+    if (!task.isCompleted && task.get('project.isCompleted')) {
+      task.get('project.content').uncomplete();
+      await task.get('project.content').save();
     }
   }
 });
