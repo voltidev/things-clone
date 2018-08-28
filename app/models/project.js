@@ -73,8 +73,8 @@ export default Model.extend({
     return moment(this.completedAt).calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
-      lastWeek: 'MMMM',
-      sameElse: 'MMMM'
+      lastWeek: 'MMM DD',
+      sameElse: 'MMM DD'
     });
   }),
 
