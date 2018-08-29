@@ -86,7 +86,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  user-select: none;
   transition: opacity 300ms ease-out;
 
   &--placeholder {

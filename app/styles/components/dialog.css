@@ -120,7 +120,6 @@
   font-size: rem(16px);
   text-overflow: ellipsis;
   white-space: nowrap;
-  user-select: none;
   text-transform: capitalize;
 }
 

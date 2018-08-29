@@ -17,3 +17,7 @@ input {
   font-family: inherit;
   font-size: rem(14px);
 }
+
+*:not(input):not(textarea) {
+  user-select: none;
+}

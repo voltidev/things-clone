@@ -65,6 +65,5 @@
   font-size: rem(15px);
   text-overflow: ellipsis;
   white-space: nowrap;
-  user-select: none;
   text-transform: capitalize;
 }

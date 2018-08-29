@@ -59,7 +59,6 @@
   color: var(--base-text-color);
   text-overflow: ellipsis;
   white-space: nowrap;
-  user-select: none;
 }
 
 .c-sidebar-nav__section {
