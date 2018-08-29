@@ -1,9 +1,12 @@
 import Service from '@ember/service';
-import { notEmpty } from '@ember/object/computed';
+import { notEmpty, filterBy } from '@ember/object/computed';
 
 export default Service.extend({
   items: null,
+  projects: filterBy('items', 'isProject'),
+
   hasItems: notEmpty('items'),
+  hasProjects: notEmpty('projects'),
 
   init() {
     this._super(...arguments);

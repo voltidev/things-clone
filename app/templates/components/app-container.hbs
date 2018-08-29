@@ -32,6 +32,7 @@
 
   {{#animated-if this.hasSelected use=transition duration=200}}
     {{actions-bar
+      hasSelectedProjects=this.hasSelectedProjects
       openMoveDialog=(action "toggleMoveDialog")
       deleteSelected=(action "deleteSelected")
     }}

@@ -16,6 +16,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   isMoveDialogOpen: false,
   isEditing: alias('taskEditor.hasTask'),
   hasSelected: alias('itemSelector.hasItems'),
+  hasSelectedProjects: alias('itemSelector.hasProjects'),
   folders: Object.freeze(['inbox', 'today', 'anytime', 'someday']),
 
   canCreateTask: computed('router.currentRouteName', 'isEditing', function() {
@@ -52,7 +53,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     },
 
     moveSelectedToFolder(folder) {
-      if (!this.hasSelected) {
+      if (!this.hasSelected || this.hasSelectedProjects) {
         return;
       }
 
@@ -61,7 +62,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     },
 
     moveSelectedToProject(project) {
-      if (!this.hasSelected) {
+      if (!this.hasSelected || this.hasSelectedProjects) {
         return;
       }
 
@@ -80,6 +81,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   },
 
   toggleMoveDialog() {
+    if (this.hasSelectedProjects) {
+      return;
+    }
+
     set(this, 'isMoveDialogOpen', !this.isMoveDialogOpen);
   },
 

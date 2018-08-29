@@ -1,5 +1,5 @@
 <div class="c-actions-bar js-actions-bar">
-  <div class="c-actions-bar__action" {{action @openMoveDialog}}>
+  <div class="c-actions-bar__action {{if @hasSelectedProjects 'is-disabled'}}" {{action @openMoveDialog}}>
     {{svg-jar "move" class="c-actions-bar__icon"}}
 
     <div class="c-actions-bar__text">

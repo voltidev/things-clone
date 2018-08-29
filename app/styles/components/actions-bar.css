@@ -22,6 +22,12 @@
   &:hover {
     background: #666;
   }
+
+  &.is-disabled {
+    opacity: 0.2;
+    cursor: default;
+    background: none;
+  }
 }
 
 .c-actions-bar__icon {
