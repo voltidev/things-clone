@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { alias, not } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 
 export default Component.extend({
@@ -9,10 +9,11 @@ export default Component.extend({
   itemSelector: service(),
   router: service(),
   classNames: ['c-item', 'js-item'],
-  classNameBindings: ['isEditing', 'isCompleted', 'isSelected'],
+  classNameBindings: ['isEditing', 'isCompleted', 'isSelected', 'isSortable'],
   task: null,
   placeholder: 'New To-Do',
   isCompleted: alias('task.isCompleted'),
+  isSortable: not('isEditing'),
 
   isProjectShown: computed('router.currentRouteName', function() {
     return ['logbook', 'trash', 'today'].includes(this.router.currentRouteName);
