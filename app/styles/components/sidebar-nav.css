@@ -61,6 +61,16 @@
   white-space: nowrap;
 }
 
+.c-sidebar-nav__counter {
+  margin-left: rem(8px);
+  padding: rem(1px) rem(8px);
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: rem(10px);
+  line-height: 1;
+  font-size: rem(14px);
+  color: rgba(0, 0, 0, 0.3);
+}
+
 .c-sidebar-nav__section {
   margin-bottom: rem(14px);
 }
