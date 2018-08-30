@@ -172,8 +172,11 @@ export default Route.extend({
   },
 
   completeProject(project) {
-    /* eslint-disable-next-line */
-    if (!confirm('Are you sure you want to complete this project?')) {
+    if (
+      project.activeTasks.length
+      /* eslint-disable-next-line */
+      && !confirm('Are you sure you want to complete this project & remaining to-dos?')
+    ) {
       return Promise.resolve();
     }
 
