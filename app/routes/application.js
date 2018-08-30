@@ -28,7 +28,7 @@ export default Route.extend({
         await this.completeProject(item);
       } else {
         item.complete();
-        await item.save();        
+        await item.save();
       }
     },
 

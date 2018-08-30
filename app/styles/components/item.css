@@ -88,6 +88,10 @@
   white-space: nowrap;
   transition: opacity 300ms ease-out;
 
+  &--project {
+    flex: 0 0 auto;
+  }
+
   &--placeholder {
     opacity: 0.5;
   }
@@ -95,4 +99,13 @@
   .c-item--project & {
     font-weight: var(--bold);
   }
+}
+
+.c-item__counter {
+  padding: 0 rem(4px);
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: rem(4px);
+  font-size: rem(13px);
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.28);
 }

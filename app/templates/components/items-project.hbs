@@ -14,9 +14,10 @@
   </div>
 {{/if}}
 
-<div
-  class="c-item__name {{if (not @item.name) 'c-item__name--placeholder'}}"
-  data-test-task-name
->
+<div class="c-item__name c-item__name--project {{if (not @item.name) 'c-item__name--placeholder'}}">
   {{if @item.name @item.name this.placeholder}}
+</div>
+
+<div class="c-item__counter">
+  {{@item.activeTasks.length}}
 </div>
