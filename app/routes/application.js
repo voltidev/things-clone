@@ -18,27 +18,27 @@ export default Route.extend({
       this.replaceWith(route);
     },
 
-    async updateItemName(item, name) {
+    updateItemName(item, name) {
       set(item, 'name', name);
-      await item.save();
+      return item.save();
     },
 
-    async completeItem(item) {
+    completeItem(item) {
       if (item.isProject) {
-        await this.completeProject(item);
-      } else {
-        item.complete();
-        await item.save();
+        return this.completeProject(item);
       }
+
+      item.complete();
+      return item.save();
     },
 
-    async uncompleteItem(item) {
+    uncompleteItem(item) {
       if (item.isTask) {
-        await this.uncompleteTask(item);
-      } else {
-        item.uncomplete();
-        await item.save();
+        return this.uncompleteTask(item);
       }
+
+      item.uncomplete();
+      return item.save();
     },
 
     reorderItems(newOrderItems) {
@@ -62,11 +62,11 @@ export default Route.extend({
       return item.save();
     },
 
-    deleteItems(tasks) {
+    deleteItems(items) {
       return Promise.all(
-        tasks.map(task => {
-          task.delete();
-          return task.save();
+        items.map(item => {
+          item.delete();
+          return item.save();
         })
       );
     },
