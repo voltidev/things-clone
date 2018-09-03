@@ -1,0 +1,21 @@
+{{#modal-dialog
+  class="js-items-actions"
+  title="Deadline"
+  close=@close
+}}
+  {{#power-calendar class="demo-calendar-small"
+    center=this.center
+    onCenterChange=(action (mut this.center) value="date")
+    onSelect=(action @setDeadline value="date")
+    as |calendar|
+  }}
+    {{calendar.nav}}
+    {{calendar.days}}
+  {{/power-calendar}}
+
+  <div class="c-dialog__section">
+    <div class="c-dialog__action" {{action @setDeadline null}}>
+      Remove deadline
+    </div>
+  </div>
+{{/modal-dialog}}

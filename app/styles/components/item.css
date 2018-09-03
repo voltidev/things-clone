@@ -59,7 +59,6 @@
 
 .c-item__input {
   flex: 1;
-  line-height: 1;
   font-size: rem(15px);
   background: transparent;
   border: 0;
@@ -79,8 +78,6 @@
 }
 
 .c-item__name {
-  flex: 1;
-  line-height: 1;
   font-size: rem(15px);
   padding: rem(8px);
   overflow: hidden;
@@ -108,4 +105,17 @@
   font-size: rem(13px);
   line-height: 1;
   color: rgba(0, 0, 0, 0.28);
+}
+
+.c-item__deadline {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: rem(14px);
+
+  &.c-item__deadline--alarm {
+    color: #f74878;
+  }
+}
+
+.c-item__separator {
+  flex: 1;
 }

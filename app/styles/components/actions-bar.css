@@ -5,22 +5,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: rem(6px);
   border-radius: rem(6px);
-  background: #444;
-  color: #fff;
+  background: #2b323a;
 }
 
 .c-actions-bar__action {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: rem(8px) rem(10px);
-  border-radius: rem(6px);
+  padding: rem(12px) rem(14px);
   cursor: pointer;
+  color: rgba(255, 255, 255, 0.86);
 
+  &.ember-basic-dropdown-trigger--center,
   &:hover {
-    background: #666;
+    background: rgba(255, 255, 255, 0.2);
   }
 
   &.is-disabled {
@@ -33,13 +32,13 @@
 .c-actions-bar__icon {
   height: rem(20px);
   width: rem(20px);
-  fill: #fff;
+  fill: currentColor;
 
   &:not(:last-child) {
     margin-right: rem(6px);
   }
+}
 
-  &--delete {
-    stroke: #fff;
-  }
+.c-actions-bar__dropdown-content {
+  padding-bottom: rem(10px);
 }

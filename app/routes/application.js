@@ -41,6 +41,15 @@ export default Route.extend({
       return item.save();
     },
 
+    setItemsDeadline(items, deadline) {
+      return Promise.all(
+        items.map(item => {
+          item.set('deadline', deadline);
+          return item.save();
+        })
+      );
+    },
+
     reorderItems(newOrderItems) {
       let promises = newOrderItems.reduce((saved, item, newOrder) => {
         if (item.order !== newOrder) {

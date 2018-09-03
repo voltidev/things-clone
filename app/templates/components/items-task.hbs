@@ -40,4 +40,12 @@
   >
     {{if @task.name @task.name this.placeholder}}
   </div>
+
+  {{#if (and (not this.isCompleted) @task.deadline)}}
+    <div class="c-item__separator"></div>
+
+    <div class="c-item__deadline {{if @task.isDeadline 'c-item__deadline--alarm'}}">
+      {{@task.deadlineDisplay}}
+    </div>
+  {{/if}}
 {{/if}}

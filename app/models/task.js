@@ -3,6 +3,7 @@ import attr from 'ember-data/attr';
 import { belongsTo } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
 import { equal, or, alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import moment from 'moment';
 
 const FOLDERS = ['inbox', 'today', 'anytime', 'someday'];
@@ -10,6 +11,7 @@ const FOLDERS = ['inbox', 'today', 'anytime', 'someday'];
 export default Model.extend({
   name: attr('string'),
   order: attr('number', { defaultValue: 0 }),
+  deadline: attr('date'),
   isCompleted: attr('boolean', { defaultValue: false }),
   completedAt: attr('date'),
   deletedAt: attr('date'),
@@ -29,6 +31,7 @@ export default Model.extend({
   isAnytime: equal('folder', 'anytime'),
   isSomeday: equal('folder', 'someday'),
 
+  currentDate: alias('clock.date'),
   isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
   isShownInTrash: alias('isDeleted'),
 
@@ -74,7 +77,33 @@ export default Model.extend({
     });
   }),
 
+  daysLeft: computed('currentDate', 'deadline', function() {
+    if (!this.deadline) {
+      return 0;
+    }
+
+    // Ignoring time
+    let date = new Date(this.currentDate.toDateString());
+    return moment(date).diff(this.deadline, 'days') * -1;
+  }),
+
+  isDeadline: computed('daysLeft', function() {
+    return this.daysLeft <= 0;
+  }),
+
+  deadlineDisplay: computed('daysLeft', function() {
+    let days = Math.abs(this.daysLeft);
+    let lastWord = this.daysLeft > 0 ? 'left' : 'ago';
+
+    if (days === 0) {
+      return 'today';
+    }
+
+    return `${days} day${days === 1 ? '' : 's'} ${lastWord}`;
+  }),
+
   isTask: true,
+  clock: service(),
 
   unstar() {
     if (this.isToday) {

@@ -16,3 +16,27 @@
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
+
+@keyframes drop-fade-below {
+  0% {
+    opacity: 0;
+    transform: translateY(rem(-20px));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drop-fade-above {
+  0% {
+    opacity: 0;
+    transform: translateY(rem(20px));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

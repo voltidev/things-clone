@@ -1,5 +1,8 @@
-<div class="c-actions-bar js-actions-bar">
-  <div class="c-actions-bar__action {{if @hasSelectedProjects 'is-disabled'}}" {{action @openMoveDialog}}>
+<div class="c-actions-bar js-items-actions">
+  <div
+    class="c-actions-bar__action {{if @hasSelectedProjects 'is-disabled'}}"
+    {{action @openMoveDialog}}
+  >
     {{svg-jar "move" class="c-actions-bar__icon"}}
 
     <div class="c-actions-bar__text">
@@ -8,10 +11,35 @@
   </div>
 
   <div class="c-actions-bar__action" {{action @deleteSelected}}>
-    {{svg-jar "delete" class="c-actions-bar__icon c-actions-bar__icon--delete"}}
+    {{svg-jar "delete2" class="c-actions-bar__icon c-actions-bar__icon--delete"}}
 
     <div class="c-actions-bar__text">
       Delete
     </div>
   </div>
+
+  {{#basic-dropdown
+    class="c-dropdown"
+    horizontalPosition="center"
+    verticalPosition="above"
+    as |dropdown|
+  }}
+    {{#dropdown.trigger class="c-dropdown__trigger c-actions-bar__action"}}
+      {{svg-jar "more" class="c-dropdown__trigger-icon c-actions-bar__icon"}}
+    {{/dropdown.trigger}}
+
+    {{#dropdown.content class="c-dropdown__content c-actions-bar__dropdown-content js-items-actions"}}
+      <div class="c-dropdown__content-inner">
+        <div class="c-dropdown__section">
+          <div
+            class="c-dropdown__item c-actions-bar__dropdown-item"
+            {{action (queue dropdown.actions.close @openDeadlineDialog)}}
+          >
+            {{svg-jar "flag" class="c-dropdown__item-icon c-actions-bar__dropdown-icon"}}
+            <div class="c-dropdown__item-text">Add deadline</div>
+          </div>
+        </div>
+      </div>
+    {{/dropdown.content}}
+  {{/basic-dropdown}}
 </div>

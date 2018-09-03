@@ -3,6 +3,7 @@ import attr from 'ember-data/attr';
 import { hasMany } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
 import { or, alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import moment from 'moment';
 
 export default Model.extend({
@@ -10,6 +11,7 @@ export default Model.extend({
   order: attr('number', { defaultValue: 0 }),
   isCompleted: attr('boolean', { defaultValue: false }),
   isDeleted: attr('boolean', { defaultValue: false }),
+  deadline: attr('date'),
   completedAt: attr('date'),
   deletedAt: attr('date'),
 
@@ -21,6 +23,7 @@ export default Model.extend({
 
   tasks: hasMany('task'),
 
+  currentDate: alias('clock.date'),
   isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
   isShownInTrash: alias('isDeleted'),
 
@@ -82,6 +85,32 @@ export default Model.extend({
     });
   }),
 
+  daysLeft: computed('currentDate', 'deadline', function() {
+    if (!this.deadline) {
+      return 0;
+    }
+
+    // Ignoring time
+    let date = new Date(this.currentDate.toDateString());
+    return moment(date).diff(this.deadline, 'days') * -1;
+  }),
+
+  isDeadline: computed('daysLeft', function() {
+    return this.daysLeft <= 0;
+  }),
+
+  deadlineDisplay: computed('daysLeft', function() {
+    let days = Math.abs(this.daysLeft);
+    let lastWord = this.daysLeft > 0 ? 'left' : 'ago';
+
+    if (days === 0) {
+      return 'today';
+    }
+
+    return `${days} day${days === 1 ? '' : 's'} ${lastWord}`;
+  }),
+
+  clock: service(),
   isProject: true,
 
   complete() {

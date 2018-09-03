@@ -14,6 +14,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   classNames: ['l-container'],
   isShortcutsDialogOpen: false,
   isMoveDialogOpen: false,
+  isDeadlineDialogOpen: false,
   isEditing: alias('taskEditor.hasTask'),
   hasSelected: alias('itemSelector.hasItems'),
   hasSelectedProjects: alias('itemSelector.hasProjects'),
@@ -40,6 +41,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.toggleShortcutsDialog();
     },
 
+    toggleDeadlineDialog() {
+      this.toggleDeadlineDialog();
+    },
+
     toggleMoveDialog() {
       this.toggleMoveDialog();
     },
@@ -50,6 +55,15 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
     deleteSelected() {
       this.deleteSelected();
+    },
+
+    setDeadline(deadline) {
+      if (!this.hasSelected) {
+        return;
+      }
+
+      this.toggleDeadlineDialog();
+      this.setItemsDeadline(this.itemSelector.items, deadline);
     },
 
     moveSelectedToFolder(folder) {
@@ -74,6 +88,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
         this.removeTasksFromProject(this.itemSelector.items);
       }
     }
+  },
+
+  toggleDeadlineDialog() {
+    set(this, 'isDeadlineDialogOpen', !this.isDeadlineDialogOpen);
   },
 
   toggleShortcutsDialog() {

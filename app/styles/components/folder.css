@@ -62,9 +62,7 @@
 }
 
 .c-folder__title-input {
-  flex: 1;
   padding: 0 rem(6px);
-  line-height: 1;
   font-size: rem(24px);
   background: transparent;
   border: 0;
@@ -123,10 +121,9 @@
 }
 
 .c-folder__button {
-  padding: rem(4px) rem(12px);
+  padding: rem(2px) rem(12px);
   border: 1px solid #eee;
   border-radius: rem(4px);
-  line-height: 1;
   text-align: center;
   color: #999;
   cursor: pointer;
@@ -157,4 +154,24 @@
     background-color: #5b8fe0;
     border-color: transparent;
   }
+}
+
+.c-folder__dropdown-trigger {
+  display: flex;
+  align-items: center;
+  padding: rem(4px) rem(10px);
+  border-radius: rem(6px);
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.4);
+  transition: all 0.1s ease-out;
+
+  &.ember-basic-dropdown-trigger--center,
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.c-folder__dropdown-trigger-icon {
+  height: rem(18px);
+  width: rem(18px);
 }

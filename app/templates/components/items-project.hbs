@@ -21,3 +21,11 @@
 <div class="c-item__counter">
   {{@item.activeTasks.length}}
 </div>
+
+{{#if (and (not this.isCompleted) @item.deadline)}}
+  <div class="c-item__separator"></div>
+
+  <div class="c-item__deadline {{if @item.isDeadline 'c-item__deadline--alarm'}}">
+    {{@item.deadlineDisplay}}
+  </div>
+{{/if}}

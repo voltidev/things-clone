@@ -1,0 +1,95 @@
+.ember-power-calendar {
+  padding: rem(10px) 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ember-power-calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ember-power-calendar-nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: rem(15px);
+}
+
+.ember-power-calendar-nav-control {
+  padding: rem(1px) rem(10px);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-radius: rem(6px);
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: rem(24px);
+  line-height: 1;
+  -webkit-appearance: none;
+
+  &:focus {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &:hover {
+    background: #0d95ec;
+    color: rgba(255, 255, 255, 1);
+  }
+}
+
+.ember-power-calendar-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ember-power-calendar-weekday {
+  flex: 1 1 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(4px) 0;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: rem(14px);
+  color: rgba(255, 255, 255, 0.6);
+  -webkit-appearance: none;
+}
+
+.ember-power-calendar-day {
+  flex: 1 1 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(4px) 0;
+  border-radius: rem(6px);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: rem(14px);
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  -webkit-appearance: none;
+
+  &--focused {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &--current-month {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &--other-month {
+    opacity: 0.2;
+  }
+
+  &--today {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &:hover {
+    opacity: 1;
+    background: #0d95ec;
+    color: rgba(255, 255, 255, 1);
+  }
+}

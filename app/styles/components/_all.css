@@ -4,15 +4,16 @@
 
 @import "shortcuts";
 @import "dialog";
+@import "dropdown";
 @import "fs-dialog";
+@import "checkbox";
 @import "folder";
 @import "sortable-item";
 @import "sidebar-nav";
 @import "sidebar-actions";
 @import "item";
 @import "floating-button";
-@import "actions-bar";
 @import "placeholder";
-@import "dropdown";
+@import "actions-bar";
 @import "progress-pie";
-@import "checkbox";
+@import "calendar";
