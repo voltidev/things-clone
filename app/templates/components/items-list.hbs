@@ -7,19 +7,20 @@
         {{#if item.isProject}}
           {{items-project
             item=item
-            updateItemName=@updateItemName
-            updateItemNotes=@updateItemNotes
-            completeItem=@completeItem
-            uncompleteItem=@uncompleteItem
+            updateItemName=(route-action "updateItemName")
+            updateItemNotes=(route-action "updateItemNotes")
+            completeItem=(route-action "completeItem")
+            uncompleteItem=(route-action "uncompleteItem")
             selectBetween=@selectBetween
           }}
         {{else}}
           {{items-task
             task=item
-            updateItemName=@updateItemName
-            updateItemNotes=@updateItemNotes
-            completeItem=@completeItem
-            uncompleteItem=@uncompleteItem
+            updateItemName=(route-action "updateItemName")
+            updateItemNotes=(route-action "updateItemNotes")
+            completeItem=(route-action "completeItem")
+            uncompleteItem=(route-action "uncompleteItem")
+            removeTasksFromProject=(route-action "removeTasksFromProject")
             selectBetween=@selectBetween
           }}
         {{/if}}
@@ -27,7 +28,7 @@
     {{/animated-each}}
   {{/animated-container}}
 {{else}}
-  {{#sortable-group onChange=@reorderItems as |group|}}
+  {{#sortable-group onChange=(route-action "reorderItems") as |group|}}
     {{#animated-container}}
       {{#animated-each @items use=eachTransition duration=200 as |item|}}
         {{#sortable-item
@@ -40,19 +41,20 @@
           {{#if item.isProject}}
             {{items-project
               item=item
-              updateItemName=@updateItemName
-              updateItemNotes=@updateItemNotes
-              completeItem=@completeItem
-              uncompleteItem=@uncompleteItem
+              updateItemName=(route-action "updateItemName")
+              updateItemNotes=(route-action "updateItemNotes")
+              completeItem=(route-action "completeItem")
+              uncompleteItem=(route-action "uncompleteItem")
               selectBetween=@selectBetween
             }}
           {{else}}
             {{items-task
               task=item
-              updateItemName=@updateItemName
-              updateItemNotes=@updateItemNotes
-              completeItem=@completeItem
-              uncompleteItem=@uncompleteItem
+              updateItemName=(route-action "updateItemName")
+              updateItemNotes=(route-action "updateItemNotes")
+              completeItem=(route-action "completeItem")
+              uncompleteItem=(route-action "uncompleteItem")
+              removeTasksFromProject=(route-action "removeTasksFromProject")
               selectBetween=@selectBetween
             }}
           {{/if}}

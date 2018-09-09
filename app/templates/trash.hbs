@@ -15,10 +15,6 @@
   {{items-list
     items=(sort-by "deletedAt:desc" this.items)
     isNotSortable=true
-    updateItemName=(route-action "updateItemName")
-    updateItemNotes=(route-action "updateItemNotes")
-    completeItem=(route-action "completeItem")
-    uncompleteItem=(route-action "uncompleteItem")
     selectBetween=selectBetween
   }}
 {{/app-main}}

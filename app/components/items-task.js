@@ -127,11 +127,13 @@ export default Component.extend({
     document.removeEventListener('mousedown', this.stopEditingOnSideClick, true);
   },
 
-  stopEditingOnSideClick(event) {
+  stopEditingOnSideClick({ target }) {
     run(() => {
-      let isInternalClick = this.element.contains(event.target);
+      let isInternalClick = this.element.contains(target);
+      let isItemsActions = [...document.querySelectorAll('.js-items-actions')]
+        .some(el => el.contains(target));
 
-      if (!isInternalClick) {
+      if (!isInternalClick && !isItemsActions) {
         this.stopEditing();
       }
     });

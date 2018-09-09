@@ -1,0 +1,87 @@
+.c-item-form {
+  padding: 0 rem(16px);
+}
+
+.c-item-form__section {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  font-size: rem(14px);
+
+  &--notes {
+    align-items: baseline;
+  }
+
+  &:first-child {
+    border-top: 1px solid #f3f3f3;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #f3f3f3;
+  }
+}
+
+.c-item-form__notes {
+  display: block;
+  width: 100%;
+  padding: rem(14px) rem(8px);
+  border: 0;
+  background: transparent;
+  font-size: rem(14px);
+}
+
+.c-item-form__notes-label {
+  transform: translateY(rem(3px));
+  opacity: 0.3;
+
+  svg {
+    height: 16px;
+    width: 16px;
+  }
+}
+
+.c-item-form__label {
+  padding: rem(14px) rem(10px);
+  padding-left: 0;
+}
+
+.c-item-form__value {
+  display: flex;
+  align-items: center;
+  padding: rem(4px) rem(10px);
+  background: rgba(0, 0, 0, 0.07);
+  border-radius: rem(4px);
+  font-size: rem(14px);
+  color: rgba(0, 0, 0, 0.4);
+
+  &:not(:last-child) {
+    margin-right: rem(10px);
+  }
+}
+
+.c-item-form__value-text {
+  margin-right: 8px;
+}
+
+.c-item-form__cancel {
+  color: #999;
+  cursor: pointer;
+
+  &:hover {
+    color: #2694E7;
+  }
+}
+
+.c-item-form__cancel-icon {
+  height: 10px;
+  width: 10px;
+  fill: currentColor;
+}
+
+.c-item-form__value-note {
+  opacity: 0.4;
+}
+
+.c-item-form__placeholder {
+  opacity: 0.4;
+}

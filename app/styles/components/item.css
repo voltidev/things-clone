@@ -33,20 +33,6 @@
   padding: 0 rem(16px);
 }
 
-.c-item__form {
-  padding: 0 rem(16px);
-}
-
-.c-item__notes {
-  display: block;
-  width: 100%;
-  padding: rem(10px) 0;
-  border: 0;
-  border-top: 1px solid #eee;
-  background: transparent;
-  font-size: rem(14px);
-}
-
 .c-item__completed-at {
   font-size: rem(14px);
   margin-left: rem(10px);

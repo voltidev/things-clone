@@ -1,31 +1,33 @@
-{{#if @item.isCompleted}}
-  <div class="c-checkbox c-checkbox--project is-checked js-checkbox" title="Mark project as incomplete" {{action @uncompleteItem @item}}>
-    {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
-  </div>
-{{else}}
-  <div class="c-checkbox c-checkbox--pie js-checkbox" title="Mark project as complete" {{action @completeItem @item}}>
-    {{progress-pie progress=@item.progress}}
-  </div>
-{{/if}}
+<div class="c-item__line">
+  {{#if @item.isCompleted}}
+    <div class="c-checkbox c-checkbox--project is-checked js-checkbox" title="Mark project as incomplete" {{action @uncompleteItem @item}}>
+      {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
+    </div>
+  {{else}}
+    <div class="c-checkbox c-checkbox--pie js-checkbox" title="Mark project as complete" {{action @completeItem @item}}>
+      {{progress-pie progress=@item.progress}}
+    </div>
+  {{/if}}
 
-{{#if @item.isShownInLogbook}}
-  <div class="c-item__completed-at">
-    {{@item.completedAtDisplay}}
-  </div>
-{{/if}}
+  {{#if @item.isShownInLogbook}}
+    <div class="c-item__completed-at">
+      {{@item.completedAtDisplay}}
+    </div>
+  {{/if}}
 
-<div class="c-item__name c-item__name--project {{if (not @item.name) 'c-item__name--placeholder'}}">
-  {{if @item.name @item.name this.placeholder}}
+  <div class="c-item__name c-item__name--project {{if (not @item.name) 'c-item__name--placeholder'}}">
+    {{if @item.name @item.name this.placeholder}}
+  </div>
+
+  <div class="c-item__counter">
+    {{@item.activeTasks.length}}
+  </div>
+
+  {{#if (and (not this.isCompleted) @item.deadline)}}
+    <div class="c-item__separator"></div>
+
+    <div class="c-item__deadline {{if @item.isDeadline 'c-item__deadline--alarm'}}">
+      {{@item.deadlineDisplay}}
+    </div>
+  {{/if}}
 </div>
-
-<div class="c-item__counter">
-  {{@item.activeTasks.length}}
-</div>
-
-{{#if (and (not this.isCompleted) @item.deadline)}}
-  <div class="c-item__separator"></div>
-
-  <div class="c-item__deadline {{if @item.isDeadline 'c-item__deadline--alarm'}}">
-    {{@item.deadlineDisplay}}
-  </div>
-{{/if}}

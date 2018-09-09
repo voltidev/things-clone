@@ -53,15 +53,70 @@
 </div>
 
 {{#if isEditing}}
-  <div class="c-item__form">
-    {{text-area
-      class="c-item__notes"
-      autoresize=true
-      max-rows=10
-      placeholder="Notes"
-      value=@task.notes
-      update=(action @updateItemNotes this.task)
-      escape-press=(action "stopEditing")
-    }}
+  <div class="c-item-form">
+    <div class="c-item-form__section c-item-form__section--notes">
+      <label class="c-item-form__notes-label" for="notes">
+        {{svg-jar "note"}}
+      </label>
+
+      {{text-area
+        class="c-item-form__notes"
+        id="notes"
+        autoresize=true
+        max-rows=10
+        placeholder="Notes"
+        value=@task.notes
+        update=(action @updateItemNotes this.task)
+        escape-press=(action "stopEditing")
+      }}
+    </div>
+
+    <div class="c-item-form__section">
+      <div class="c-item-form__label">
+        Project:
+      </div>
+
+      {{#if @task.project}}
+        <div class="c-item-form__value">
+          <div class="c-item-form__value-text">
+            {{@task.project.name}}
+          </div>
+
+          <div class="c-item-form__cancel" {{action @removeTasksFromProject (array @task)}}>
+            {{svg-jar "no" class="c-item-form__cancel-icon" }}
+          </div>
+        </div>
+      {{else}}
+        <div class="c-item-form__placeholder">
+          No project
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="c-item-form__section">
+      <div class="c-item-form__label">
+        Deadline:
+      </div>
+
+      {{#if @task.deadline}}
+        <div class="c-item-form__value">
+          <div class="c-item-form__value-text">
+            {{moment-format @task.deadline 'MMM DD'}}
+          </div>
+
+          <div class="c-item-form__cancel">
+            {{svg-jar "no" class="c-item-form__cancel-icon" }}
+          </div>
+        </div>
+
+        <div class="c-item-form__value-note">
+          {{@task.deadlineDisplay}}
+        </div>
+      {{else}}
+        <div class="c-item-form__placeholder">
+          Add deadline
+        </div>
+      {{/if}}
+    </div>
   </div>
 {{/if}}
