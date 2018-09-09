@@ -10,6 +10,7 @@ const FOLDERS = ['inbox', 'today', 'anytime', 'someday'];
 
 export default Model.extend({
   name: attr('string'),
+  notes: attr('string'),
   order: attr('number', { defaultValue: 0 }),
   deadline: attr('date'),
   isCompleted: attr('boolean', { defaultValue: false }),

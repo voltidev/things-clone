@@ -23,6 +23,11 @@ export default Route.extend({
       return item.save();
     },
 
+    updateItemNotes(item, notes) {
+      set(item, 'notes', notes);
+      return item.save();
+    },
+
     completeItem(item) {
       if (item.isProject) {
         return this.completeProject(item);

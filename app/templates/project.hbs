@@ -13,6 +13,7 @@
     {{items-list
       items=(sort-by "order" this.anytimeTasks)
       updateItemName=(route-action "updateItemName")
+      updateItemNotes=(route-action "updateItemNotes")
       completeItem=(route-action "completeItem")
       uncompleteItem=(route-action "uncompleteItem")
       reorderItems=(route-action "reorderItems")
@@ -34,6 +35,7 @@
         {{items-list
           items=(sort-by "order" this.somedayTasks)
           updateItemName=(route-action "updateItemName")
+          updateItemNotes=(route-action "updateItemNotes")
           completeItem=(route-action "completeItem")
           uncompleteItem=(route-action "uncompleteItem")
           reorderItems=(route-action "reorderItems")
@@ -58,6 +60,7 @@
           items=(sort-by "order" this.logbookTasks)
           isNotSortable=true
           updateItemName=(route-action "updateItemName")
+          updateItemNotes=(route-action "updateItemNotes")
           completeItem=(route-action "completeItem")
           uncompleteItem=(route-action "uncompleteItem")
           selectBetween=selectBetween

@@ -21,3 +21,12 @@ input {
 *:not(input):not(textarea) {
   user-select: none;
 }
+
+textarea {
+  resize: none;
+}
+
+*::placeholder {
+  color: #444;
+  opacity: 0.5;
+}

@@ -11,6 +11,7 @@ export default Component.extend({
   classNames: ['c-item', 'js-item'],
   classNameBindings: ['isEditing', 'isCompleted', 'isSelected', 'isSortable'],
   task: null,
+  isEditorInitialized: false,
   placeholder: 'New To-Do',
   isCompleted: alias('task.isCompleted'),
   isSortable: not('isEditing'),
@@ -35,11 +36,15 @@ export default Component.extend({
   didRender() {
     this._super(...arguments);
 
-    if (this.isEditing) {
+    if (!this.isEditing && this.isEditorInitialized) {
+      this.set('isEditorInitialized', false);
+      this.stopHandlingRootClick();
+    }
+
+    if (this.isEditing && !this.isEditorInitialized) {
+      this.set('isEditorInitialized', true);
       this.focusInput();
       this.startHandlingRootClick();
-    } else {
-      this.stopHandlingRootClick();
     }
   },
 
@@ -52,10 +57,6 @@ export default Component.extend({
   actions: {
     stopEditing() {
       this.stopEditing();
-    },
-
-    updateName(name) {
-      this.updateItemName(this.task, name);
     },
 
     toggleTaskCompletion() {

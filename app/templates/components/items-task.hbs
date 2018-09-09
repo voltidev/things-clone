@@ -1,51 +1,67 @@
-<div
-  class="c-checkbox js-checkbox {{if isCompleted 'is-checked'}} {{if task.isSomeday 'c-checkbox--someday'}}"
-  {{action "toggleTaskCompletion"}}
->
-  {{#if @task.isCompleted}}
-    {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
+<div class="c-item__line">
+  <div
+    class="c-checkbox js-checkbox {{if isCompleted 'is-checked'}} {{if task.isSomeday 'c-checkbox--someday'}}"
+    {{action "toggleTaskCompletion"}}
+  >
+    {{#if @task.isCompleted}}
+      {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
+    {{/if}}
+  </div>
+
+  {{#if isEditing}}
+    {{text-input
+      class="c-item__input js-item-input"
+      placeholder=this.placeholder
+      value=@task.name
+      update=(action @updateItemName this.task)
+      enter=(action "stopEditing")
+      escape-press=(action "stopEditing")
+      data-test-task-name-input=true
+    }}
+  {{else}}
+    {{#if @task.isToday}}
+      {{svg-jar "today" class="c-item__star"}}
+    {{/if}}
+
+    {{#if @task.isShownInLogbook}}
+      <div class="c-item__completed-at">
+        {{@task.completedAtDisplay}}
+      </div>
+    {{/if}}
+
+    {{#if (and @task.project this.isProjectShown)}}
+      <div class="c-item__project">
+        {{if @task.project.name @task.project.name 'New project'}}
+      </div>
+    {{/if}}
+
+    <div
+      class="c-item__name {{if (not @task.name) 'c-item__name--placeholder'}}"
+      data-test-task-name
+    >
+      {{if @task.name @task.name this.placeholder}}
+    </div>
+
+    {{#if (and (not this.isCompleted) @task.deadline)}}
+      <div class="c-item__separator"></div>
+
+      <div class="c-item__deadline {{if @task.isDeadline 'c-item__deadline--alarm'}}">
+        {{@task.deadlineDisplay}}
+      </div>
+    {{/if}}
   {{/if}}
 </div>
 
-{{#if @task.isToday}}
-  {{svg-jar "today" class="c-item__star"}}
-{{/if}}
-
 {{#if isEditing}}
-  {{text-input
-    class="c-item__input js-item-input"
-    placeholder=this.placeholder
-    value=@task.name
-    update=(action "updateName")
-    enter=(action "stopEditing")
-    escape-press=(action "stopEditing")
-    data-test-task-name-input=true
-  }}
-{{else}}
-  {{#if @task.isShownInLogbook}}
-    <div class="c-item__completed-at">
-      {{@task.completedAtDisplay}}
-    </div>
-  {{/if}}
-
-  {{#if (and @task.project this.isProjectShown)}}
-    <div class="c-item__project">
-      {{if @task.project.name @task.project.name 'New project'}}
-    </div>
-  {{/if}}
-
-  <div
-    class="c-item__name {{if (not @task.name) 'c-item__name--placeholder'}}"
-    data-test-task-name
-  >
-    {{if @task.name @task.name this.placeholder}}
+  <div class="c-item__form">
+    {{text-area
+      class="c-item__notes"
+      autoresize=true
+      max-rows=10
+      placeholder="Notes"
+      value=@task.notes
+      update=(action @updateItemNotes this.task)
+      escape-press=(action "stopEditing")
+    }}
   </div>
-
-  {{#if (and (not this.isCompleted) @task.deadline)}}
-    <div class="c-item__separator"></div>
-
-    <div class="c-item__deadline {{if @task.isDeadline 'c-item__deadline--alarm'}}">
-      {{@task.deadlineDisplay}}
-    </div>
-  {{/if}}
 {{/if}}
