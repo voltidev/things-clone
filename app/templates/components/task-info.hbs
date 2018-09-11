@@ -1,0 +1,41 @@
+<div class="c-item__line">
+  <div
+    class="c-checkbox js-checkbox {{if @task.isCompleted 'is-checked'}}"
+    {{action @toggleTaskCompletion}}
+  >
+    {{#if @task.isCompleted}}
+      {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
+    {{/if}}
+  </div>
+
+  {{#if @task.isToday}}
+    {{svg-jar "today" class="c-item__star"}}
+  {{/if}}
+
+  {{#if @task.isShownInLogbook}}
+    <div class="c-item__completed-at">
+      {{@task.completedAtDisplay}}
+    </div>
+  {{/if}}
+
+  {{#if (and @task.project @isProjectShown)}}
+    <div class="c-item__project">
+      {{if @task.project.name @task.project.name 'New project'}}
+    </div>
+  {{/if}}
+
+  <div
+    class="c-item__name {{if (not @task.name) 'c-item__name--placeholder'}}"
+    data-test-task-name
+  >
+    {{if @task.name @task.name @placeholder}}
+  </div>
+
+  {{#if (and (not @task.isCompleted) @task.deadline)}}
+    <div class="c-item__separator"></div>
+
+    <div class="c-item__deadline {{if @task.isDeadline 'c-item__deadline--alarm'}}">
+      {{@task.deadlineDisplay}}
+    </div>
+  {{/if}}
+</div>

@@ -62,7 +62,7 @@
   align-items: center;
   justify-content: center;
   padding: rem(4px) 0;
-  border-radius: rem(6px);
+  border-radius: rem(4px);
   background-color: transparent;
   border: none;
   outline: none;
@@ -81,6 +81,10 @@
 
   &--other-month {
     opacity: 0.2;
+  }
+
+  &--selected {
+    box-shadow: 0 0 0 rem(2px) #0d95ec;
   }
 
   &--today {

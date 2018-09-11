@@ -40,26 +40,42 @@
   {{/animated-if}}
 </div>
 
+
+{{!-- {{#if this.isShortcutsDialogOpen}}
+  {{to-elsewhere name="modal"}}
+  {{to-elsewhere
+    named="my-right-sidebar"
+    send=(component
+          "cool-thing"
+          model=model
+          launch=(action "launchIt")
+    )
+  }} --}}
+
+
 {{#if this.isShortcutsDialogOpen}}
-  {{shortcuts-dialog
+  {{to-elsewhere named="modal" send=(
+    component "shortcuts-dialog"
     close=(toggle-action "isShortcutsDialogOpen" this)
-  }}
+  )}}
 {{/if}}
 
 {{#if this.isMoveDialogOpen}}
-  {{move-dialog
+  {{to-elsewhere named="modal" send=(
+    component "move-dialog"
     activeProjects=@activeProjects
     moveToFolder=(action "moveSelectedToFolder")
     moveToProject=(action "moveSelectedToProject")
     close=(toggle-action "isMoveDialogOpen" this)
-  }}
+  )}}
 {{/if}}
 
 {{#if this.isDeadlineDialogOpen}}
-  {{deadline-dialog
+  {{to-elsewhere named="modal" send=(
+    component "deadline-dialog"
     setDeadline=(action "setDeadlineForSelected")
     close=(toggle-action "isDeadlineDialogOpen" this)
-  }}
+  )}}
 {{/if}}
 
 {{#animated-if canCreateTask use=transition duration=200}}

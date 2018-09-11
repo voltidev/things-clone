@@ -10,13 +10,13 @@
   transition: all 300ms ease-out;
   cursor: pointer;
 
+  .is-someday & {
+    border-style: dashed;
+  }
+
   &--big {
     height: rem(24px);
     width: rem(24px);
-  }
-
-  &--someday {
-    border-style: dashed;
   }
 
   &--project {
@@ -27,6 +27,7 @@
     background-color: #2560bd;
     border-color: #165abc;
     transform: scale(1.1);
+    border-style: solid;
   }
 
   &--project.is-checked {

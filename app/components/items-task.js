@@ -9,11 +9,12 @@ export default Component.extend({
   itemSelector: service(),
   router: service(),
   classNames: ['c-item', 'js-item'],
-  classNameBindings: ['isEditing', 'isCompleted', 'isSelected', 'isSortable'],
+  classNameBindings: ['isEditing', 'isCompleted', 'isSelected', 'isSortable', 'isSomeday'],
   task: null,
   isEditorInitialized: false,
   placeholder: 'New To-Do',
   isCompleted: alias('task.isCompleted'),
+  isSomeday: alias('task.isShownInSomeday'),
   isSortable: not('isEditing'),
 
   isProjectShown: computed('router.currentRouteName', function() {
@@ -108,15 +109,37 @@ export default Component.extend({
   },
 
   startEditing() {
-    if (!this.isEditing) {
-      this.taskEditor.edit(this.task);
+    if (this.isEditing) {
+      return;
     }
+
+    this.taskEditor.edit(this.task);
   },
 
   stopEditing() {
-    if (this.isEditing) {
-      this.taskEditor.clear();
+    if (!this.isEditing) {
+      return;
     }
+
+    let { isCompleted, name, notes, deadline } = this.taskEditor.task;
+
+    if (this.task.isCompleted !== isCompleted) {
+      (isCompleted ? this.completeItem : this.uncompleteItem)(this.task);
+    }
+
+    if (this.task.name !== name) {
+      this.updateItemName(this.task, name);
+    }
+
+    if (this.task.notes !== notes) {
+      this.updateItemNotes(this.task, notes);
+    }
+
+    if (this.task.deadline !== deadline) {
+      this.setItemsDeadline([this.task], deadline);
+    }
+
+    this.taskEditor.clear();
   },
 
   startHandlingRootClick() {

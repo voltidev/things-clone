@@ -7,11 +7,17 @@ export default Service.extend({
   hasTask: notEmpty('task'),
 
   isEditing(task) {
-    return task === this.task;
+    return this.hasTask && task.id === this.task.id;
   },
 
   edit(task) {
-    set(this, 'task', task);
+    set(this, 'task', {
+      id: task.id,
+      isCompleted: task.isCompleted,
+      name: task.name,
+      notes: task.notes,
+      deadline: task.deadline
+    });
   },
 
   clear() {

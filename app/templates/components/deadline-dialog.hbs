@@ -4,7 +4,8 @@
   close=@close
 }}
   {{#power-calendar class="demo-calendar-small"
-    center=this.center
+    selected=@value
+    center=(or this.center @value)
     onCenterChange=(action (mut this.center) value="date")
     onSelect=(action (queue (action @setDeadline value="date") @close))
     as |calendar|

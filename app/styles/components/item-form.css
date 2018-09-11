@@ -43,9 +43,16 @@
 .c-item-form__label {
   padding: rem(14px) rem(10px);
   padding-left: 0;
+  cursor: pointer;
 }
 
 .c-item-form__value {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.c-item-form__value-box {
   display: flex;
   align-items: center;
   padding: rem(4px) rem(10px);
@@ -63,19 +70,19 @@
   margin-right: 8px;
 }
 
-.c-item-form__cancel {
+.c-item-form__value-reset {
   color: #999;
   cursor: pointer;
 
   &:hover {
-    color: #2694E7;
+    color: #2694e7;
   }
-}
 
-.c-item-form__cancel-icon {
-  height: 10px;
-  width: 10px;
-  fill: currentColor;
+  svg {
+    height: 10px;
+    width: 10px;
+    fill: currentColor;
+  }
 }
 
 .c-item-form__value-note {
