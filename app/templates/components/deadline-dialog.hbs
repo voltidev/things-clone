@@ -6,7 +6,7 @@
   {{#power-calendar class="demo-calendar-small"
     center=this.center
     onCenterChange=(action (mut this.center) value="date")
-    onSelect=(action @setDeadline value="date")
+    onSelect=(action (queue (action @setDeadline value="date") @close))
     as |calendar|
   }}
     {{calendar.nav}}
@@ -14,7 +14,7 @@
   {{/power-calendar}}
 
   <div class="c-dialog__section">
-    <div class="c-dialog__action" {{action @setDeadline null}}>
+    <div class="c-dialog__action" {{action (queue (action @setDeadline null) @close)}}>
       Remove deadline
     </div>
   </div>

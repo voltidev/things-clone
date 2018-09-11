@@ -136,7 +136,6 @@
   font-size: rem(16px);
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-transform: capitalize;
 }
 
 .c-dialog__section {

@@ -18,7 +18,6 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   isEditing: alias('taskEditor.hasTask'),
   hasSelected: alias('itemSelector.hasItems'),
   hasSelectedProjects: alias('itemSelector.hasProjects'),
-  folders: Object.freeze(['inbox', 'today', 'anytime', 'someday']),
 
   canCreateTask: computed('router.currentRouteName', 'isEditing', function() {
     return !this.isEditing && !['logbook', 'trash'].includes(this.router.currentRouteName);
@@ -29,7 +28,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   shortcutShortcutsDialog: on(keyDown('shift+Slash'), function() {
-    this.toggleShortcutsDialog();
+    set(this, 'isShortcutsDialogOpen', true);
   }),
 
   shortcutDeleteSelected: on(keyUp('Backspace'), function() {
@@ -37,18 +36,6 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   actions: {
-    toggleShortcutsDialog() {
-      this.toggleShortcutsDialog();
-    },
-
-    toggleDeadlineDialog() {
-      this.toggleDeadlineDialog();
-    },
-
-    toggleMoveDialog() {
-      this.toggleMoveDialog();
-    },
-
     createNewTask() {
       this.createNewTask();
     },
@@ -57,12 +44,11 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.deleteSelected();
     },
 
-    setDeadline(deadline) {
+    setDeadlineForSelected(deadline) {
       if (!this.hasSelected) {
         return;
       }
 
-      this.toggleDeadlineDialog();
       this.setItemsDeadline(this.itemSelector.items, deadline);
     },
 
@@ -71,7 +57,6 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
         return;
       }
 
-      this.toggleMoveDialog();
       this.moveTasksToFolder(this.itemSelector.items, folder);
     },
 
@@ -80,30 +65,12 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
         return;
       }
 
-      this.toggleMoveDialog();
-
       if (project) {
         this.moveTasksToProject(this.itemSelector.items, project);
       } else {
         this.removeTasksFromProject(this.itemSelector.items);
       }
     }
-  },
-
-  toggleDeadlineDialog() {
-    set(this, 'isDeadlineDialogOpen', !this.isDeadlineDialogOpen);
-  },
-
-  toggleShortcutsDialog() {
-    set(this, 'isShortcutsDialogOpen', !this.isShortcutsDialogOpen);
-  },
-
-  toggleMoveDialog() {
-    if (this.hasSelectedProjects) {
-      return;
-    }
-
-    set(this, 'isMoveDialogOpen', !this.isMoveDialogOpen);
   },
 
   createNewTask() {

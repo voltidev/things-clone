@@ -1,6 +1,6 @@
 {{#app-container
   tasks=this.model.tasks
-  projects=this.model.projects
+  activeProjects=(sort-by 'order' (filter-by "isCompletedOrDeleted" false this.model.projects))
   setItemsDeadline=(route-action "setItemsDeadline")
   createProject=(route-action "createProject")
   reorderItems=(route-action "reorderItems")

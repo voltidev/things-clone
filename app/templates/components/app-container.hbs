@@ -2,7 +2,7 @@
   <div class="l-container__content">
     {{sidebar-nav
       tasks=@tasks
-      projects=@projects
+      activeProjects=@activeProjects
       reorderItems=@reorderItems
     }}
   </div>
@@ -33,9 +33,8 @@
 
   {{#animated-if this.hasSelected use=transition duration=200}}
     {{actions-bar
-      hasSelectedProjects=this.hasSelectedProjects
-      openMoveDialog=(action "toggleMoveDialog")
-      openDeadlineDialog=(action "toggleDeadlineDialog")
+      openMoveDialog=(if this.hasSelectedProjects null (toggle-action "isMoveDialogOpen" this))
+      openDeadlineDialog=(toggle-action "isDeadlineDialogOpen" this)
       deleteSelected=(action "deleteSelected")
     }}
   {{/animated-if}}
@@ -43,24 +42,23 @@
 
 {{#if this.isShortcutsDialogOpen}}
   {{shortcuts-dialog
-    close=(action "toggleShortcutsDialog")
+    close=(toggle-action "isShortcutsDialogOpen" this)
   }}
 {{/if}}
 
 {{#if this.isMoveDialogOpen}}
   {{move-dialog
-    folders=this.folders
-    projects=(sort-by 'order' (filter-by "isCompletedOrDeleted" false @projects))
-    close=(action "toggleMoveDialog")
-    moveSelectedToFolder=(action "moveSelectedToFolder")
-    moveSelectedToProject=(action "moveSelectedToProject")
+    activeProjects=@activeProjects
+    moveToFolder=(action "moveSelectedToFolder")
+    moveToProject=(action "moveSelectedToProject")
+    close=(toggle-action "isMoveDialogOpen" this)
   }}
 {{/if}}
 
 {{#if this.isDeadlineDialogOpen}}
   {{deadline-dialog
-    close=(action "toggleDeadlineDialog")
-    setDeadline=(action "setDeadline")
+    setDeadline=(action "setDeadlineForSelected")
+    close=(toggle-action "isDeadlineDialogOpen" this)
   }}
 {{/if}}
 
