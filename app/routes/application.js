@@ -1,16 +1,28 @@
 import Route from '@ember/routing/route';
 import { set } from '@ember/object';
 import { inject as service } from '@ember/service';
-import RSVP from 'rsvp';
+import { isArray } from '@ember/array';
+
+function castArray(value = []) {
+  return isArray(value) ? value : [value];
+}
+
+function uncompleteParentIfNeeded(task) {
+  if (!task.isCompleted && task.get('project.isCompleted')) {
+    task.get('project.content').uncomplete();
+    task.get('project.content').save();
+  }
+}
 
 export default Route.extend({
+  data: service(),
   router: service(),
 
   model() {
-    return RSVP.hash({
-      projects: this.get('store').findAll('project'),
-      tasks: this.get('store').findAll('task')
-    });
+    return {
+      tasks: this.data.tasks,
+      projects: this.data.projects
+    };
   },
 
   actions: {
@@ -20,216 +32,127 @@ export default Route.extend({
 
     updateItemName(item, name) {
       set(item, 'name', name);
-      return item.save();
+      item.save();
     },
 
     updateItemNotes(item, notes) {
       set(item, 'notes', notes);
-      return item.save();
+      item.save();
     },
 
-    completeItem(item) {
-      if (item.isProject) {
-        return this.completeProject(item);
-      }
+    completeItems(items) {
+      castArray(items).forEach(item => {
+        if (item.isProject) {
+          item.activeTasks.forEach(task => {
+            task.complete();
+            task.save();
+          });
+        }
 
-      item.complete();
-      return item.save();
+        item.complete();
+        item.save();
+      });
     },
 
-    uncompleteItem(item) {
-      if (item.isTask) {
-        return this.uncompleteTask(item);
-      }
+    uncompleteItems(items) {
+      castArray(items).forEach(item => {
+        item.uncomplete();
+        item.save();
 
-      item.uncomplete();
-      return item.save();
+        if (item.isTask) {
+          uncompleteParentIfNeeded(item);
+        }
+      });
     },
 
     setItemsDeadline(items, deadline) {
-      return Promise.all(
-        items.map(item => {
-          item.set('deadline', deadline);
-          return item.save();
-        })
-      );
+      castArray(items).forEach(item => {
+        item.set('deadline', deadline);
+        item.save();
+      });
     },
 
     reorderItems(newOrderItems) {
-      let promises = newOrderItems.reduce((saved, item, newOrder) => {
-        if (item.order !== newOrder) {
-          item.set('order', newOrder);
-          saved.push(item.save());
+      newOrderItems.forEach((item, newOrder) => {
+        if (item.order === newOrder) {
+          return;
         }
-        return saved;
-      }, []);
 
-      return Promise.all(promises);
-    },
-
-    deleteItem(item) {
-      if (item.isProject) {
-        return this.deleteProject(item);
-      }
-
-      item.delete();
-      return item.save();
+        item.set('order', newOrder);
+        item.save();
+      });
     },
 
     deleteItems(items) {
-      return Promise.all(
-        items.map(item => {
-          item.delete();
-          return item.save();
-        })
-      );
+      castArray(items).forEach(item => {
+        item.delete();
+        item.save();
+      });
     },
 
-    async undeleteItem(item) {
-      if (item.isTask) {
-        await this.undeleteTask(item);
-      } else {
+    undeleteItems(items) {
+      castArray(items).forEach(item => {
         item.undelete();
-        await item.save();
-      }
+        item.save();
+
+        if (item.isTask) {
+          uncompleteParentIfNeeded(item);
+        }
+      });
     },
 
     destroyDeletedItems() {
-      /* eslint-disable-next-line */
-      if (!confirm('Are you sure you want to remove the items in the Trash permanently?')) {
-        return Promise.resolve();
-      }
+      let deletedTasks = this.data.tasks.filterBy('isDeleted', true);
+      let deletedProjects = this.data.projects.filterBy('isDeleted', true);
+      [...deletedTasks, ...deletedProjects].forEach(item => item.destroyRecord());
+    },
 
-      let deletedTasks = this.get('store')
-        .peekAll('task')
-        .filterBy('isDeleted', true);
+    moveTasksToProject(items, project) {
+      castArray(items).forEach(item => {
+        item.moveToProject(project);
+        item.save();
+      });
+    },
 
-      let deletedProjects = this.get('store')
-        .peekAll('project')
-        .filterBy('isDeleted', true);
+    moveItemsToList(items, list) {
+      castArray(items).forEach(item => {
+        if (this.router.currentRouteName === 'trash') {
+          this.send('undeleteItems', item);
+        }
 
-      let deletedItems = [...deletedTasks, ...deletedProjects];
+        if (item.isCompleted) {
+          this.send('uncompleteItems', item);
+        }
 
-      return Promise.all(deletedItems.map(item => item.destroyRecord()));
+        item.moveToList(list);
+        item.save();
+      });
     },
 
     createTask() {
       let route = this.router.currentRouteName;
-      let folder = route === 'project' ? 'anytime' : route;
+      let list = route === 'project' ? 'anytime' : route;
       let project = route === 'project'
-        ? this.store.peekRecord('project', this.router.currentURL.split('/')[2])
+        ? this.data.projects.findBy('id', this.router.currentURL.split('/')[2])
         : null;
 
       if (project && project.isCompleted && !project.isDeleted) {
         project.uncomplete();
+        project.save();
       }
 
-      let lastItem = this.get('store')
-        .peekAll('task')
-        .filterBy('folder', folder)
-        .sortBy('order')
-        .lastObject;
-
+      let lastItem = this.data.tasks.filterBy('list', list).sortBy('order').lastObject;
       let order = lastItem ? lastItem.order + 1 : 0;
-      let newItem = this.store.createRecord('task', { order, folder, project });
+      let newItem = this.store.createRecord('task', { list, project, order });
+
       return newItem.save();
     },
 
-    moveTasksToProject(tasks, project) {
-      return Promise.all(
-        tasks.map(task => {
-          task.moveToProject(project);
-          return task.save();
-        })
-      );
-    },
-
-    removeTasksFromProject(tasks) {
-      return Promise.all(
-        tasks.map(task => {
-          task.removeFromProject();
-          return task.save();
-        })
-      );
-    },
-
-    async moveTasksToFolder(tasks, folder) {
-      await Promise.all(
-        tasks.map(async task => {
-          task.moveToFolder(folder);
-
-          if (this.router.currentRouteName === 'trash') {
-            await this.undeleteTask(task);
-          }
-
-          if (task.isCompleted) {
-            await this.uncompleteTask(task);
-          }
-
-          if (task.hasDirtyAttributes) {
-            await task.save();
-          }
-        })
-      );
-    },
-
     createProject() {
-      let lastItem = this.get('store')
-        .peekAll('project')
-        .sortBy('order')
-        .lastObject;
-
+      let lastItem = this.data.projects.sortBy('order').lastObject;
       let order = lastItem ? lastItem.order + 1 : 0;
       let newItem = this.store.createRecord('project', { order });
-      return newItem.save().then(project => this.transitionTo('project', project));
-    }
-  },
-
-  completeProject(project) {
-    if (
-      project.activeTasks.length
-      /* eslint-disable-next-line */
-      && !confirm('Are you sure you want to complete this project & remaining to-dos?')
-    ) {
-      return Promise.resolve();
-    }
-
-    project.complete();
-    let activeTasks = project.tasks.filter(task => !task.isDeleted && !task.isCompleted);
-
-    return project.save().then(() => {
-      activeTasks.forEach(task => task.complete());
-      return Promise.all(activeTasks.map(task => task.save()));
-    });
-  },
-
-  deleteProject(project) {
-    project.delete();
-    let todayTasks = project.tasks.filter(task => task.isToday);
-
-    return project.save().then(() => {
-      todayTasks.forEach(task => task.unstar());
-      return Promise.all(todayTasks.map(task => task.save()));
-    });
-  },
-
-  async uncompleteTask(task) {
-    task.uncomplete();
-    await task.save();
-
-    if (task.get('project.isCompleted')) {
-      task.get('project.content').uncomplete();
-      await task.get('project.content').save();
-    }
-  },
-
-  async undeleteTask(task) {
-    task.undelete();
-    await task.save();
-
-    if (!task.isCompleted && task.get('project.isCompleted')) {
-      task.get('project.content').uncomplete();
-      await task.get('project.content').save();
+      newItem.save().then(project => this.transitionTo('project', project));
     }
   }
 });

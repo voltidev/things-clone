@@ -1,23 +1,17 @@
 <div class="l-container__sidebar">
   <div class="l-container__content">
-    {{sidebar-nav
-      tasks=@tasks
-      activeProjects=@activeProjects
-      reorderItems=@reorderItems
-    }}
+    {{sidebar-nav reorderItems=@reorderItems}}
   </div>
   <div class="l-container__footer">
-    <div class="c-sidebar-actions c-sidebar-actions--sidebar">
+    <div class="c-sidebar-actions">
       <div
         class="c-sidebar-actions__item"
         title="Create a new list"
+        {{action @createProject}}
       >
         {{svg-jar "plus" class="c-sidebar-actions__icon c-sidebar-actions__icon--plus"}}
 
-        <div
-          class="c-sidebar-actions__text"
-          {{action @createProject}}
-        >
+        <div class="c-sidebar-actions__text">
           New Project
         </div>
       </div>
@@ -33,25 +27,19 @@
 
   {{#animated-if this.hasSelected use=transition duration=200}}
     {{actions-bar
+      isDeleted=this.isInTrashList
       openMoveDialog=(if this.hasSelectedProjects null (toggle-action "isMoveDialogOpen" this))
+      openWhenDialog=(toggle-action "isWhenDialogOpen" this)
       openDeadlineDialog=(toggle-action "isDeadlineDialogOpen" this)
-      deleteSelected=(action "deleteSelected")
+      delete=(action "deleteSelected")
+      undelete=(action "undeleteSelected")
     }}
+
+    {{#from-elsewhere name="actions-bar" as |actionsBar|}}
+      {{component actionsBar}}
+    {{/from-elsewhere}}
   {{/animated-if}}
 </div>
-
-
-{{!-- {{#if this.isShortcutsDialogOpen}}
-  {{to-elsewhere name="modal"}}
-  {{to-elsewhere
-    named="my-right-sidebar"
-    send=(component
-          "cool-thing"
-          model=model
-          launch=(action "launchIt")
-    )
-  }} --}}
-
 
 {{#if this.isShortcutsDialogOpen}}
   {{to-elsewhere named="modal" send=(
@@ -63,10 +51,17 @@
 {{#if this.isMoveDialogOpen}}
   {{to-elsewhere named="modal" send=(
     component "move-dialog"
-    activeProjects=@activeProjects
-    moveToFolder=(action "moveSelectedToFolder")
+    moveToInbox=(action "moveSelectedToList" "inbox")
     moveToProject=(action "moveSelectedToProject")
     close=(toggle-action "isMoveDialogOpen" this)
+  )}}
+{{/if}}
+
+{{#if this.isWhenDialogOpen}}
+  {{to-elsewhere named="modal" send=(
+    component "when-dialog"
+    setWhen=(action "moveSelectedToList")
+    close=(toggle-action "isWhenDialogOpen" this)
   )}}
 {{/if}}
 

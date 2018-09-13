@@ -37,6 +37,58 @@
     }}
   </div>
 
+
+  <div class="c-item-form__section">
+    <div class="c-item-form__label" {{action (toggle "isWhenDialogOpen" this)}}>
+      When:
+    </div>
+
+    <div class="c-item-form__value" {{action (toggle "isWhenDialogOpen" this)}}>
+      {{#if (not-eq @task.list "inbox")}}
+        <div class="c-item-form__value-box">
+          {{svg-jar @task.list class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.list)}}
+
+          <div class="c-item-form__value-text u-capitalize">
+            {{@task.list}}
+          </div>
+        </div>
+      {{else}}
+        <div class="c-item-form__placeholder">
+          Set when
+        </div>
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="c-item-form__section">
+    <div class="c-item-form__label" {{action (toggle "isMoveDialogOpen" this)}}>
+      List:
+    </div>
+
+    <div class="c-item-form__value" {{action (toggle "isMoveDialogOpen" this)}}>
+      {{#if @task.project}}
+        <div class="c-item-form__value-box">
+          {{progress-pie
+            class="c-item-form__value-icon"
+            progress=@task.project.progress
+          }}
+
+          <div class="c-item-form__value-text">
+            {{or @task.project.name "New project"}}
+          </div>
+
+          <div class="c-item-form__value-reset" {{action "moveToProject" null bubbles=false}}>
+            {{svg-jar "no"}}
+          </div>
+        </div>
+      {{else}}
+        <div class="c-item-form__placeholder">
+          {{if (eq @task.list "inbox") "Inbox" "No project"}}
+        </div>
+      {{/if}}
+    </div>
+  </div>
+
   <div class="c-item-form__section">
     <div class="c-item-form__label" {{action (toggle "isDeadlineDialogOpen" this)}}>
       Deadline:
@@ -70,3 +122,30 @@
     close=(toggle-action "isDeadlineDialogOpen" this)
   )}}
 {{/if}}
+
+{{#if this.isWhenDialogOpen}}
+  {{to-elsewhere named="modal" send=(
+    component "when-dialog"
+    setWhen=(action "moveToList")
+    close=(toggle-action "isWhenDialogOpen" this)
+  )}}
+{{/if}}
+
+{{#if this.isMoveDialogOpen}}
+  {{to-elsewhere named="modal" send=(
+    component "move-dialog"
+    moveToInbox=(action "moveToList" "inbox")
+    moveToProject=(action "moveToProject")
+    close=(toggle-action "isMoveDialogOpen" this)
+  )}}
+{{/if}}
+
+{{to-elsewhere named="actions-bar" send=(
+  component "actions-bar"
+  isDeleted=this.task.isDeleted
+  openMoveDialog=(toggle-action "isMoveDialogOpen" this)
+  openWhenDialog=(toggle-action "isWhenDialogOpen" this)
+  openDeadlineDialog=(toggle-action "isDeadlineDialogOpen" this)
+  delete=(action "toggleIsDeleted")
+  undelete=(action "toggleIsDeleted")
+)}}

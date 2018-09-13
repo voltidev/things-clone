@@ -5,15 +5,13 @@
 }}
   <div class="c-dialog__options">
     <div class="c-dialog__section">
-      {{#each (array "inbox" "today" "anytime" "someday") as |folder|}}
-        <div class="c-dialog__options-item u-capitalize" {{action (queue (action @moveToFolder folder) @close)}}>
-          {{svg-jar folder class="c-dialog__options-icon"}}
+      <div class="c-dialog__options-item u-capitalize" {{action (queue @moveToInbox @close)}}>
+        {{svg-jar "inbox" class="c-dialog__options-icon"}}
 
-          <div class="c-dialog__options-text">
-            {{folder}}
-          </div>
+        <div class="c-dialog__options-text">
+          Inbox
         </div>
-      {{/each}}
+      </div>
     </div>
 
     <div class="c-dialog__section">
@@ -23,7 +21,7 @@
         <div class="c-dialog__options-text">No project</div>
       </div>
 
-      {{#each @activeProjects as |project|}}
+      {{#each (sort-by 'order' (filter-by "isActive" true this.data.projects)) as |project|}}
         <div class="c-dialog__options-item" {{action (queue (action @moveToProject project) @close)}}>
           {{progress-pie
             class="c-dialog__options-icon"

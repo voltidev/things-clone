@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
+import { alias, equal } from '@ember/object/computed';
 import { set, computed } from '@ember/object';
 import { on } from '@ember/object/evented';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
@@ -18,6 +18,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   isEditing: alias('taskEditor.hasTask'),
   hasSelected: alias('itemSelector.hasItems'),
   hasSelectedProjects: alias('itemSelector.hasProjects'),
+  isInTrashList: equal('router.currentRouteName', 'trash'),
 
   canCreateTask: computed('router.currentRouteName', 'isEditing', function() {
     return !this.isEditing && !['logbook', 'trash'].includes(this.router.currentRouteName);
@@ -44,6 +45,15 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.deleteSelected();
     },
 
+    undeleteSelected() {
+      if (!this.hasSelected) {
+        return;
+      }
+
+      this.undeleteItems(this.itemSelector.items);
+      this.itemSelector.clear();
+    },
+
     setDeadlineForSelected(deadline) {
       if (!this.hasSelected) {
         return;
@@ -52,12 +62,12 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.setItemsDeadline(this.itemSelector.items, deadline);
     },
 
-    moveSelectedToFolder(folder) {
+    moveSelectedToList(list) {
       if (!this.hasSelected || this.hasSelectedProjects) {
         return;
       }
 
-      this.moveTasksToFolder(this.itemSelector.items, folder);
+      this.moveItemsToList(this.itemSelector.items, list);
     },
 
     moveSelectedToProject(project) {
@@ -65,11 +75,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
         return;
       }
 
-      if (project) {
-        this.moveTasksToProject(this.itemSelector.items, project);
-      } else {
-        this.removeTasksFromProject(this.itemSelector.items);
-      }
+      this.moveTasksToProject(this.itemSelector.items, project);
     }
   },
 
@@ -80,7 +86,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
     this.createTask().then(newTask => {
       this.itemSelector.selectOnly(newTask);
-      setTimeout(() => this.taskEditor.edit(newTask));
+      setTimeout(() => this.taskEditor.edit(newTask), 1);
     });
   },
 

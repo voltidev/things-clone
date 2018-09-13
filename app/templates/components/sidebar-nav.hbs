@@ -6,7 +6,7 @@
       Inbox
     </div>
 
-    {{#let (filter-by "isShownInInbox" @tasks) as |inboxItems|}}
+    {{#let (filter-by "isShownInInbox" this.data.tasks) as |inboxItems|}}
       {{#if inboxItems}}
         <div class="c-sidebar-nav__counter">
           {{inboxItems.length}}
@@ -24,7 +24,7 @@
       Today
     </div>
 
-    {{#let (filter-by "isShownInToday" @tasks) as |todayItems|}}
+    {{#let (filter-by "isShownInToday" this.data.tasks) as |todayItems|}}
       {{#if todayItems}}
         <div class="c-sidebar-nav__counter">
           {{todayItems.length}}
@@ -70,7 +70,7 @@
 
 {{#sortable-group class="c-sidebar-nav__section" onChange=@reorderItems as |group|}}
   {{#animated-container}}
-    {{#animated-each @activeProjects use=eachTransition duration=200 as |project|}}
+    {{#animated-each (sort-by 'order' (filter-by "isActive" true this.data.projects)) use=eachTransition duration=200 as |project|}}
       {{#sortable-item
         model=project
         group=group

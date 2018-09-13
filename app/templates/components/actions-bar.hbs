@@ -10,13 +10,35 @@
     </div>
   </div>
 
-  <div class="c-actions-bar__action" {{action @deleteSelected}}>
-    {{svg-jar "delete2" class="c-actions-bar__icon c-actions-bar__icon--delete"}}
+  <div
+    class="c-actions-bar__action"
+    {{action @openWhenDialog}}
+  >
+    {{svg-jar "calendar" class="c-actions-bar__icon"}}
 
     <div class="c-actions-bar__text">
-      Delete
+      When
     </div>
   </div>
+
+
+  {{#if @isDeleted}}
+    <div class="c-actions-bar__action" {{action @undelete}}>
+      {{svg-jar "redo" class="c-actions-bar__icon"}}
+
+      <div class="c-actions-bar__text">
+        Put back
+      </div>
+    </div>
+  {{else}}
+    <div class="c-actions-bar__action" {{action @delete}}>
+      {{svg-jar "delete2" class="c-actions-bar__icon c-actions-bar__icon--delete"}}
+
+      <div class="c-actions-bar__text">
+        Delete
+      </div>
+    </div>
+  {{/if}}
 
   {{#basic-dropdown
     class="c-dropdown"

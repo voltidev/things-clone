@@ -3,10 +3,10 @@
   folder="project"
   project=this.project
   updateProjectName=(route-action "updateItemName" this.project)
-  completeProject=(route-action "completeItem" this.project)
-  uncompleteProject=(route-action "uncompleteItem" this.project)
-  deleteProject=(pipe (route-action "deleteItem" this.project) (route-action "replaceRoute" "today"))
-  undeleteProject=(route-action "undeleteItem" this.project)
+  completeProject=(route-action "completeItems" this.project)
+  uncompleteProject=(route-action "uncompleteItems" this.project)
+  deleteProject=(pipe (route-action "deleteItems" this.project) (route-action "replaceRoute" "today"))
+  undeleteProject=(route-action "undeleteItems" this.project)
   as |selectBetween|
 }}
   <div class="c-folder__group">

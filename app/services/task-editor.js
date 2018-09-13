@@ -11,13 +11,33 @@ export default Service.extend({
   },
 
   edit(task) {
-    set(this, 'task', {
+    let taskData = {
       id: task.id,
       isCompleted: task.isCompleted,
+      isDeleted: task.isDeleted,
       name: task.name,
       notes: task.notes,
+      list: task.list,
+      project: task.project,
       deadline: task.deadline
-    });
+    };
+
+    set(this, 'task', Object.assign({}, taskData));
+    set(this, '_originalTask', Object.assign({}, taskData));
+  },
+
+  getChangedAttributes() {
+    if (!this.hasTask) {
+      return [];
+    }
+
+    return Object.keys(this.task).reduce((changedAttrs, attr) => {
+      if (this.task[attr] !== this._originalTask[attr]) {
+        changedAttrs.push(attr);
+      }
+
+      return changedAttrs;
+    }, []);
   },
 
   clear() {

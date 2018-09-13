@@ -1,13 +1,9 @@
 .c-sidebar-actions {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: rem(4px) rem(10px);
-
-  &--sidebar {
-    justify-content: space-between;
-  }
 }
 
 .c-sidebar-actions__item {

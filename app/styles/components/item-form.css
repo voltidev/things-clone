@@ -12,10 +12,6 @@
     align-items: baseline;
   }
 
-  &:first-child {
-    border-top: 1px solid #f3f3f3;
-  }
-
   &:not(:last-child) {
     border-bottom: 1px solid #f3f3f3;
   }
@@ -43,6 +39,7 @@
 .c-item-form__label {
   padding: rem(14px) rem(10px);
   padding-left: 0;
+  font-weight: var(--semi-bold);
   cursor: pointer;
 }
 
@@ -50,6 +47,31 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+.c-item-form__value-icon {
+  height: rem(16px);
+  width: rem(16px);
+
+  &:not(:last-child) {
+    margin-right: rem(6px);
+  }
+
+  &--anytime {
+    fill: #40a69b;
+  }
+
+  &--today {
+    fill: #ffd402;
+
+    .icon-today__border {
+      stroke: #f0c402;
+    }
+  }
+
+  &--someday {
+    fill: #bdb176;
+  }
 }
 
 .c-item-form__value-box {
@@ -68,6 +90,7 @@
 
 .c-item-form__value-text {
   margin-right: 8px;
+  opacity: 0.8;
 }
 
 .c-item-form__value-reset {

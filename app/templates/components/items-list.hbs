@@ -7,20 +7,22 @@
         {{#if item.isProject}}
           {{items-project
             item=item
-            updateItemName=(route-action "updateItemName")
-            updateItemNotes=(route-action "updateItemNotes")
-            completeItem=(route-action "completeItem")
-            uncompleteItem=(route-action "uncompleteItem")
+            completeItems=(route-action "completeItems")
+            uncompleteItems=(route-action "uncompleteItems")
             selectBetween=@selectBetween
           }}
         {{else}}
           {{items-task
             task=item
+            completeItems=(route-action "completeItems")
+            uncompleteItems=(route-action "uncompleteItems")
             updateItemName=(route-action "updateItemName")
             updateItemNotes=(route-action "updateItemNotes")
-            completeItem=(route-action "completeItem")
-            uncompleteItem=(route-action "uncompleteItem")
             setItemsDeadline=(route-action "setItemsDeadline")
+            deleteItems=(route-action "deleteItems")
+            undeleteItems=(route-action "undeleteItems")
+            moveItemsToList=(route-action "moveItemsToList")
+            moveTasksToProject=(route-action "moveTasksToProject")
             selectBetween=@selectBetween
           }}
         {{/if}}
@@ -41,20 +43,22 @@
           {{#if item.isProject}}
             {{items-project
               item=item
-              updateItemName=(route-action "updateItemName")
-              updateItemNotes=(route-action "updateItemNotes")
-              completeItem=(route-action "completeItem")
-              uncompleteItem=(route-action "uncompleteItem")
+              completeItems=(route-action "completeItems")
+              uncompleteItems=(route-action "uncompleteItems")
               selectBetween=@selectBetween
             }}
           {{else}}
             {{items-task
               task=item
+              completeItems=(route-action "completeItems")
+              uncompleteItems=(route-action "uncompleteItems")
               updateItemName=(route-action "updateItemName")
               updateItemNotes=(route-action "updateItemNotes")
-              completeItem=(route-action "completeItem")
-              uncompleteItem=(route-action "uncompleteItem")
               setItemsDeadline=(route-action "setItemsDeadline")
+              deleteItems=(route-action "deleteItems")
+              undeleteItems=(route-action "undeleteItems")
+              moveItemsToList=(route-action "moveItemsToList")
+              moveTasksToProject=(route-action "moveTasksToProject")
               selectBetween=@selectBetween
             }}
           {{/if}}

@@ -1,23 +1,23 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { belongsTo } from 'ember-data/relationships';
-import { set, computed } from '@ember/object';
-import { equal, or, alias } from '@ember/object/computed';
+import { set, computed, get } from '@ember/object';
+import { equal, or, alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
 
-const FOLDERS = ['inbox', 'today', 'anytime', 'someday'];
+const LISTS = ['inbox', 'today', 'anytime', 'someday'];
 
 export default Model.extend({
   name: attr('string'),
   notes: attr('string'),
   order: attr('number', { defaultValue: 0 }),
-  deadline: attr('date'),
+  list: attr('string', { defaultValue: 'inbox' }),
+  isDeleted: attr('boolean', { defaultValue: false }),
   isCompleted: attr('boolean', { defaultValue: false }),
+  deadline: attr('date'),
   completedAt: attr('date'),
   deletedAt: attr('date'),
-  folder: attr('string', { defaultValue: 'inbox' }),
-  isDeleted: attr('boolean', { defaultValue: false }),
 
   createdAt: attr('date', {
     defaultValue() {
@@ -27,36 +27,50 @@ export default Model.extend({
 
   project: belongsTo('project'),
 
-  isInbox: equal('folder', 'inbox'),
-  isToday: equal('folder', 'today'),
-  isAnytime: equal('folder', 'anytime'),
-  isSomeday: equal('folder', 'someday'),
+  isInbox: equal('list', 'inbox'),
+  isToday: equal('list', 'today'),
+  isAnytime: equal('list', 'anytime'),
+  isSomeday: equal('list', 'someday'),
 
   currentDate: alias('clock.date'),
   isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
+  isProjectDeleted: equal('project.isDeleted', true),
+  isActive: equal('isCompletedOrDeleted', false),
   isShownInTrash: alias('isDeleted'),
 
   hasProject: computed('project', function() {
     return this.belongsTo('project').id() !== null;
   }),
 
-  isShownInInbox: computed('isInbox', 'isCompletedOrDeleted', function() {
-    return this.isInbox && !this.isCompletedOrDeleted;
+  isShownInInbox: computed('isInbox', 'isActive', function() {
+    return this.isInbox && this.isActive;
   }),
 
-  isShownInToday: computed('isToday', 'isCompletedOrDeleted', function() {
-    return this.isToday && !this.isCompletedOrDeleted;
+  isShownInToday: computed('isToday', 'isActive', 'isProjectDeleted', function() {
+    return this.isToday && this.isActive && !this.isProjectDeleted;
   }),
 
-  isShownInAnytime: computed('isAnytime', 'isToday', 'isCompletedOrDeleted', function() {
-    return (this.isAnytime || this.isToday) && !this.isCompletedOrDeleted;
+  isShownInAnytime: computed('isAnytime', 'isToday', 'isActive', 'isProjectDeleted', function() {
+    return (this.isAnytime || this.isToday) && this.isActive && !this.isProjectDeleted;
   }),
 
-  isShownInSomeday: computed('isSomeday', 'isCompletedOrDeleted', function() {
-    return this.isSomeday && !this.isCompletedOrDeleted;
+  isShownInSomeday: computed('isSomeday', 'isActive', 'isProjectDeleted', function() {
+    return this.isSomeday && this.isActive && !this.isProjectDeleted;
   }),
 
-  isShownInLogbook: computed('isCompleted', 'isDeleted', function() {
+  isShownInLogbook: computed('isCompleted', 'isDeleted', 'isProjectDeleted', function() {
+    return this.isCompleted && !this.isDeleted && !this.isProjectDeleted;
+  }),
+
+  isShownInProjectAnytime: computed('isAnytime', 'isToday', 'isActive', function() {
+    return (this.isAnytime || this.isToday) && this.isActive;
+  }),
+
+  isShownInProjectSomeday: computed('isSomeday', 'isActive', function() {
+    return this.isSomeday && this.isActive;
+  }),
+
+  isShownInProjectLogbook: computed('isCompleted', 'isDeleted', function() {
     return this.isCompleted && !this.isDeleted;
   }),
 
@@ -108,7 +122,7 @@ export default Model.extend({
 
   unstar() {
     if (this.isToday) {
-      set(this, 'folder', 'anytime');
+      set(this, 'list', 'anytime');
     }
   },
 
@@ -125,42 +139,34 @@ export default Model.extend({
   delete() {
     set(this, 'isDeleted', true);
     set(this, 'deletedAt', new Date());
-    this.unstar();
   },
 
   undelete() {
     set(this, 'isDeleted', false);
   },
 
-  moveToFolder(folder) {
-    if (!FOLDERS.includes(folder)) {
-      throw new Error(`Unknown folder name ${folder}`);
+  moveToList(list) {
+    if (!LISTS.includes(list)) {
+      throw new Error(`Unknown list name ${list} for task`);
     }
 
-    if (folder === 'today' && this.get('project.isDeleted')) {
-      return;
-    }
-
-    if (folder === 'inbox') {
+    if (list === 'inbox') {
       set(this, 'project', null);
     }
 
-    set(this, 'folder', folder);
+    set(this, 'list', list);
   },
 
   moveToProject(project) {
-    let lastTask = project.tasks.sortBy('order').lastObject;
-    let nextTaskOrder = lastTask ? lastTask.order + 1 : 0;
-
     set(this, 'project', project);
-    set(this, 'order', nextTaskOrder);
 
     if (this.isInbox) {
-      this.moveToFolder('anytime');
+      set(this, 'list', 'anytime');
     }
-  },
 
-  removeFromProject() {
-    set(this, 'project', null);
+    if (project) {
+      let lastTask = project.tasks.sortBy('order').lastObject;
+      set(this, 'order', lastTask ? lastTask.order + 1 : 0);
+    }
   }
 });

@@ -1,0 +1,51 @@
+[debug] [2018-09-18T22:16:13.393Z] ----------------------------------------------------------------------
+[debug] [2018-09-18T22:16:13.428Z] Command:       /usr/local/Cellar/node/10.5.0_1/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-09-18T22:16:13.430Z] CLI Version:   4.0.0
+[debug] [2018-09-18T22:16:13.430Z] Platform:      darwin
+[debug] [2018-09-18T22:16:13.430Z] Node Version:  v10.5.0
+[debug] [2018-09-18T22:16:13.491Z] Time:          Wed Sep 19 2018 03:16:13 GMT+0500 (Yekaterinburg Standard Time)
+[debug] [2018-09-18T22:16:13.491Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-09-18T22:16:13.589Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-09-18T22:16:13.592Z] > authorizing via signed-in user
+[debug] [2018-09-18T22:16:13.594Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-09-18T22:16:13.595Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token:
+   '1/29zhcFm-YuHMQDhXXGeT6tEsS3MD2rYiq05YCaLgBrwZgX3muy6sZ-EVDbck0rgE',
+  client_id:
+   '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope:
+   'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed Sep 19 2018 03:16:13 GMT+0500 (Yekaterinburg Standard Time)
+[debug] [2018-09-18T22:16:16.931Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-18T22:16:16.947Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/things-clone  
+  
+ Wed Sep 19 2018 03:16:16 GMT+0500 (Yekaterinburg Standard Time)
+[debug] [2018-09-18T22:16:17.876Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-18T22:16:17.877Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/things-clone/tokens  
+  
+ Wed Sep 19 2018 03:16:17 GMT+0500 (Yekaterinburg Standard Time)
+[debug] [2018-09-18T22:16:18.667Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'things-clone'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing dist directory for upload...
+[debug] [2018-09-18T22:16:20.002Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/things-clone/uploads/-LMikM7tTVm6sTZb2WuV?fileCount=28&message=  
+  
+ Wed Sep 19 2018 03:16:20 GMT+0500 (Yekaterinburg Standard Time)
+[debug] [2018-09-18T22:16:22.970Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-18T22:16:22.972Z] [hosting] .tgz uploaded successfully, waiting for extraction
+[info] ✔  hosting: 28 files uploaded successfully
+[debug] [2018-09-18T22:16:24.124Z] [hosting] deploy completed after 4245ms
+[debug] [2018-09-18T22:16:24.453Z] >>> HTTP REQUEST POST https://deploy.firebase.com/v1/projects/things-clone/releases  
+ { hosting:
+   { public: 'dist',
+     ignore: [ 'firebase.json', '**/.*', '**/node_modules/**' ],
+     rewrites: [ [Object] ],
+     version: '-LMikM7tTVm6sTZb2WuV',
+     prefix: '-LMikM7tTVm6sTZb2WuV/',
+     manifest: [] } } 
+ Wed Sep 19 2018 03:16:24 GMT+0500 (Yekaterinburg Standard Time)

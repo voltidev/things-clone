@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
+import { computed, get } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 
@@ -62,9 +62,9 @@ export default Component.extend({
 
     toggleTaskCompletion() {
       if (this.isCompleted) {
-        this.uncompleteItem(this.task);
+        this.uncompleteItems(this.task);
       } else {
-        this.completeItem(this.task);
+        this.completeItems(this.task);
       }
     }
   },
@@ -121,22 +121,45 @@ export default Component.extend({
       return;
     }
 
-    let { isCompleted, name, notes, deadline } = this.taskEditor.task;
+    let changedAttrs = this.taskEditor.getChangedAttributes();
+    let {
+      name,
+      notes,
+      deadline,
+      list,
+      project,
+      isCompleted,
+      isDeleted
+    } = this.taskEditor.task;
 
-    if (this.task.isCompleted !== isCompleted) {
-      (isCompleted ? this.completeItem : this.uncompleteItem)(this.task);
-    }
+    let isProjectChanged = get(this, 'task.project.id') !== get(this, 'taskEditor.task.project.id');
 
-    if (this.task.name !== name) {
+    if (changedAttrs.includes('name')) {
       this.updateItemName(this.task, name);
     }
 
-    if (this.task.notes !== notes) {
+    if (changedAttrs.includes('notes')) {
       this.updateItemNotes(this.task, notes);
     }
 
-    if (this.task.deadline !== deadline) {
-      this.setItemsDeadline([this.task], deadline);
+    if (changedAttrs.includes('deadline')) {
+      this.setItemsDeadline(this.task, deadline);
+    }
+
+    if (changedAttrs.includes('list')) {
+      this.moveItemsToList(this.task, list);
+    }
+
+    if (isProjectChanged) {
+      this.moveTasksToProject(this.task, project);
+    }
+
+    if (changedAttrs.includes('isCompleted')) {
+      (isCompleted ? this.completeItems : this.uncompleteItems)(this.task);
+    }
+
+    if (changedAttrs.includes('isDeleted')) {
+      (isDeleted ? this.deleteItems : this.undeleteItems)(this.task);
     }
 
     this.taskEditor.clear();
@@ -153,8 +176,7 @@ export default Component.extend({
   stopEditingOnSideClick({ target }) {
     run(() => {
       let isInternalClick = this.element.contains(target);
-      let isItemsActions = [...document.querySelectorAll('.js-items-actions')]
-        .some(el => el.contains(target));
+      let isItemsActions = [...document.querySelectorAll('.js-items-actions')].some(el => el.contains(target));
 
       if (!isInternalClick && !isItemsActions) {
         this.stopEditing();

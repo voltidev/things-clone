@@ -21,7 +21,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
   didInsertElement() {
     this._super(...arguments);
-    this.animateIt();
+    this.animateIn();
   },
 
   didRender() {
@@ -59,7 +59,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     document.removeEventListener('mousedown', this.closeOnSideClick, true);
   },
 
-  animateIt() {
+  animateIn() {
     this.set('isTransitioningIn', true);
 
     return this.waitForAnimations(this.element)

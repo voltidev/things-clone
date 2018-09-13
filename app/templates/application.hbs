@@ -1,14 +1,12 @@
 {{#app-container
-  tasks=this.model.tasks
-  activeProjects=(sort-by 'order' (filter-by "isCompletedOrDeleted" false this.model.projects))
-  setItemsDeadline=(route-action "setItemsDeadline")
+  createTask=(route-action "createTask")
   createProject=(route-action "createProject")
   reorderItems=(route-action "reorderItems")
-  createTask=(route-action "createTask")
+  setItemsDeadline=(route-action "setItemsDeadline")
   deleteItems=(route-action "deleteItems")
-  moveTasksToFolder=(route-action "moveTasksToFolder")
+  undeleteItems=(route-action "undeleteItems")
+  moveItemsToList=(route-action "moveItemsToList")
   moveTasksToProject=(route-action "moveTasksToProject")
-  removeTasksFromProject=(route-action "removeTasksFromProject")
 }}
   {{outlet}}
 {{/app-container}}

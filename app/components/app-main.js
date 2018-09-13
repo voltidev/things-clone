@@ -28,7 +28,6 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   taskEditor: service(),
   classNames: ['l-container__content', 'c-folder'],
   fade,
-  titleInputPlaceholder: 'New project',
   hasSelected: alias('itemSelector.hasItems'),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {

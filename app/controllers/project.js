@@ -5,9 +5,9 @@ import fade from 'ember-animated/transitions/fade';
 export default Controller.extend({
   fade,
   project: alias('model'),
-  anytimeTasks: filterBy('project.tasks', 'isShownInAnytime'),
-  somedayTasks: filterBy('project.tasks', 'isShownInSomeday'),
-  logbookTasks: filterBy('project.tasks', 'isShownInLogbook'),
+  anytimeTasks: filterBy('project.tasks', 'isShownInProjectAnytime'),
+  somedayTasks: filterBy('project.tasks', 'isShownInProjectSomeday'),
+  logbookTasks: filterBy('project.tasks', 'isShownInProjectLogbook'),
 
   hasAnytime: notEmpty('anytimeTasks'),
   hasSomeday: notEmpty('somedayTasks'),

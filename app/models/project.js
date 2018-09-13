@@ -2,15 +2,18 @@ import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { hasMany } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
-import { or, alias } from '@ember/object/computed';
+import { equal, or, alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
+
+const LISTS = ['today', 'anytime', 'someday'];
 
 export default Model.extend({
   name: attr('string'),
   order: attr('number', { defaultValue: 0 }),
   isCompleted: attr('boolean', { defaultValue: false }),
   isDeleted: attr('boolean', { defaultValue: false }),
+  list: attr('string', { defaultValue: 'anytime' }),
   deadline: attr('date'),
   completedAt: attr('date'),
   deletedAt: attr('date'),
@@ -23,8 +26,13 @@ export default Model.extend({
 
   tasks: hasMany('task'),
 
+  isToday: equal('list', 'today'),
+  isAnytime: equal('list', 'anytime'),
+  isSomeday: equal('list', 'someday'),
+
   currentDate: alias('clock.date'),
   isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
+  isActive: equal('isCompletedOrDeleted', false),
   isShownInTrash: alias('isDeleted'),
 
   activeTasks: computed('tasks.[]', 'tasks.@each.{isCompleted,isDeleted}', function() {
@@ -46,20 +54,20 @@ export default Model.extend({
 
 
   isShownInAnytime: computed(
-    'isCompletedOrDeleted',
+    'isActive',
     'tasks.[]',
     'tasks.@each.{isShownInAnytime}',
     function() {
-      return !this.isCompletedOrDeleted && this.tasks.any(task => task.isShownInAnytime);
+      return this.isActive && this.tasks.any(task => task.isShownInAnytime);
     }
   ),
 
   isShownInSomeday: computed(
-    'isCompletedOrDeleted',
+    'isActive',
     'tasks.[]',
     'tasks.@each.{isShownInSomeday}',
     function() {
-      return !this.isCompletedOrDeleted && this.tasks.any(task => task.isShownInSomeday);
+      return this.isActive && this.tasks.any(task => task.isShownInSomeday);
     }
   ),
 
@@ -116,6 +124,7 @@ export default Model.extend({
   complete() {
     set(this, 'isCompleted', true);
     set(this, 'completedAt', new Date());
+    this.unstar();
   },
 
   delete() {
@@ -129,5 +138,19 @@ export default Model.extend({
 
   uncomplete() {
     set(this, 'isCompleted', false);
+  },
+
+  moveToList(list) {
+    if (!LISTS.includes(list)) {
+      throw new Error(`Unknown list name ${list} for project`);
+    }
+
+    set(this, 'list', list);
+  },
+
+  unstar() {
+    if (this.isToday) {
+      set(this, 'list', 'anytime');
+    }
   }
 });
