@@ -84,10 +84,9 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       return;
     }
 
-    this.createTask().then(newTask => {
-      this.itemSelector.selectOnly(newTask);
-      setTimeout(() => this.taskEditor.edit(newTask), 1);
-    });
+    let newTask = this.createTask();
+    this.itemSelector.selectOnly(newTask);
+    setTimeout(() => this.taskEditor.edit(newTask), 1);
   },
 
   deleteSelected() {

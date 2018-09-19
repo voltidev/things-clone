@@ -1,22 +1,17 @@
 import Route from '@ember/routing/route';
 import { set } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { isArray } from '@ember/array';
+import { isArray, A } from '@ember/array';
+import { timeout } from 'ember-concurrency';
 
 function castArray(value = []) {
   return isArray(value) ? value : [value];
 }
 
-function uncompleteParentIfNeeded(task) {
-  if (!task.isCompleted && task.get('project.isCompleted')) {
-    task.get('project.content').uncomplete();
-    task.get('project.content').save();
-  }
-}
-
 export default Route.extend({
   data: service(),
   router: service(),
+  savingProcesses: A(),
 
   model() {
     return {
@@ -32,12 +27,12 @@ export default Route.extend({
 
     updateItemName(item, name) {
       set(item, 'name', name);
-      item.save();
+      this.save(item);
     },
 
     updateItemNotes(item, notes) {
       set(item, 'notes', notes);
-      item.save();
+      this.save(item);
     },
 
     completeItems(items) {
@@ -45,22 +40,22 @@ export default Route.extend({
         if (item.isProject) {
           item.activeTasks.forEach(task => {
             task.complete();
-            task.save();
+            this.save(task);
           });
         }
 
         item.complete();
-        item.save();
+        this.save(item);
       });
     },
 
     uncompleteItems(items) {
       castArray(items).forEach(item => {
         item.uncomplete();
-        item.save();
+        this.save(item);
 
         if (item.isTask) {
-          uncompleteParentIfNeeded(item);
+          this.uncompleteParentIfNeeded(item);
         }
       });
     },
@@ -68,7 +63,7 @@ export default Route.extend({
     setItemsDeadline(items, deadline) {
       castArray(items).forEach(item => {
         item.set('deadline', deadline);
-        item.save();
+        this.save(item);
       });
     },
 
@@ -79,24 +74,24 @@ export default Route.extend({
         }
 
         item.set('order', newOrder);
-        item.save();
+        this.save(item);
       });
     },
 
     deleteItems(items) {
       castArray(items).forEach(item => {
         item.delete();
-        item.save();
+        this.save(item);
       });
     },
 
     undeleteItems(items) {
       castArray(items).forEach(item => {
         item.undelete();
-        item.save();
+        this.save(item);
 
         if (item.isTask) {
-          uncompleteParentIfNeeded(item);
+          this.uncompleteParentIfNeeded(item);
         }
       });
     },
@@ -110,7 +105,7 @@ export default Route.extend({
     moveTasksToProject(items, project) {
       castArray(items).forEach(item => {
         item.moveToProject(project);
-        item.save();
+        this.save(item);
       });
     },
 
@@ -125,7 +120,7 @@ export default Route.extend({
         }
 
         item.moveToList(list);
-        item.save();
+        this.save(item);
       });
     },
 
@@ -138,21 +133,49 @@ export default Route.extend({
 
       if (project && project.isCompleted && !project.isDeleted) {
         project.uncomplete();
-        project.save();
+        this.save(project);
       }
 
       let lastItem = this.data.tasks.filterBy('list', list).sortBy('order').lastObject;
       let order = lastItem ? lastItem.order + 1 : 0;
-      let newItem = this.store.createRecord('task', { list, project, order });
+      let task = this.store.createRecord('task', { list, project, order });
+      this.save(task);
 
-      return newItem.save();
+      return task;
     },
 
     createProject() {
       let lastItem = this.data.projects.sortBy('order').lastObject;
       let order = lastItem ? lastItem.order + 1 : 0;
-      let newItem = this.store.createRecord('project', { order });
-      newItem.save().then(project => this.transitionTo('project', project));
+      let project = this.store.createRecord('project', { order });
+      this.save(project);
+      this.transitionTo('project', project);
     }
+  },
+
+  uncompleteParentIfNeeded(task) {
+    let project = task.get('project.content');
+
+    if (!task.isCompleted && project && project.isCompleted) {
+      project.uncomplete();
+      this.save(project);
+    }
+  },
+
+  save(item) {
+    let currentProcess = this.savingProcesses.find(process => process.item === item);
+
+    if (currentProcess) {
+      return currentProcess.promise;
+    }
+
+    let promise = timeout(300);
+    let newProcess = { item, promise };
+    this.savingProcesses.addObject(newProcess);
+
+    return promise.then(() => {
+      this.savingProcesses.removeObject(newProcess);
+      return item.save();
+    });
   }
 });
