@@ -1,11 +1,14 @@
 import Component from '@ember/component';
 import { set } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { equal } from '@ember/object/computed';
+import { equal, or } from '@ember/object/computed';
 
 export default Component.extend({
   router: service(),
   isInTrashList: equal('router.currentRouteName', 'trash'),
+  isCompleted: equal('task.status', 'completed'),
+  isCanceled: equal('task.status', 'canceled'),
+  isProcessed: or('isCompleted', 'isCanceled'),
 
   actions: {
     toggleIsDeleted() {
@@ -15,8 +18,7 @@ export default Component.extend({
     moveToList(list) {
       set(this, 'task.list', list);
       set(this, 'task.isDeleted', false);
-      set(this, 'task.isCompleted', false);
-      set(this, 'task.isCanceled', false);
+      set(this, 'task.status', 'new');
 
       if (list === 'inbox') {
         set(this, 'task.project', null);
@@ -31,17 +33,9 @@ export default Component.extend({
       }
     },
 
-    toggleIsCompleted() {
-      if (!this.task.isCanceled) {
-        set(this, 'task.isCompleted', !this.task.isCompleted);
-      }
-
-      set(this, 'task.isCanceled', false);
-    },
-
-    toggleIsCanceled() {
-      set(this, 'task.isCanceled', !this.task.isCanceled);
-      set(this, 'task.isCompleted', false);
+    toggleCheckbox() {
+      let newStatus = this.isProcessed ? 'new' : 'completed';
+      set(this, 'task.status', newStatus);
     }
   }
 });

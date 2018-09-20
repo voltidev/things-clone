@@ -31,9 +31,9 @@
       openMoveDialog=(if this.hasSelectedProjects null (toggle-action "isMoveDialogOpen" this))
       openWhenDialog=(toggle-action "isWhenDialogOpen" this)
       openDeadlineDialog=(toggle-action "isDeadlineDialogOpen" this)
-      complete=(action "completeSelected")
-      uncomplete=(action "uncompleteSelected")
-      cancel=(action "cancelSelected")
+      markAsCompleted=(action "markSelectedAs" "completed")
+      markAsNew=(action "markSelectedAs" "new")
+      markAsCanceled=(action "markSelectedAs" "canceled")
       delete=(action "deleteSelected")
       undelete=(action "undeleteSelected")
     }}

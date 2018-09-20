@@ -1,7 +1,7 @@
 {{#if @project}}
   <div class="c-folder__title">
     {{#if @project.isProcessed}}
-      <div class="c-checkbox c-checkbox--big c-checkbox--project is-checked" title="Mark project as incomplete" {{action @uncompleteProject}}>
+      <div class="c-checkbox c-checkbox--big c-checkbox--project is-checked" title="Mark project as uncompleted" {{action @markProjectAsNew}}>
         {{#if @project.isCompleted}}
           {{svg-jar "checkbox-mark" class="c-checkbox__icon"}}
         {{else}}
@@ -9,7 +9,7 @@
         {{/if}}
       </div>
     {{else}}
-      <div class="c-checkbox c-checkbox--pie c-checkbox--big" title="Mark project as complete" {{action @completeProject}}>
+      <div class="c-checkbox c-checkbox--pie c-checkbox--big" title="Mark project as completed" {{action @markProjectAsCompleted}}>
         {{progress-pie progress=@project.progress}}
       </div>
     {{/if}}
@@ -39,12 +39,12 @@
         <div class="c-dropdown__content-inner">
           <div class="c-dropdown__section">
             {{#if @project.isProcessed}}
-              <div class="c-dropdown__item" {{action (queue dropdown.actions.close @uncompleteProject)}}>
+              <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsNew)}}>
                 {{svg-jar "uncomplete" class="c-dropdown__item-icon"}}
                 <div class="c-dropdown__item-text">Mark as uncompleted</div>
               </div>
             {{else}}
-              <div class="c-dropdown__item" {{action (queue dropdown.actions.close @completeProject)}}>
+              <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsCompleted)}}>
                 {{svg-jar "complete-project" class="c-dropdown__item-icon"}}
                 <div class="c-dropdown__item-text">Mark as completed</div>
               </div>

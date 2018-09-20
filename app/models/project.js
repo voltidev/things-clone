@@ -7,13 +7,13 @@ import { inject as service } from '@ember/service';
 import moment from 'moment';
 
 const LISTS = ['today', 'anytime', 'someday'];
+const STATUSES = ['new', 'completed', 'canceled'];
 
 export default Model.extend({
   name: attr('string'),
   order: attr('number', { defaultValue: 0 }),
+  status: attr('string', { defaultValue: 'new' }),
   list: attr('string', { defaultValue: 'anytime' }),
-  isCompleted: attr('boolean', { defaultValue: false }),
-  isCanceled: attr('boolean', { defaultValue: false }),
   isDeleted: attr('boolean', { defaultValue: false }),
   deadline: attr('date'),
   processedAt: attr('date'),
@@ -27,13 +27,16 @@ export default Model.extend({
 
   tasks: hasMany('task'),
 
+  isCompleted: equal('status', 'completed'),
+  isCanceled: equal('status', 'canceled'),
+  isProcessed: or('isCompleted', 'isCanceled'),
+
   isToday: equal('list', 'today'),
   isAnytime: equal('list', 'anytime'),
   isSomeday: equal('list', 'someday'),
 
   currentDate: alias('clock.date'),
   isShownInTrash: alias('isDeleted'),
-  isProcessed: or('isCompleted', 'isCanceled'),
 
   isActive: computed('isProcessed', 'isDeleted', function() {
     return !this.isProcessed && !this.isDeleted;
@@ -125,23 +128,17 @@ export default Model.extend({
   clock: service(),
   isProject: true,
 
-  complete() {
-    set(this, 'isCompleted', true);
-    set(this, 'isCanceled', false);
-    set(this, 'processedAt', new Date());
-    this.unstar();
-  },
+  markAs(status) {
+    if (!STATUSES.includes(status)) {
+      throw new Error(`Unknown status name: ${status}`);
+    }
 
-  cancel() {
-    set(this, 'isCanceled', true);
-    set(this, 'isCompleted', false);
-    set(this, 'processedAt', new Date());
-    this.unstar();
-  },
+    if (status !== 'new') {
+      set(this, 'processedAt', new Date());
+      this.unstar();
+    }
 
-  uncomplete() {
-    set(this, 'isCompleted', false);
-    set(this, 'isCanceled', false);
+    set(this, 'status', status);
   },
 
   delete() {

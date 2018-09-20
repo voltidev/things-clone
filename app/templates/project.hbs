@@ -3,8 +3,8 @@
   folder="project"
   project=this.project
   updateProjectName=(route-action "updateItemName" this.project)
-  completeProject=(route-action "completeItems" this.project)
-  uncompleteProject=(route-action "uncompleteItems" this.project)
+  markProjectAsCompleted=(route-action "markItemsAs" this.project "completed")
+  markProjectAsNew=(route-action "markItemsAs" this.project "new")
   deleteProject=(pipe (route-action "deleteItems" this.project) (route-action "replaceRoute" "today"))
   undeleteProject=(route-action "undeleteItems" this.project)
   as |selectBetween|

@@ -62,10 +62,10 @@
             <div class="c-dropdown__item-text">Add deadline</div>
           </div>
 
-          {{#if @complete}}
+          {{#if @markAsCompleted}}
             <div
               class="c-dropdown__item c-actions-bar__dropdown-item"
-              {{action (queue dropdown.actions.close @complete)}}
+              {{action (queue dropdown.actions.close @markAsCompleted)}}
             >
               {{svg-jar "checkbox-mark" class="c-dropdown__item-icon c-dropdown__item-icon--small"}}
 
@@ -73,10 +73,10 @@
             </div>
           {{/if}}
 
-          {{#if @uncomplete}}
+          {{#if @markAsNew}}
             <div
               class="c-dropdown__item c-actions-bar__dropdown-item"
-              {{action (queue dropdown.actions.close @uncomplete)}}
+              {{action (queue dropdown.actions.close @markAsNew)}}
             >
               {{svg-jar "uncomplete" class="c-dropdown__item-icon"}}
 
@@ -86,7 +86,7 @@
 
           <div
             class="c-dropdown__item c-actions-bar__dropdown-item"
-            {{action (queue dropdown.actions.close @cancel)}}
+            {{action (queue dropdown.actions.close @markAsCanceled)}}
           >
             {{svg-jar "cancel" class="c-dropdown__item-icon c-dropdown__item-icon--small"}}
 

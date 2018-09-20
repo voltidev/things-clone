@@ -35,42 +35,21 @@ export default Route.extend({
       this.save(item);
     },
 
-    completeItems(items) {
+    markItemsAs(items, status) {
       castArray(items).forEach(item => {
-        if (item.isProject) {
-          item.activeTasks.forEach(task => {
-            task.complete();
-            this.save(task);
-          });
-        }
-
-        item.complete();
-        this.save(item);
-      });
-    },
-
-    uncompleteItems(items) {
-      castArray(items).forEach(item => {
-        item.uncomplete();
+        item.markAs(status);
         this.save(item);
 
-        if (item.isTask) {
+        if (item.isTask && status === 'new') {
           this.updateProjectIfNeeded(item);
         }
-      });
-    },
 
-    cancelItems(items) {
-      castArray(items).forEach(item => {
-        if (item.isProject) {
+        if (item.isProject && status !== 'new') {
           item.activeTasks.forEach(task => {
-            task.cancel();
+            task.markAs(status);
             this.save(task);
           });
         }
-
-        item.cancel();
-        this.save(item);
       });
     },
 
@@ -130,7 +109,7 @@ export default Route.extend({
         }
 
         if (item.isCompleted) {
-          this.send('uncompleteItems', item);
+          this.send('markItemsAs', item, 'new');
         }
 
         item.moveToList(list);
@@ -146,7 +125,7 @@ export default Route.extend({
         : null;
 
       if (project && project.isCompleted && !project.isDeleted) {
-        project.uncomplete();
+        project.markAs('new');
         this.save(project);
       }
 
@@ -175,7 +154,7 @@ export default Route.extend({
     }
 
     if ((!task.isProcessed) && project.isProcessed) {
-      project.uncomplete();
+      project.markAs('new');
       this.save(project);
     }
   },

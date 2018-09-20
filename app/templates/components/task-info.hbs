@@ -12,7 +12,7 @@
     {{/if}}
   </div>
 
-  {{#if @task.isToday}}
+  {{#if (and @task.isToday @isTimeShown)}}
     {{svg-jar "today" class="c-item__star"}}
   {{/if}}
 
@@ -35,7 +35,7 @@
     {{if @task.name @task.name @placeholder}}
   </div>
 
-  {{#if (and (not @task.isCompleted) @task.deadline)}}
+  {{#if (and @task.deadline @isTimeShown)}}
     <div class="c-item__separator"></div>
 
     <div class="c-item__deadline {{if @task.isDeadline 'c-item__deadline--alarm'}}">

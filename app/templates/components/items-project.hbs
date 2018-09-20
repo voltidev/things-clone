@@ -1,6 +1,6 @@
 <div class="c-item__line">
   {{#if @item.isProcessed}}
-    <div class="c-checkbox c-checkbox--project is-checked js-checkbox" title="Mark as uncompleted" {{action @uncompleteItems @item}}>
+    <div class="c-checkbox c-checkbox--project is-checked js-checkbox" title="Mark as uncompleted" {{action @markItemsAs @item "new"}}>
       {{#if @item.isCompleted}}
         {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
       {{else}}
@@ -8,7 +8,7 @@
       {{/if}}
     </div>
   {{else}}
-    <div class="c-checkbox c-checkbox--pie js-checkbox" title="Mark as completed" {{action @completeItems @item}}>
+    <div class="c-checkbox c-checkbox--pie js-checkbox" title="Mark as completed" {{action @markItemsAs @item "completed"}}>
       {{progress-pie progress=@item.progress}}
     </div>
   {{/if}}

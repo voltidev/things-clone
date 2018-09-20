@@ -7,8 +7,7 @@
         {{#if item.isProject}}
           {{items-project
             item=item
-            completeItems=(route-action "completeItems")
-            uncompleteItems=(route-action "uncompleteItems")
+            markItemsAs=(route-action "markItemsAs")
             selectBetween=@selectBetween
           }}
         {{else}}
@@ -17,9 +16,7 @@
             updateItemName=(route-action "updateItemName")
             updateItemNotes=(route-action "updateItemNotes")
             setItemsDeadline=(route-action "setItemsDeadline")
-            completeItems=(route-action "completeItems")
-            uncompleteItems=(route-action "uncompleteItems")
-            cancelItems=(route-action "cancelItems")
+            markItemsAs=(route-action "markItemsAs")
             deleteItems=(route-action "deleteItems")
             undeleteItems=(route-action "undeleteItems")
             moveItemsToList=(route-action "moveItemsToList")
@@ -44,8 +41,7 @@
           {{#if item.isProject}}
             {{items-project
               item=item
-              completeItems=(route-action "completeItems")
-              uncompleteItems=(route-action "uncompleteItems")
+              markItemsAs=(route-action "markItemsAs")
               selectBetween=@selectBetween
             }}
           {{else}}
@@ -54,9 +50,7 @@
               updateItemName=(route-action "updateItemName")
               updateItemNotes=(route-action "updateItemNotes")
               setItemsDeadline=(route-action "setItemsDeadline")
-              completeItems=(route-action "completeItems")
-              uncompleteItems=(route-action "uncompleteItems")
-              cancelItems=(route-action "cancelItems")
+              markItemsAs=(route-action "markItemsAs")
               deleteItems=(route-action "deleteItems")
               undeleteItems=(route-action "undeleteItems")
               moveItemsToList=(route-action "moveItemsToList")

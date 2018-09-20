@@ -16,6 +16,10 @@ export default Component.extend({
   isSomeday: alias('task.isShownInSomeday'),
   isSortable: not('isEditing'),
 
+  isTimeShown: computed('router.currentRouteName', function() {
+    return !['logbook', 'trash'].includes(this.router.currentRouteName);
+  }),
+
   isProjectShown: computed('router.currentRouteName', function() {
     return ['logbook', 'trash', 'today'].includes(this.router.currentRouteName);
   }),
@@ -61,9 +65,9 @@ export default Component.extend({
 
     toggleCheckbox() {
       if (this.task.isProcessed) {
-        this.uncompleteItems(this.task);
+        this.markItemsAs(this.task, 'new');
       } else {
-        this.completeItems(this.task);
+        this.markItemsAs(this.task, 'completed');
       }
     }
   },
@@ -127,8 +131,7 @@ export default Component.extend({
       deadline,
       list,
       project,
-      isCompleted,
-      isCanceled,
+      status,
       isDeleted
     } = this.taskEditor.task;
 
@@ -154,12 +157,8 @@ export default Component.extend({
       this.moveTasksToProject(this.task, project);
     }
 
-    if (changedAttrs.includes('isCanceled')) {
-      (isCanceled ? this.cancelItems : this.uncompleteItems)(this.task);
-    }
-
-    if (changedAttrs.includes('isCompleted')) {
-      (isCompleted ? this.completeItems : this.uncompleteItems)(this.task);
+    if (changedAttrs.includes('status')) {
+      this.markItemsAs(this.task, status);
     }
 
     if (changedAttrs.includes('isDeleted')) {

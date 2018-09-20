@@ -13,14 +13,13 @@ export default Service.extend({
   edit(task) {
     let taskData = {
       id: task.id,
-      isCompleted: task.isCompleted,
-      isCanceled: task.isCanceled,
-      isDeleted: task.isDeleted,
       name: task.name,
       notes: task.notes,
       list: task.list,
-      project: task.project,
-      deadline: task.deadline
+      deadline: task.deadline,
+      status: task.status,
+      isDeleted: task.isDeleted,
+      project: task.project
     };
 
     set(this, 'task', Object.assign({}, taskData));

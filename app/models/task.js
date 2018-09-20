@@ -1,20 +1,20 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { belongsTo } from 'ember-data/relationships';
-import { set, computed, get } from '@ember/object';
-import { equal, or, alias, and } from '@ember/object/computed';
+import { set, computed } from '@ember/object';
+import { equal, or, alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
 
 const LISTS = ['inbox', 'today', 'anytime', 'someday'];
+const STATUSES = ['new', 'completed', 'canceled'];
 
 export default Model.extend({
   name: attr('string'),
   notes: attr('string'),
   order: attr('number', { defaultValue: 0 }),
+  status: attr('string', { defaultValue: 'new' }),
   list: attr('string', { defaultValue: 'inbox' }),
-  isCompleted: attr('boolean', { defaultValue: false }),
-  isCanceled: attr('boolean', { defaultValue: false }),
   isDeleted: attr('boolean', { defaultValue: false }),
   deadline: attr('date'),
   processedAt: attr('date'),
@@ -28,12 +28,15 @@ export default Model.extend({
 
   project: belongsTo('project'),
 
+  isCompleted: equal('status', 'completed'),
+  isCanceled: equal('status', 'canceled'),
+  isProcessed: or('isCompleted', 'isCanceled'),
+
   isInbox: equal('list', 'inbox'),
   isToday: equal('list', 'today'),
   isAnytime: equal('list', 'anytime'),
   isSomeday: equal('list', 'someday'),
 
-  isProcessed: or('isCompleted', 'isCanceled'),
   currentDate: alias('clock.date'),
   isProjectDeleted: equal('project.isDeleted', true),
   isShownInTrash: alias('isDeleted'),
@@ -130,23 +133,17 @@ export default Model.extend({
     }
   },
 
-  complete() {
-    set(this, 'isCompleted', true);
-    set(this, 'isCanceled', false);
-    set(this, 'processedAt', new Date());
-    this.unstar();
-  },
+  markAs(status) {
+    if (!STATUSES.includes(status)) {
+      throw new Error(`Unknown status name: ${status}`);
+    }
 
-  cancel() {
-    set(this, 'isCanceled', true);
-    set(this, 'isCompleted', false);
-    set(this, 'processedAt', new Date());
-    this.unstar();
-  },
+    if (status !== 'new') {
+      set(this, 'processedAt', new Date());
+      this.unstar();
+    }
 
-  uncomplete() {
-    set(this, 'isCompleted', false);
-    set(this, 'isCanceled', false);
+    set(this, 'status', status);
   },
 
   delete() {
