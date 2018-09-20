@@ -1,10 +1,14 @@
 <div class="c-item__line">
   <div
-    class="c-checkbox js-checkbox {{if @task.isCompleted 'is-checked'}}"
-    {{action (toggle "isCompleted" @task)}}
+    class="c-checkbox js-checkbox {{if (or @task.isCompleted @task.isCanceled) 'is-checked'}}"
+    {{action "toggleIsCompleted"}}
   >
     {{#if @task.isCompleted}}
       {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
+    {{/if}}
+
+    {{#if @task.isCanceled}}
+      {{svg-jar "cancel" class="c-checkbox__icon c-checkbox__icon--cancel" }}
     {{/if}}
   </div>
 
@@ -148,4 +152,5 @@
   openDeadlineDialog=(toggle-action "isDeadlineDialogOpen" this)
   delete=(action "toggleIsDeleted")
   undelete=(action "toggleIsDeleted")
+  cancel=(action "toggleIsCanceled")
 )}}

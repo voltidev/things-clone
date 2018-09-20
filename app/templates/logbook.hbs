@@ -3,7 +3,7 @@
   folder="logbook"
   as |selectBetween|
 }}
-  {{#each-in (group-by "logbookGroup" (sort-by "completedAt:desc" this.items)) as |groupName groupItems|}}
+  {{#each-in (group-by "logbookGroup" (sort-by "processedAt:desc" this.items)) as |groupName groupItems|}}
     <div class="c-folder__group">
       <div class="c-folder__group-title">
         <div class="c-folder__group-title-inner">

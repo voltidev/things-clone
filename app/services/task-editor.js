@@ -14,6 +14,7 @@ export default Service.extend({
     let taskData = {
       id: task.id,
       isCompleted: task.isCompleted,
+      isCanceled: task.isCanceled,
       isDeleted: task.isDeleted,
       name: task.name,
       notes: task.notes,

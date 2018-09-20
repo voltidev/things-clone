@@ -41,6 +41,18 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.createNewTask();
     },
 
+    completeSelected() {
+      this.completeSelected();
+    },
+
+    uncompleteSelected() {
+      this.uncompleteSelected();
+    },
+
+    cancelSelected() {
+      this.cancelSelected();
+    },
+
     deleteSelected() {
       this.deleteSelected();
     },
@@ -87,6 +99,33 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     let newTask = this.createTask();
     this.itemSelector.selectOnly(newTask);
     setTimeout(() => this.taskEditor.edit(newTask), 1);
+  },
+
+  completeSelected() {
+    if (!this.hasSelected) {
+      return;
+    }
+
+    this.completeItems(this.itemSelector.items);
+    this.itemSelector.clear();
+  },
+
+  uncompleteSelected() {
+    if (!this.hasSelected) {
+      return;
+    }
+
+    this.uncompleteItems(this.itemSelector.items);
+    this.itemSelector.clear();
+  },
+
+  cancelSelected() {
+    if (!this.hasSelected) {
+      return;
+    }
+
+    this.cancelItems(this.itemSelector.items);
+    this.itemSelector.clear();
   },
 
   deleteSelected() {

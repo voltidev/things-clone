@@ -57,8 +57,40 @@
             class="c-dropdown__item c-actions-bar__dropdown-item"
             {{action (queue dropdown.actions.close @openDeadlineDialog)}}
           >
-            {{svg-jar "flag" class="c-dropdown__item-icon c-actions-bar__dropdown-icon"}}
+            {{svg-jar "flag" class="c-dropdown__item-icon"}}
+
             <div class="c-dropdown__item-text">Add deadline</div>
+          </div>
+
+          {{#if @complete}}
+            <div
+              class="c-dropdown__item c-actions-bar__dropdown-item"
+              {{action (queue dropdown.actions.close @complete)}}
+            >
+              {{svg-jar "checkbox-mark" class="c-dropdown__item-icon c-dropdown__item-icon--small"}}
+
+              <div class="c-dropdown__item-text">Mark as completed</div>
+            </div>
+          {{/if}}
+
+          {{#if @uncomplete}}
+            <div
+              class="c-dropdown__item c-actions-bar__dropdown-item"
+              {{action (queue dropdown.actions.close @uncomplete)}}
+            >
+              {{svg-jar "uncomplete" class="c-dropdown__item-icon"}}
+
+              <div class="c-dropdown__item-text">Mark as uncompleted</div>
+            </div>
+          {{/if}}
+
+          <div
+            class="c-dropdown__item c-actions-bar__dropdown-item"
+            {{action (queue dropdown.actions.close @cancel)}}
+          >
+            {{svg-jar "cancel" class="c-dropdown__item-icon c-dropdown__item-icon--small"}}
+
+            <div class="c-dropdown__item-text">Mark as canceled</div>
           </div>
         </div>
       </div>

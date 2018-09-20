@@ -55,8 +55,22 @@ export default Route.extend({
         this.save(item);
 
         if (item.isTask) {
-          this.uncompleteParentIfNeeded(item);
+          this.updateProjectIfNeeded(item);
         }
+      });
+    },
+
+    cancelItems(items) {
+      castArray(items).forEach(item => {
+        if (item.isProject) {
+          item.activeTasks.forEach(task => {
+            task.cancel();
+            this.save(task);
+          });
+        }
+
+        item.cancel();
+        this.save(item);
       });
     },
 
@@ -91,7 +105,7 @@ export default Route.extend({
         this.save(item);
 
         if (item.isTask) {
-          this.uncompleteParentIfNeeded(item);
+          this.updateProjectIfNeeded(item);
         }
       });
     },
@@ -153,10 +167,14 @@ export default Route.extend({
     }
   },
 
-  uncompleteParentIfNeeded(task) {
+  updateProjectIfNeeded(task) {
     let project = task.get('project.content');
 
-    if (!task.isCompleted && project && project.isCompleted) {
+    if (!project) {
+      return;
+    }
+
+    if ((!task.isProcessed) && project.isProcessed) {
       project.uncomplete();
       this.save(project);
     }

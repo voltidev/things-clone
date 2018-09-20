@@ -64,6 +64,10 @@
   width: rem(18px);
   fill: #5f96e8;
 
+  &--small {
+    padding: 2px;
+  }
+
   :hover > & {
     fill: currentColor;
   }

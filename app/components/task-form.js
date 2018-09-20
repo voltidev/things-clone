@@ -16,6 +16,7 @@ export default Component.extend({
       set(this, 'task.list', list);
       set(this, 'task.isDeleted', false);
       set(this, 'task.isCompleted', false);
+      set(this, 'task.isCanceled', false);
 
       if (list === 'inbox') {
         set(this, 'task.project', null);
@@ -28,6 +29,19 @@ export default Component.extend({
       if (this.task.list === 'inbox') {
         set(this, 'task.list', 'anytime');
       }
+    },
+
+    toggleIsCompleted() {
+      if (!this.task.isCanceled) {
+        set(this, 'task.isCompleted', !this.task.isCompleted);
+      }
+
+      set(this, 'task.isCanceled', false);
+    },
+
+    toggleIsCanceled() {
+      set(this, 'task.isCanceled', !this.task.isCanceled);
+      set(this, 'task.isCompleted', false);
     }
   }
 });

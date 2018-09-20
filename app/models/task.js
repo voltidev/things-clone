@@ -13,10 +13,11 @@ export default Model.extend({
   notes: attr('string'),
   order: attr('number', { defaultValue: 0 }),
   list: attr('string', { defaultValue: 'inbox' }),
-  isDeleted: attr('boolean', { defaultValue: false }),
   isCompleted: attr('boolean', { defaultValue: false }),
+  isCanceled: attr('boolean', { defaultValue: false }),
+  isDeleted: attr('boolean', { defaultValue: false }),
   deadline: attr('date'),
-  completedAt: attr('date'),
+  processedAt: attr('date'),
   deletedAt: attr('date'),
 
   createdAt: attr('date', {
@@ -32,11 +33,14 @@ export default Model.extend({
   isAnytime: equal('list', 'anytime'),
   isSomeday: equal('list', 'someday'),
 
+  isProcessed: or('isCompleted', 'isCanceled'),
   currentDate: alias('clock.date'),
-  isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
   isProjectDeleted: equal('project.isDeleted', true),
-  isActive: equal('isCompletedOrDeleted', false),
   isShownInTrash: alias('isDeleted'),
+
+  isActive: computed('isProcessed', 'isDeleted', function() {
+    return !this.isProcessed && !this.isDeleted;
+  }),
 
   hasProject: computed('project', function() {
     return this.belongsTo('project').id() !== null;
@@ -58,8 +62,8 @@ export default Model.extend({
     return this.isSomeday && this.isActive && !this.isProjectDeleted;
   }),
 
-  isShownInLogbook: computed('isCompleted', 'isDeleted', 'isProjectDeleted', function() {
-    return this.isCompleted && !this.isDeleted && !this.isProjectDeleted;
+  isShownInLogbook: computed('isProcessed', 'isDeleted', 'isProjectDeleted', function() {
+    return this.isProcessed && !this.isDeleted && !this.isProjectDeleted;
   }),
 
   isShownInProjectAnytime: computed('isAnytime', 'isToday', 'isActive', function() {
@@ -70,12 +74,12 @@ export default Model.extend({
     return this.isSomeday && this.isActive;
   }),
 
-  isShownInProjectLogbook: computed('isCompleted', 'isDeleted', function() {
-    return this.isCompleted && !this.isDeleted;
+  isShownInProjectLogbook: computed('isProcessed', 'isDeleted', function() {
+    return this.isProcessed && !this.isDeleted;
   }),
 
-  logbookGroup: computed('completedAt', function() {
-    return moment(this.completedAt).calendar(null, {
+  logbookGroup: computed('processedAt', function() {
+    return moment(this.processedAt).calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
       lastWeek: 'MMMM',
@@ -83,8 +87,8 @@ export default Model.extend({
     });
   }),
 
-  completedAtDisplay: computed('completedAt', function() {
-    return moment(this.completedAt).calendar(null, {
+  processedAtDisplay: computed('processedAt', function() {
+    return moment(this.processedAt).calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
       lastWeek: 'MMM DD',
@@ -128,12 +132,21 @@ export default Model.extend({
 
   complete() {
     set(this, 'isCompleted', true);
-    set(this, 'completedAt', new Date());
+    set(this, 'isCanceled', false);
+    set(this, 'processedAt', new Date());
+    this.unstar();
+  },
+
+  cancel() {
+    set(this, 'isCanceled', true);
+    set(this, 'isCompleted', false);
+    set(this, 'processedAt', new Date());
     this.unstar();
   },
 
   uncomplete() {
     set(this, 'isCompleted', false);
+    set(this, 'isCanceled', false);
   },
 
   delete() {

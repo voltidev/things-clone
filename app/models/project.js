@@ -11,11 +11,12 @@ const LISTS = ['today', 'anytime', 'someday'];
 export default Model.extend({
   name: attr('string'),
   order: attr('number', { defaultValue: 0 }),
-  isCompleted: attr('boolean', { defaultValue: false }),
-  isDeleted: attr('boolean', { defaultValue: false }),
   list: attr('string', { defaultValue: 'anytime' }),
+  isCompleted: attr('boolean', { defaultValue: false }),
+  isCanceled: attr('boolean', { defaultValue: false }),
+  isDeleted: attr('boolean', { defaultValue: false }),
   deadline: attr('date'),
-  completedAt: attr('date'),
+  processedAt: attr('date'),
   deletedAt: attr('date'),
 
   createdAt: attr('date', {
@@ -31,25 +32,28 @@ export default Model.extend({
   isSomeday: equal('list', 'someday'),
 
   currentDate: alias('clock.date'),
-  isCompletedOrDeleted: or('isCompleted', 'isDeleted'),
-  isActive: equal('isCompletedOrDeleted', false),
   isShownInTrash: alias('isDeleted'),
+  isProcessed: or('isCompleted', 'isCanceled'),
 
-  activeTasks: computed('tasks.[]', 'tasks.@each.{isCompleted,isDeleted}', function() {
-    return this.tasks.filter(task => !task.isCompleted && !task.isDeleted);
+  isActive: computed('isProcessed', 'isDeleted', function() {
+    return !this.isProcessed && !this.isDeleted;
   }),
 
-  progress: computed('tasks.[]', 'tasks.@each.{isCompleted,isDeleted}', function() {
-    let activeTasks = this.tasks.filter(task => !task.isDeleted);
-    let completedTasks = activeTasks.filter(task => task.isCompleted);
-    let activeTasksCount = activeTasks.length;
-    let completedTasksCount = completedTasks.length;
+  activeTasks: computed('tasks.[]', 'tasks.@each.{isActive}', function() {
+    return this.tasks.filterBy('isActive', true);
+  }),
 
-    if (activeTasksCount === 0 || completedTasksCount === 0) {
+  progress: computed('tasks.[]', 'tasks.@each.{isProcessed,isDeleted}', function() {
+    let allTasks = this.tasks.filterBy('isDeleted', false);
+    let processedTasks = allTasks.filterBy('isProcessed', true);
+    let allTasksCount = allTasks.length;
+    let processedTasksCount = processedTasks.length;
+
+    if (allTasksCount === 0 || processedTasksCount === 0) {
       return 0;
     }
 
-    return 100 / (activeTasksCount / completedTasksCount);
+    return 100 / (allTasksCount / processedTasksCount);
   }),
 
 
@@ -71,12 +75,12 @@ export default Model.extend({
     }
   ),
 
-  isShownInLogbook: computed('isCompleted', 'isDeleted', function() {
-    return this.isCompleted && !this.isDeleted;
+  isShownInLogbook: computed('isCompleted', 'isCanceled', 'isDeleted', function() {
+    return (this.isCompleted || this.isCanceled) && !this.isDeleted;
   }),
 
-  logbookGroup: computed('completedAt', function() {
-    return moment(this.completedAt).calendar(null, {
+  logbookGroup: computed('processedAt', function() {
+    return moment(this.processedAt).calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
       lastWeek: 'MMMM',
@@ -84,8 +88,8 @@ export default Model.extend({
     });
   }),
 
-  completedAtDisplay: computed('completedAt', function() {
-    return moment(this.completedAt).calendar(null, {
+  processedAtDisplay: computed('processedAt', function() {
+    return moment(this.processedAt).calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
       lastWeek: 'MMM DD',
@@ -123,8 +127,21 @@ export default Model.extend({
 
   complete() {
     set(this, 'isCompleted', true);
-    set(this, 'completedAt', new Date());
+    set(this, 'isCanceled', false);
+    set(this, 'processedAt', new Date());
     this.unstar();
+  },
+
+  cancel() {
+    set(this, 'isCanceled', true);
+    set(this, 'isCompleted', false);
+    set(this, 'processedAt', new Date());
+    this.unstar();
+  },
+
+  uncomplete() {
+    set(this, 'isCompleted', false);
+    set(this, 'isCanceled', false);
   },
 
   delete() {
@@ -134,10 +151,6 @@ export default Model.extend({
 
   undelete() {
     set(this, 'isDeleted', false);
-  },
-
-  uncomplete() {
-    set(this, 'isCompleted', false);
   },
 
   moveToList(list) {

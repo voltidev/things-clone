@@ -14,11 +14,12 @@
         {{else}}
           {{items-task
             task=item
-            completeItems=(route-action "completeItems")
-            uncompleteItems=(route-action "uncompleteItems")
             updateItemName=(route-action "updateItemName")
             updateItemNotes=(route-action "updateItemNotes")
             setItemsDeadline=(route-action "setItemsDeadline")
+            completeItems=(route-action "completeItems")
+            uncompleteItems=(route-action "uncompleteItems")
+            cancelItems=(route-action "cancelItems")
             deleteItems=(route-action "deleteItems")
             undeleteItems=(route-action "undeleteItems")
             moveItemsToList=(route-action "moveItemsToList")
@@ -50,11 +51,12 @@
           {{else}}
             {{items-task
               task=item
-              completeItems=(route-action "completeItems")
-              uncompleteItems=(route-action "uncompleteItems")
               updateItemName=(route-action "updateItemName")
               updateItemNotes=(route-action "updateItemNotes")
               setItemsDeadline=(route-action "setItemsDeadline")
+              completeItems=(route-action "completeItems")
+              uncompleteItems=(route-action "uncompleteItems")
+              cancelItems=(route-action "cancelItems")
               deleteItems=(route-action "deleteItems")
               undeleteItems=(route-action "undeleteItems")
               moveItemsToList=(route-action "moveItemsToList")

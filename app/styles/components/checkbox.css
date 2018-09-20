@@ -48,6 +48,16 @@
     height: rem(14px);
     width: rem(14px);
   }
+
+  &--cancel {
+    height: rem(8px);
+    width: rem(8px);
+  }
+
+  .c-checkbox--big > &--cancel {
+    height: rem(10px);
+    width: rem(10px);
+  }
 }
 
 .c-checkbox--pie {

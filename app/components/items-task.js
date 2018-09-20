@@ -9,11 +9,10 @@ export default Component.extend({
   itemSelector: service(),
   router: service(),
   classNames: ['c-item', 'js-item'],
-  classNameBindings: ['isEditing', 'isCompleted', 'isSelected', 'isSortable', 'isSomeday'],
+  classNameBindings: ['isSomeday', 'isEditing', 'isSelected', 'isSortable'],
   task: null,
   isEditorInitialized: false,
   placeholder: 'New To-Do',
-  isCompleted: alias('task.isCompleted'),
   isSomeday: alias('task.isShownInSomeday'),
   isSortable: not('isEditing'),
 
@@ -60,8 +59,8 @@ export default Component.extend({
       this.stopEditing();
     },
 
-    toggleTaskCompletion() {
-      if (this.isCompleted) {
+    toggleCheckbox() {
+      if (this.task.isProcessed) {
         this.uncompleteItems(this.task);
       } else {
         this.completeItems(this.task);
@@ -129,6 +128,7 @@ export default Component.extend({
       list,
       project,
       isCompleted,
+      isCanceled,
       isDeleted
     } = this.taskEditor.task;
 
@@ -152,6 +152,10 @@ export default Component.extend({
 
     if (isProjectChanged) {
       this.moveTasksToProject(this.task, project);
+    }
+
+    if (changedAttrs.includes('isCanceled')) {
+      (isCanceled ? this.cancelItems : this.uncompleteItems)(this.task);
     }
 
     if (changedAttrs.includes('isCompleted')) {

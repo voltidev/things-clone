@@ -1,10 +1,14 @@
 <div class="c-item__line">
   <div
-    class="c-checkbox js-checkbox {{if @task.isCompleted 'is-checked'}}"
-    {{action @toggleTaskCompletion}}
+    class="c-checkbox js-checkbox {{if @task.isProcessed 'is-checked'}}"
+    {{action @toggleCheckbox}}
   >
     {{#if @task.isCompleted}}
       {{svg-jar "checkbox-mark" class="c-checkbox__icon" }}
+    {{/if}}
+
+    {{#if @task.isCanceled}}
+      {{svg-jar "cancel" class="c-checkbox__icon c-checkbox__icon--cancel" }}
     {{/if}}
   </div>
 
@@ -14,7 +18,7 @@
 
   {{#if @task.isShownInLogbook}}
     <div class="c-item__completed-at">
-      {{@task.completedAtDisplay}}
+      {{@task.processedAtDisplay}}
     </div>
   {{/if}}
 
