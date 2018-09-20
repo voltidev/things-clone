@@ -76,16 +76,17 @@
   white-space: nowrap;
   transition: opacity 300ms ease-out;
 
+  .is-canceled & {
+    text-decoration: line-through;
+  }
+
   &--project {
     flex: 0 0 auto;
+    font-weight: var(--bold);
   }
 
   &--placeholder {
     opacity: 0.5;
-  }
-
-  .c-item--project & {
-    font-weight: var(--bold);
   }
 }
 

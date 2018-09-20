@@ -6,10 +6,11 @@ import { alias } from '@ember/object/computed';
 export default Component.extend({
   router: service(),
   itemSelector: service(),
-  classNames: ['c-item', 'c-item--project', 'js-item'],
-  classNameBindings: ['isCompleted', 'isSelected'],
+  classNames: ['c-item', 'js-item'],
+  classNameBindings: ['isCompleted', 'isCanceled', 'isSelected'],
   placeholder: 'New Project',
   isCompleted: alias('item.isCompleted'),
+  isCanceled: alias('item.isCanceled'),
 
   isSelected: computed('itemSelector.items.[]', function() {
     return this.itemSelector.isSelected(this.item);

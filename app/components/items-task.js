@@ -9,10 +9,11 @@ export default Component.extend({
   itemSelector: service(),
   router: service(),
   classNames: ['c-item', 'js-item'],
-  classNameBindings: ['isSomeday', 'isEditing', 'isSelected', 'isSortable'],
+  classNameBindings: ['isCanceled', 'isSomeday', 'isEditing', 'isSelected', 'isSortable'],
   task: null,
   isEditorInitialized: false,
   placeholder: 'New To-Do',
+  isCanceled: alias('task.isCanceled'),
   isSomeday: alias('task.isShownInSomeday'),
   isSortable: not('isEditing'),
 
