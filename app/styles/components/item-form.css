@@ -57,16 +57,20 @@
     margin-right: rem(6px);
   }
 
-  &--anytime {
-    fill: #40a69b;
-  }
-
   &--today {
     fill: #ffd402;
 
     .icon-today__border {
       stroke: #f0c402;
     }
+  }
+
+  &--upcoming {
+    fill: #D82257;
+  }
+
+  &--anytime {
+    fill: #40a69b;
   }
 
   &--someday {
@@ -89,8 +93,11 @@
 }
 
 .c-item-form__value-text {
-  margin-right: 8px;
   opacity: 0.8;
+
+  &:not(:last-child) {
+    margin-right: 8px;
+  }
 }
 
 .c-item-form__value-reset {

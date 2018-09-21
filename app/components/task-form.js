@@ -15,14 +15,16 @@ export default Component.extend({
       set(this, 'task.isDeleted', !this.task.isDeleted);
     },
 
-    moveToList(list) {
-      set(this, 'task.list', list);
+    setWhen(whenList, date) {
+      set(this, 'task.list', whenList);
+      set(this, 'task.upcomingAt', date);
       set(this, 'task.isDeleted', false);
       set(this, 'task.status', 'new');
+    },
 
-      if (list === 'inbox') {
-        set(this, 'task.project', null);
-      }
+    moveToInbox() {
+      set(this, 'task.list', 'inbox');
+      set(this, 'task.project', null);
     },
 
     moveToProject(project) {

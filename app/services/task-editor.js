@@ -17,6 +17,7 @@ export default Service.extend({
       notes: task.notes,
       list: task.list,
       deadline: task.deadline,
+      upcomingAt: task.upcomingAt,
       status: task.status,
       isDeleted: task.isDeleted,
       project: task.project

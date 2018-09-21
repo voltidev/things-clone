@@ -23,18 +23,6 @@
     fill: #279be6;
   }
 
-  &--logbook {
-    fill: #41ad56;
-  }
-
-  &--trash {
-    fill: #b1b6bb;
-  }
-
-  &--someday {
-    fill: #bdb176;
-  }
-
   &--today {
     fill: #ffd402;
 
@@ -43,12 +31,28 @@
     }
   }
 
+  &--upcoming {
+    fill: #D82257;
+  }
+
   &--anytime {
     fill: #40a69b;
   }
 
+  &--someday {
+    fill: #bdb176;
+  }
+
+  &--logbook {
+    fill: #41ad56;
+  }
+
+  &--trash {
+    fill: #b1b6bb;
+  }
+
   &--project {
-    color: #999;
+    color: #1b61c2;
   }
 }
 

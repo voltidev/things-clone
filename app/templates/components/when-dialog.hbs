@@ -15,5 +15,16 @@
         </div>
       {{/each}}
     </div>
+
+    {{#power-calendar
+      selected=@selectedDate
+      center=(or this.center @selectedDate)
+      onCenterChange=(action (mut this.center) value="date")
+      onSelect=(action (queue (action (action @setWhen "upcoming") value="date") @close))
+      as |calendar|
+    }}
+      {{calendar.nav}}
+      {{calendar.days}}
+    {{/power-calendar}}
   </div>
 {{/modal-dialog}}

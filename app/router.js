@@ -8,11 +8,12 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('inbox');
+  this.route('today');
+  this.route('upcoming');
+  this.route('anytime');
+  this.route('someday');
   this.route('logbook');
   this.route('trash');
-  this.route('someday');
-  this.route('today');
-  this.route('anytime');
   this.route('project', { path: '/project/:id' });
 });
 

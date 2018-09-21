@@ -39,6 +39,12 @@
   color: #2560bd;
 }
 
+.c-item__upcoming-at {
+  font-size: rem(14px);
+  margin-left: rem(10px);
+  color: #fc962e;
+}
+
 .c-item__project {
   margin-left: rem(8px);
   padding: rem(1px) rem(8px);

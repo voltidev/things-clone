@@ -3,7 +3,7 @@
   title="Deadline"
   close=@close
 }}
-  {{#power-calendar class="demo-calendar-small"
+  {{#power-calendar
     selected=@value
     center=(or this.center @value)
     onCenterChange=(action (mut this.center) value="date")

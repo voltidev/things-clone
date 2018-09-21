@@ -48,17 +48,25 @@
     </div>
 
     <div class="c-item-form__value" {{action (toggle "isWhenDialogOpen" this)}}>
-      {{#if (not-eq @task.list "inbox")}}
+      {{#if (eq @task.list "upcoming")}}
+        <div class="c-item-form__value-box">
+          {{svg-jar @task.list class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.list)}}
+
+          <div class="c-item-form__value-text u-capitalize">
+            {{moment-format @task.upcomingAt 'MMM DD'}}
+          </div>
+        </div>
+      {{else if (eq @task.list "inbox")}}
+        <div class="c-item-form__placeholder">
+          Set when
+        </div>
+      {{else}}
         <div class="c-item-form__value-box">
           {{svg-jar @task.list class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.list)}}
 
           <div class="c-item-form__value-text u-capitalize">
             {{@task.list}}
           </div>
-        </div>
-      {{else}}
-        <div class="c-item-form__placeholder">
-          Set when
         </div>
       {{/if}}
     </div>
@@ -130,7 +138,8 @@
 {{#if this.isWhenDialogOpen}}
   {{to-elsewhere named="modal" send=(
     component "when-dialog"
-    setWhen=(action "moveToList")
+    selectedDate=@task.upcomingAt
+    setWhen=(action "setWhen")
     close=(toggle-action "isWhenDialogOpen" this)
   )}}
 {{/if}}
@@ -138,7 +147,7 @@
 {{#if this.isMoveDialogOpen}}
   {{to-elsewhere named="modal" send=(
     component "move-dialog"
-    moveToInbox=(action "moveToList" "inbox")
+    moveToInbox=(action "moveToInbox")
     moveToProject=(action "moveToProject")
     close=(toggle-action "isMoveDialogOpen" this)
   )}}

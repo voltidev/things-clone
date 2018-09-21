@@ -102,7 +102,7 @@ export default Route.extend({
       });
     },
 
-    moveItemsToList(items, list) {
+    moveItemsToList(items, list, upcomingAt) {
       castArray(items).forEach(item => {
         if (this.router.currentRouteName === 'trash') {
           this.send('undeleteItems', item);
@@ -112,7 +112,7 @@ export default Route.extend({
           this.send('markItemsAs', item, 'new');
         }
 
-        item.moveToList(list);
+        item.moveToList(list, upcomingAt);
         this.save(item);
       });
     },

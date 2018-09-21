@@ -16,6 +16,7 @@ export default Model.extend({
   list: attr('string', { defaultValue: 'anytime' }),
   isDeleted: attr('boolean', { defaultValue: false }),
   deadline: attr('date'),
+  upcomingAt: attr('date'),
   processedAt: attr('date'),
   deletedAt: attr('date'),
 
@@ -32,6 +33,7 @@ export default Model.extend({
   isProcessed: or('isCompleted', 'isCanceled'),
 
   isToday: equal('list', 'today'),
+  isUpcoming: equal('list', 'upcoming'),
   isAnytime: equal('list', 'anytime'),
   isSomeday: equal('list', 'someday'),
 
@@ -59,6 +61,9 @@ export default Model.extend({
     return 100 / (allTasksCount / processedTasksCount);
   }),
 
+  isShownInUpcoming: computed('isUpcoming', 'isActive', function() {
+    return this.isUpcoming && this.isActive;
+  }),
 
   isShownInAnytime: computed(
     'isActive',
@@ -78,8 +83,12 @@ export default Model.extend({
     }
   ),
 
-  isShownInLogbook: computed('isCompleted', 'isCanceled', 'isDeleted', function() {
-    return (this.isCompleted || this.isCanceled) && !this.isDeleted;
+  isShownInLogbook: computed('isProcessed', 'isDeleted', function() {
+    return this.isProcessed && !this.isDeleted;
+  }),
+
+  upcomingGroup: computed('upcomingAt', function() {
+    return moment(this.upcomingAt).format('MMMM');
   }),
 
   logbookGroup: computed('processedAt', function() {
@@ -88,15 +97,6 @@ export default Model.extend({
       lastDay: '[Yesterday]',
       lastWeek: 'MMMM',
       sameElse: 'MMMM'
-    });
-  }),
-
-  processedAtDisplay: computed('processedAt', function() {
-    return moment(this.processedAt).calendar(null, {
-      sameDay: '[Today]',
-      lastDay: '[Yesterday]',
-      lastWeek: 'MMM DD',
-      sameElse: 'MMM DD'
     });
   }),
 
@@ -135,7 +135,6 @@ export default Model.extend({
 
     if (status !== 'new') {
       set(this, 'processedAt', new Date());
-      this.unstar();
     }
 
     set(this, 'status', status);
@@ -150,17 +149,12 @@ export default Model.extend({
     set(this, 'isDeleted', false);
   },
 
-  moveToList(list) {
+  moveToList(list, upcomingAt) {
     if (!LISTS.includes(list)) {
       throw new Error(`Unknown list name ${list} for project`);
     }
 
     set(this, 'list', list);
-  },
-
-  unstar() {
-    if (this.isToday) {
-      set(this, 'list', 'anytime');
-    }
+    set(this, 'upcomingAt', upcomingAt);
   }
 });

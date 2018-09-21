@@ -129,11 +129,12 @@ export default Component.extend({
     let {
       name,
       notes,
-      deadline,
       list,
       project,
       status,
-      isDeleted
+      isDeleted,
+      upcomingAt,
+      deadline
     } = this.taskEditor.task;
 
     let isProjectChanged = get(this, 'task.project.id') !== get(this, 'taskEditor.task.project.id');
@@ -150,8 +151,12 @@ export default Component.extend({
       this.setItemsDeadline(this.task, deadline);
     }
 
-    if (changedAttrs.includes('list')) {
+    if (changedAttrs.includes('list') && list !== 'upcoming') {
       this.moveItemsToList(this.task, list);
+    }
+
+    if (list === 'upcoming' && changedAttrs.includes('upcomingAt')) {
+      this.moveItemsToList(this.task, 'upcoming', upcomingAt);
     }
 
     if (isProjectChanged) {

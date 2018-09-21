@@ -54,7 +54,7 @@
 {{#if this.isMoveDialogOpen}}
   {{to-elsewhere named="modal" send=(
     component "move-dialog"
-    moveToInbox=(action "moveSelectedToList" "inbox")
+    moveToInbox=(action "moveSelectedToInbox")
     moveToProject=(action "moveSelectedToProject")
     close=(toggle-action "isMoveDialogOpen" this)
   )}}
@@ -63,7 +63,7 @@
 {{#if this.isWhenDialogOpen}}
   {{to-elsewhere named="modal" send=(
     component "when-dialog"
-    setWhen=(action "moveSelectedToList")
+    setWhen=(action "setSelectedWhen")
     close=(toggle-action "isWhenDialogOpen" this)
   )}}
 {{/if}}

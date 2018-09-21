@@ -21,7 +21,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   isInTrashList: equal('router.currentRouteName', 'trash'),
 
   canCreateTask: computed('router.currentRouteName', 'isEditing', function() {
-    return !this.isEditing && !['logbook', 'trash'].includes(this.router.currentRouteName);
+    return !this.isEditing && !['upcoming', 'logbook', 'trash'].includes(this.router.currentRouteName);
   }),
 
   shortcutNewTask: on(keyDown('KeyN'), function() {
@@ -66,12 +66,20 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.setItemsDeadline(this.itemSelector.items, deadline);
     },
 
-    moveSelectedToList(list) {
+    setSelectedWhen(when, date) {
+      if (!this.hasSelected) {
+        return;
+      }
+
+      this.moveItemsToList(this.itemSelector.items, when, date);
+    },
+
+    moveSelectedToInbox() {
       if (!this.hasSelected || this.hasSelectedProjects) {
         return;
       }
 
-      this.moveItemsToList(this.itemSelector.items, list);
+      this.moveItemsToList(this.itemSelector.items, 'inbox');
     },
 
     moveSelectedToProject(project) {

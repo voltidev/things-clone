@@ -6,7 +6,7 @@ import { equal, or, alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
 
-const LISTS = ['inbox', 'today', 'anytime', 'someday'];
+const LISTS = ['inbox', 'today', 'upcoming', 'anytime', 'someday'];
 const STATUSES = ['new', 'completed', 'canceled'];
 
 export default Model.extend({
@@ -17,6 +17,7 @@ export default Model.extend({
   list: attr('string', { defaultValue: 'inbox' }),
   isDeleted: attr('boolean', { defaultValue: false }),
   deadline: attr('date'),
+  upcomingAt: attr('date'),
   processedAt: attr('date'),
   deletedAt: attr('date'),
 
@@ -34,6 +35,7 @@ export default Model.extend({
 
   isInbox: equal('list', 'inbox'),
   isToday: equal('list', 'today'),
+  isUpcoming: equal('list', 'upcoming'),
   isAnytime: equal('list', 'anytime'),
   isSomeday: equal('list', 'someday'),
 
@@ -55,6 +57,10 @@ export default Model.extend({
 
   isShownInToday: computed('isToday', 'isActive', 'isProjectDeleted', function() {
     return this.isToday && this.isActive && !this.isProjectDeleted;
+  }),
+
+  isShownInUpcoming: computed('isUpcoming', 'isActive', 'isProjectDeleted', function() {
+    return this.isUpcoming && this.isActive && !this.isProjectDeleted;
   }),
 
   isShownInAnytime: computed('isAnytime', 'isToday', 'isActive', 'isProjectDeleted', function() {
@@ -81,21 +87,16 @@ export default Model.extend({
     return this.isProcessed && !this.isDeleted;
   }),
 
+  upcomingGroup: computed('upcomingAt', function() {
+    return moment(this.upcomingAt).format('MMMM');
+  }),
+
   logbookGroup: computed('processedAt', function() {
     return moment(this.processedAt).calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
       lastWeek: 'MMMM',
       sameElse: 'MMMM'
-    });
-  }),
-
-  processedAtDisplay: computed('processedAt', function() {
-    return moment(this.processedAt).calendar(null, {
-      sameDay: '[Today]',
-      lastDay: '[Yesterday]',
-      lastWeek: 'MMM DD',
-      sameElse: 'MMM DD'
     });
   }),
 
@@ -127,12 +128,6 @@ export default Model.extend({
   isTask: true,
   clock: service(),
 
-  unstar() {
-    if (this.isToday) {
-      set(this, 'list', 'anytime');
-    }
-  },
-
   markAs(status) {
     if (!STATUSES.includes(status)) {
       throw new Error(`Unknown status name: ${status}`);
@@ -140,7 +135,6 @@ export default Model.extend({
 
     if (status !== 'new') {
       set(this, 'processedAt', new Date());
-      this.unstar();
     }
 
     set(this, 'status', status);
@@ -155,7 +149,7 @@ export default Model.extend({
     set(this, 'isDeleted', false);
   },
 
-  moveToList(list) {
+  moveToList(list, upcomingAt = null) {
     if (!LISTS.includes(list)) {
       throw new Error(`Unknown list name ${list} for task`);
     }
@@ -165,6 +159,7 @@ export default Model.extend({
     }
 
     set(this, 'list', list);
+    set(this, 'upcomingAt', upcomingAt);
   },
 
   moveToProject(project) {

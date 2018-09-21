@@ -1,0 +1,23 @@
+{{#app-main
+  hasContent=this.hasContent
+  folder="upcoming"
+  as |selectBetween|
+}}
+  {{#each-in (group-by "upcomingGroup" (sort-by "upcomingAt" this.items)) as |groupName groupItems|}}
+    <div class="c-folder__group">
+      <div class="c-folder__group-title">
+        <div class="c-folder__group-title-inner">
+          <div class="c-folder__group-text">
+            {{groupName}}
+          </div>
+        </div>
+      </div>
+
+      {{items-list
+        items=groupItems
+        isNotSortable=true
+        selectBetween=selectBetween
+      }}
+    </div>
+  {{/each-in}}
+{{/app-main}}
