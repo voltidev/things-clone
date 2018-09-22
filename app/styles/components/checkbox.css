@@ -68,3 +68,7 @@
     transform: scale(1.2);
   }
 }
+
+.c-checkbox--someday {
+  color: rgba(0, 0, 0, 0.5);
+}

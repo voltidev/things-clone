@@ -5,21 +5,26 @@
 }}
   <div class="c-folder__group">
     {{items-list
+      items=(sort-by "order" this.laterProjects)
+      selectBetween=selectBetween
+    }}
+
+    {{items-list
       items=(sort-by "order" this.noProjectTasks)
       selectBetween=selectBetween
     }}
   </div>
 
-  {{#if hasProjects}}
+  {{#if hasActiveProjects}}
     <div class="c-folder__buttons">
       <button class="c-folder__button" {{action (toggle "isProjectListShown" this)}}>
-        {{if isProjectListShown "Hide items from projects" "Show items from projects"}}
+        {{if isProjectListShown "Hide" "Show"}} items from active projects
       </button>
     </div>
   {{/if}}
 
   {{#animated-if this.isProjectListShown use=eachTransition duration=200}}
-    {{#animated-each (sort-by "order" somedayProjects) use=eachTransition duration=200 as |project|}}
+    {{#animated-each (sort-by "order" activeProjects) use=eachTransition duration=200 as |project|}}
       <div class="c-folder__group">
         {{#link-to "project" project class="c-folder__group-title c-folder__project-link"}}
           <div class="c-folder__group-title-inner">

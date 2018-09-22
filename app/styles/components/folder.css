@@ -61,20 +61,6 @@
   padding: 0 rem(6px);
 }
 
-.c-folder__title-input {
-  padding: 0 rem(6px);
-  font-size: rem(24px);
-  background: transparent;
-  border: 0;
-  font-weight: var(--semi-bold);
-  color: var(--base-text-color);
-
-  &::placeholder {
-    color: #444;
-    opacity: 0.5;
-  }
-}
-
 .c-folder__group {
   margin-bottom: rem(34px);
 }
@@ -154,24 +140,4 @@
     background-color: #5b8fe0;
     border-color: transparent;
   }
-}
-
-.c-folder__dropdown-trigger {
-  display: flex;
-  align-items: center;
-  padding: rem(4px) rem(10px);
-  border-radius: rem(6px);
-  cursor: pointer;
-  color: rgba(0, 0, 0, 0.4);
-  transition: all 0.1s ease-out;
-
-  &.ember-basic-dropdown-trigger--center,
-  &:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
-}
-
-.c-folder__dropdown-trigger-icon {
-  height: rem(18px);
-  width: rem(18px);
 }

@@ -1,6 +1,7 @@
 import Service, { inject as service } from '@ember/service';
 import { set, computed } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
+import { union } from '@ember/object/computed';
 import moment from 'moment';
 
 function isTimeout(item, now) {
@@ -13,8 +14,10 @@ export default Service.extend({
   tasks: null,
   projects: null,
 
-  upcomingTasks: computed('tasks.[]', 'tasks.@each.{isUpcoming}', function() {
-    return this.tasks.filterBy('isUpcoming', true);
+  tasksAndProjects: union('tasks', 'projects'),
+
+  upcomingItems: computed('tasksAndProjects.[]', 'tasksAndProjects.@each.{isUpcoming}', function() {
+    return this.tasksAndProjects.filterBy('isUpcoming', true);
   }),
 
   init() {
@@ -33,7 +36,7 @@ export default Service.extend({
       yield timeout(2000);
       let now = new Date(new Date().toDateString());
 
-      this.upcomingTasks
+      this.upcomingItems
         .filter(item => isTimeout(item, now))
         .forEach(todayItem => {
           todayItem.setWhen('today');

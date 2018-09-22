@@ -1,12 +1,8 @@
 import Controller from '@ember/controller';
-import { filterBy, notEmpty } from '@ember/object/computed';
-import { computed } from '@ember/object';
+import { filterBy, notEmpty, union } from '@ember/object/computed';
 
 export default Controller.extend({
-  hasContent: notEmpty('filteredTasks'),
-  filteredTasks: filterBy('model.tasks', 'isShownInToday'),
-
-  tasks: computed('filteredTasks.{[],@each.order}', function() {
-    return this.filteredTasks.sortBy('order');
-  })
+  tasksAndProjects: union('model.tasks', 'model.projects'),
+  items: filterBy('tasksAndProjects', 'isShownInToday'),
+  hasContent: notEmpty('items')
 });

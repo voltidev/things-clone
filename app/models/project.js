@@ -9,6 +9,10 @@ export default Model.extend(ItemModel, {
 
   isShownInTrash: alias('isDeleted'),
 
+  isActive: computed('isProcessed', 'isDeleted', 'isSomeday', 'isUpcoming', function() {
+    return !this.isProcessed && !this.isDeleted && !this.isSomeday && !this.isUpcoming;
+  }),
+
   activeTasks: computed('tasks.[]', 'tasks.@each.{isActive}', function() {
     return this.tasks.filterBy('isActive', true);
   }),
@@ -26,11 +30,23 @@ export default Model.extend(ItemModel, {
     return 100 / (allTasksCount / processedTasksCount);
   }),
 
-  isShownInUpcoming: computed('isUpcoming', 'isActive', function() {
-    return this.isUpcoming && this.isActive;
+  isShownInToday: computed('isToday', 'isActive', function() {
+    return this.isToday && this.isActive;
   }),
 
-  isShownInAnytime: computed(
+  isShownInUpcoming: computed('isUpcoming', 'isProcessed', 'isDeleted', function() {
+    return this.isUpcoming && !this.isProcessed && !this.isDeleted;
+  }),
+
+  isShownInSomeday: computed('isSomeday', 'isProcessed', 'isDeleted', function() {
+    return this.isSomeday && !this.isProcessed && !this.isDeleted;
+  }),
+
+  isShownInLogbook: computed('isProcessed', 'isDeleted', function() {
+    return this.isProcessed && !this.isDeleted;
+  }),
+
+  isShownInAnytimeAsGroup: computed(
     'isActive',
     'tasks.[]',
     'tasks.@each.{isShownInAnytime}',
@@ -39,7 +55,7 @@ export default Model.extend(ItemModel, {
     }
   ),
 
-  isShownInSomeday: computed(
+  isShownInSomedayAsGroup: computed(
     'isActive',
     'tasks.[]',
     'tasks.@each.{isShownInSomeday}',
@@ -47,10 +63,6 @@ export default Model.extend(ItemModel, {
       return this.isActive && this.tasks.any(task => task.isShownInSomeday);
     }
   ),
-
-  isShownInLogbook: computed('isProcessed', 'isDeleted', function() {
-    return this.isProcessed && !this.isDeleted;
-  }),
 
   isProject: true
 });

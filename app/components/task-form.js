@@ -31,17 +31,12 @@ export default Component.extend({
 
     moveToInbox() {
       set(this, 'task.isInbox', true);
-      set(this, 'task.when', null);
       set(this, 'task.project', null);
     },
 
     moveToProject(project) {
       set(this, 'task.project', project);
       set(this, 'task.isInbox', false);
-
-      if (!this.task.when) {
-        set(this, 'task.when', 'anytime');
-      }
     },
 
     toggleCheckbox() {

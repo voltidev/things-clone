@@ -152,12 +152,8 @@ export default Component.extend({
       this.setItemsDeadline(this.task, deadline);
     }
 
-    if (changedAttrs.includes('when') && when !== 'upcoming') {
-      this.setItemsWhen(this.task, when);
-    }
-
-    if (when === 'upcoming' && changedAttrs.includes('upcomingAt')) {
-      this.setItemsWhen(this.task, 'upcoming', upcomingAt);
+    if (changedAttrs.includes('when') && !isInbox) {
+      this.setItemsWhen(this.task, when, when === 'upcoming' ? upcomingAt : null);
     }
 
     if (isProjectChanged) {

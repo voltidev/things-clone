@@ -8,9 +8,22 @@
       {{/if}}
     </div>
   {{else}}
-    <div class="c-checkbox c-checkbox--pie js-checkbox" title="Mark as completed" {{action @markItemsAs @item "completed"}}>
-      {{progress-pie progress=@item.progress}}
-    </div>
+    {{#let (and @item.isSomeday (not @item.isCompleted)) as |isSomeday|}}
+      <div
+        class="c-checkbox c-checkbox--pie js-checkbox {{if isSomeday 'c-checkbox--someday'}}"
+        title="Mark as completed"
+        {{action @markItemsAs @item "completed"}}
+      >
+        {{progress-pie
+          progress=@item.progress
+          isDashedBorder=isSomeday
+        }}
+      </div>
+    {{/let}}
+  {{/if}}
+
+  {{#if (@and @item.isShownInToday)}}
+    {{svg-jar "today" class="c-item__star"}}
   {{/if}}
 
   {{#if @item.isShownInLogbook}}

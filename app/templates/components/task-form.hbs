@@ -47,7 +47,7 @@
     </div>
 
     <div class="c-item-form__value" {{action (toggle "isWhenDialogOpen" this)}}>
-      {{#if @task.when}}
+      {{#if (and @task.when (not @task.isInbox))}}
         <div class="c-item-form__value-box">
           {{svg-jar @task.when class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.when)}}
 
@@ -112,6 +112,8 @@
     <div class="c-item-form__value" {{action (toggle "isDeadlineDialogOpen" this)}}>
       {{#if @task.deadline}}
         <div class="c-item-form__value-box">
+          {{svg-jar "flag" class="c-item-form__value-icon c-item-form__value-icon--flag"}}
+
           <div class="c-item-form__value-text">
             {{moment-format @task.deadline 'MMM DD'}}
           </div>

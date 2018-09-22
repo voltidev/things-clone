@@ -1,16 +1,17 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { alias, not } from '@ember/object/computed';
 
 export default Component.extend({
   router: service(),
   itemSelector: service(),
   classNames: ['c-item', 'js-item'],
-  classNameBindings: ['isCompleted', 'isCanceled', 'isSelected'],
+  classNameBindings: ['isCompleted', 'isCanceled', 'isSelected', 'isSortable'],
   placeholder: 'New Project',
   isCompleted: alias('item.isCompleted'),
   isCanceled: alias('item.isCanceled'),
+  isSortable: not('isEditing'),
 
   isSelected: computed('itemSelector.items.[]', function() {
     return this.itemSelector.isSelected(this.item);

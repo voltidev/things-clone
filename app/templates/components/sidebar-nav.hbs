@@ -24,7 +24,7 @@
       Today
     </div>
 
-    {{#let (filter-by "isShownInToday" this.data.tasks) as |todayItems|}}
+    {{#let (filter-by "isShownInToday" this.data.tasksAndProjects) as |todayItems|}}
       {{#if todayItems}}
         <div class="c-sidebar-nav__counter">
           {{todayItems.length}}

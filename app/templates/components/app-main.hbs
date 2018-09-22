@@ -1,71 +1,12 @@
 {{#if @project}}
-  <div class="c-folder__title">
-    {{#if @project.isProcessed}}
-      <div class="c-checkbox c-checkbox--big c-checkbox--project is-checked" title="Mark project as uncompleted" {{action @markProjectAsNew}}>
-        {{#if @project.isCompleted}}
-          {{svg-jar "checkbox-mark" class="c-checkbox__icon"}}
-        {{else}}
-          {{svg-jar "cancel" class="c-checkbox__icon c-checkbox__icon--cancel"}}
-        {{/if}}
-      </div>
-    {{else}}
-      <div class="c-checkbox c-checkbox--pie c-checkbox--big" title="Mark project as completed" {{action @markProjectAsCompleted}}>
-        {{progress-pie progress=@project.progress}}
-      </div>
-    {{/if}}
-
-    {{text-input
-      class="c-folder__title-input js-title-input"
-      placeholder="New project"
-      value=@project.name
-      autoresize=true
-      max-width=400
-      update=(action @updateProjectName)
-      enter=(action "blurTitleInput")
-      escape-press=(action "blurTitleInput")
-    }}
-
-    {{#basic-dropdown
-      class="c-dropdown"
-      horizontalPosition="center"
-      verticalPosition="below"
-      as |dropdown|
-    }}
-      {{#dropdown.trigger class="c-dropdown__trigger c-folder__dropdown-trigger"}}
-        {{svg-jar "more" class="c-dropdown__trigger-icon c-folder__dropdown-trigger-icon"}}
-      {{/dropdown.trigger}}
-
-      {{#dropdown.content class="c-dropdown__content"}}
-        <div class="c-dropdown__content-inner">
-          <div class="c-dropdown__section">
-            {{#if @project.isProcessed}}
-              <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsNew)}}>
-                {{svg-jar "uncomplete" class="c-dropdown__item-icon"}}
-                <div class="c-dropdown__item-text">Mark as uncompleted</div>
-              </div>
-            {{else}}
-              <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsCompleted)}}>
-                {{svg-jar "complete-project" class="c-dropdown__item-icon"}}
-                <div class="c-dropdown__item-text">Mark as completed</div>
-              </div>
-            {{/if}}
-
-            {{#if @project.isDeleted}}
-              <div class="c-dropdown__item" {{action (queue dropdown.actions.close @undeleteProject)}}>
-                {{svg-jar "redo" class="c-dropdown__item-icon"}}
-                <div class="c-dropdown__item-text">Put back deleted project</div>
-              </div>
-            {{else}}
-              <div class="c-dropdown__item" {{action (queue dropdown.actions.close @deleteProject)}}>
-                {{svg-jar "delete2" class="c-dropdown__item-icon"}}
-                <div class="c-dropdown__item-text">Delete project</div>
-              </div>
-            {{/if}}
-          </div>
-        </div>
-      {{/dropdown.content}}
-    {{/basic-dropdown}}
-  </div>
+  {{project-form
+    project=@project
+    updateProjectName=(route-action "updateItemName" @project)
+    markProjectAsCompleted=(route-action "markItemsAs" @project "completed")
+    markProjectAsNew=(route-action "markItemsAs" @project "new")
+    deleteProject=(pipe (route-action "deleteItems" @project) (route-action "replaceRoute" "today"))
+    undeleteProject=(route-action "undeleteItems" @project)
+  }}
 {{else}}
   <div class="c-folder__title">
     {{svg-jar

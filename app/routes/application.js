@@ -127,15 +127,14 @@ export default Route.extend({
     createTask() {
       let route = this.router.currentRouteName;
       let isInbox = route === 'inbox';
-      let when = null;
+      let when = 'anytime';
       let project = null;
 
-      if (['today', 'anytime', 'someday'].includes(route)) {
+      if (['today', 'someday'].includes(route)) {
         when = route;
       }
 
       if (route === 'project') {
-        when = 'anytime';
         project = this.data.projects.findBy('id', this.router.currentURL.split('/')[2]);
       }
 

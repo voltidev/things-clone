@@ -8,7 +8,7 @@ export default Controller.extend({
   hasTasks: notEmpty('noProjectTasks'),
   hasProjects: notEmpty('anytimeProjects'),
   hasContent: or('hasTasks', 'hasProjects'),
-  anytimeProjects: filterBy('model.projects', 'isShownInAnytime'),
+  anytimeProjects: filterBy('model.projects', 'isShownInAnytimeAsGroup'),
 
   noProjectTasks: computed(
     'model.tasks.[]',

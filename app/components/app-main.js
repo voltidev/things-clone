@@ -112,10 +112,6 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   didRender() {
     this._super(...arguments);
     this.startHandlingRootClick();
-
-    if (this.project && !this.project.name) {
-      this.focusTitleInput();
-    }
   },
 
   willDestroyElement() {
@@ -123,14 +119,6 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   },
 
   actions: {
-    blurTitleInput() {
-      let input = this.element.querySelector('.js-title-input');
-
-      if (input) {
-        input.blur();
-      }
-    },
-
     selectBetween(clickedElement) {
       scheduleOnce('afterRender', this, this.handleSelectBetween, clickedElement);
     }
@@ -175,13 +163,5 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
 
   stopHandlingRootClick() {
     document.removeEventListener('mousedown', this.deselectAllOnSideClick, true);
-  },
-
-  focusTitleInput() {
-    let input = this.element.querySelector('.js-title-input');
-
-    if (input) {
-      input.focus();
-    }
   }
 });
