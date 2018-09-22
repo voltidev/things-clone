@@ -57,6 +57,10 @@
     margin-right: rem(6px);
   }
 
+  &--inbox {
+    fill: #279be6;
+  }
+
   &--today {
     fill: #ffd402;
 
@@ -75,6 +79,10 @@
 
   &--someday {
     fill: #bdb176;
+  }
+
+  &--project {
+    color: #1b61c2;
   }
 }
 

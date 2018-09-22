@@ -41,32 +41,27 @@
     }}
   </div>
 
-
   <div class="c-item-form__section">
     <div class="c-item-form__label" {{action (toggle "isWhenDialogOpen" this)}}>
       When:
     </div>
 
     <div class="c-item-form__value" {{action (toggle "isWhenDialogOpen" this)}}>
-      {{#if (eq @task.list "upcoming")}}
+      {{#if @task.when}}
         <div class="c-item-form__value-box">
-          {{svg-jar @task.list class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.list)}}
+          {{svg-jar @task.when class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.when)}}
 
           <div class="c-item-form__value-text u-capitalize">
-            {{moment-format @task.upcomingAt 'MMM DD'}}
+            {{#if (eq @task.when "upcoming")}}
+              {{moment-format @task.upcomingAt 'MMM DD'}}
+            {{else}}
+              {{@task.when}}
+            {{/if}}
           </div>
-        </div>
-      {{else if (eq @task.list "inbox")}}
-        <div class="c-item-form__placeholder">
-          Set when
         </div>
       {{else}}
-        <div class="c-item-form__value-box">
-          {{svg-jar @task.list class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.list)}}
-
-          <div class="c-item-form__value-text u-capitalize">
-            {{@task.list}}
-          </div>
+        <div class="c-item-form__placeholder">
+          Set when
         </div>
       {{/if}}
     </div>
@@ -81,7 +76,7 @@
       {{#if @task.project}}
         <div class="c-item-form__value-box">
           {{progress-pie
-            class="c-item-form__value-icon"
+            class="c-item-form__value-icon c-item-form__value-icon--project"
             progress=@task.project.progress
           }}
 
@@ -93,9 +88,17 @@
             {{svg-jar "no"}}
           </div>
         </div>
+      {{else if @task.isInbox}}
+        <div class="c-item-form__value-box">
+          {{svg-jar "inbox" class="c-item-form__value-icon c-item-form__value-icon--inbox"}}
+
+          <div class="c-item-form__value-text u-capitalize">
+            Inbox
+          </div>
+        </div>
       {{else}}
         <div class="c-item-form__placeholder">
-          {{if (eq @task.list "inbox") "Inbox" "No project"}}
+          No project
         </div>
       {{/if}}
     </div>

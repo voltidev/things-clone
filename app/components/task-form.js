@@ -15,23 +15,32 @@ export default Component.extend({
       set(this, 'task.isDeleted', !this.task.isDeleted);
     },
 
-    setWhen(whenList, date) {
-      set(this, 'task.list', whenList);
+    setWhen(when, date) {
+      set(this, 'task.when', when);
       set(this, 'task.upcomingAt', date);
-      set(this, 'task.isDeleted', false);
-      set(this, 'task.status', 'new');
+      set(this, 'task.isInbox', false);
+
+      if (this.router.currentRouteName === 'trash') {
+        set(this, 'task.isDeleted', false);
+      }
+
+      if (this.router.currentRouteName === 'logbook') {
+        set(this, 'task.status', 'new');
+      }
     },
 
     moveToInbox() {
-      set(this, 'task.list', 'inbox');
+      set(this, 'task.isInbox', true);
+      set(this, 'task.when', null);
       set(this, 'task.project', null);
     },
 
     moveToProject(project) {
       set(this, 'task.project', project);
+      set(this, 'task.isInbox', false);
 
-      if (this.task.list === 'inbox') {
-        set(this, 'task.list', 'anytime');
+      if (!this.task.when) {
+        set(this, 'task.when', 'anytime');
       }
     },
 

@@ -15,10 +15,11 @@ export default Service.extend({
       id: task.id,
       name: task.name,
       notes: task.notes,
-      list: task.list,
+      when: task.when,
       deadline: task.deadline,
       upcomingAt: task.upcomingAt,
       status: task.status,
+      isInbox: task.isInbox,
       isDeleted: task.isDeleted,
       project: task.project
     };

@@ -95,14 +95,7 @@ export default Route.extend({
       [...deletedTasks, ...deletedProjects].forEach(item => item.destroyRecord());
     },
 
-    moveTasksToProject(items, project) {
-      castArray(items).forEach(item => {
-        item.moveToProject(project);
-        this.save(item);
-      });
-    },
-
-    moveItemsToList(items, list, upcomingAt) {
+    setItemsWhen(items, when, date) {
       castArray(items).forEach(item => {
         if (this.router.currentRouteName === 'trash') {
           this.send('undeleteItems', item);
@@ -112,28 +105,50 @@ export default Route.extend({
           this.send('markItemsAs', item, 'new');
         }
 
-        item.moveToList(list, upcomingAt);
+        item.setWhen(when, date);
+        this.save(item);
+      });
+    },
+
+    moveTasksToInbox(items) {
+      castArray(items).forEach(item => {
+        item.moveToInbox();
+        this.save(item);
+      });
+    },
+
+    moveTasksToProject(items, project) {
+      castArray(items).forEach(item => {
+        item.moveToProject(project);
         this.save(item);
       });
     },
 
     createTask() {
       let route = this.router.currentRouteName;
-      let list = route === 'project' ? 'anytime' : route;
-      let project = route === 'project'
-        ? this.data.projects.findBy('id', this.router.currentURL.split('/')[2])
-        : null;
+      let isInbox = route === 'inbox';
+      let when = null;
+      let project = null;
+
+      if (['today', 'anytime', 'someday'].includes(route)) {
+        when = route;
+      }
+
+      if (route === 'project') {
+        when = 'anytime';
+        project = this.data.projects.findBy('id', this.router.currentURL.split('/')[2]);
+      }
 
       if (project && project.isCompleted && !project.isDeleted) {
         project.markAs('new');
         this.save(project);
       }
 
-      let lastItem = this.data.tasks.filterBy('list', list).sortBy('order').lastObject;
+      let lastItem = this.data.tasks.sortBy('order').lastObject;
       let order = lastItem ? lastItem.order + 1 : 0;
-      let task = this.store.createRecord('task', { list, project, order });
-      this.save(task);
 
+      let task = this.store.createRecord('task', { isInbox, when, project, order });
+      this.save(task);
       return task;
     },
 

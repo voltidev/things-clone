@@ -1,10 +1,12 @@
 import Model from 'ember-data/model';
+import attr from 'ember-data/attr';
 import { belongsTo } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
 import { equal, alias } from '@ember/object/computed';
 import ItemModel from 'things/mixins/item-model';
 
 export default Model.extend(ItemModel, {
+  isInbox: attr('boolean', { defaultValue: true }),
   project: belongsTo('project'),
 
   isProjectDeleted: equal('project.isDeleted', true),
@@ -52,11 +54,26 @@ export default Model.extend(ItemModel, {
 
   isTask: true,
 
+  setWhen(when) {
+    this._super(...arguments);
+
+    if (when) {
+      set(this, 'isInbox', false);
+    }
+  },
+
+  moveToInbox() {
+    set(this, 'isInbox', true);
+    set(this, 'when', null);
+    set(this, 'project', null);
+  },
+
   moveToProject(project) {
     set(this, 'project', project);
+    set(this, 'isInbox', false);
 
-    if (this.isInbox) {
-      set(this, 'list', 'anytime');
+    if (!this.when) {
+      set(this, 'when', 'anytime');
     }
 
     if (project) {

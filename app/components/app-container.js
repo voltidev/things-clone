@@ -71,7 +71,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
         return;
       }
 
-      this.moveItemsToList(this.itemSelector.items, when, date);
+      this.setItemsWhen(this.itemSelector.items, when, date);
     },
 
     moveSelectedToInbox() {
@@ -79,7 +79,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
         return;
       }
 
-      this.moveItemsToList(this.itemSelector.items, 'inbox');
+      this.moveTasksToInbox(this.itemSelector.items);
     },
 
     moveSelectedToProject(project) {

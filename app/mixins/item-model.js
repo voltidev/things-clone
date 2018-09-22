@@ -5,14 +5,14 @@ import { equal, or, alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
 
-const LISTS = ['inbox', 'today', 'upcoming', 'anytime', 'someday'];
+const WHEN = ['today', 'upcoming', 'anytime', 'someday'];
 const STATUSES = ['new', 'completed', 'canceled'];
 export default Mixin.create({
   name: attr('string'),
   notes: attr('string'),
   order: attr('number', { defaultValue: 0 }),
   status: attr('string', { defaultValue: 'new' }),
-  list: attr('string', { defaultValue: 'inbox' }),
+  when: attr('string', { defaultValue: 'anytime' }),
   isDeleted: attr('boolean', { defaultValue: false }),
   deadline: attr('date'),
   upcomingAt: attr('date'),
@@ -29,11 +29,10 @@ export default Mixin.create({
   isCanceled: equal('status', 'canceled'),
   isProcessed: or('isCompleted', 'isCanceled'),
 
-  isInbox: equal('list', 'inbox'),
-  isToday: equal('list', 'today'),
-  isUpcoming: equal('list', 'upcoming'),
-  isAnytime: equal('list', 'anytime'),
-  isSomeday: equal('list', 'someday'),
+  isToday: equal('when', 'today'),
+  isUpcoming: equal('when', 'upcoming'),
+  isAnytime: equal('when', 'anytime'),
+  isSomeday: equal('when', 'someday'),
 
   currentDate: alias('clock.date'),
 
@@ -102,16 +101,12 @@ export default Mixin.create({
     set(this, 'isDeleted', false);
   },
 
-  moveToList(list, upcomingAt = null) {
-    if (!LISTS.includes(list)) {
-      throw new Error(`Unknown list name ${list}`);
+  setWhen(when, date = null) {
+    if (when && !WHEN.includes(when)) {
+      throw new Error(`Unknown value for "when": ${when}`);
     }
 
-    if (list === 'inbox') {
-      set(this, 'project', null);
-    }
-
-    set(this, 'list', list);
-    set(this, 'upcomingAt', upcomingAt);
+    set(this, 'when', when);
+    set(this, 'upcomingAt', date);
   }
 });

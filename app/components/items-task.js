@@ -129,9 +129,10 @@ export default Component.extend({
     let {
       name,
       notes,
-      list,
+      when,
       project,
       status,
+      isInbox,
       isDeleted,
       upcomingAt,
       deadline
@@ -151,16 +152,20 @@ export default Component.extend({
       this.setItemsDeadline(this.task, deadline);
     }
 
-    if (changedAttrs.includes('list') && list !== 'upcoming') {
-      this.moveItemsToList(this.task, list);
+    if (changedAttrs.includes('when') && when !== 'upcoming') {
+      this.setItemsWhen(this.task, when);
     }
 
-    if (list === 'upcoming' && changedAttrs.includes('upcomingAt')) {
-      this.moveItemsToList(this.task, 'upcoming', upcomingAt);
+    if (when === 'upcoming' && changedAttrs.includes('upcomingAt')) {
+      this.setItemsWhen(this.task, 'upcoming', upcomingAt);
     }
 
     if (isProjectChanged) {
       this.moveTasksToProject(this.task, project);
+    }
+
+    if (changedAttrs.includes('isInbox') && isInbox) {
+      this.moveTasksToInbox(this.task);
     }
 
     if (changedAttrs.includes('status')) {
