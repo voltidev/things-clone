@@ -6,9 +6,23 @@
   <div class="c-folder__buttons">
     <button
       class="c-folder__button c-folder__button--action"
-      {{action (route-action "destroyDeletedItems")}}
     >
       Empty Trash
+
+      {{#attach-popover placement="bottom"}}
+        <div class="c-popover__inner">
+          <div class="c-popover__title">
+            Are you sure you want to remove the items in the Trash permanently?
+          </div>
+
+          <div
+            class="c-popover__option c-popover__option--danger"
+            {{action (route-action "destroyDeletedItems")}}
+          >
+            Empty Trash
+          </div>
+        </div>
+      {{/attach-popover}}
     </button>
   </div>
 

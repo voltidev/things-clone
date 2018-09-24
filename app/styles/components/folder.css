@@ -107,6 +107,7 @@
 }
 
 .c-folder__button {
+  display: inline-block;
   padding: rem(2px) rem(12px);
   border: 1px solid #eee;
   border-radius: rem(4px);
