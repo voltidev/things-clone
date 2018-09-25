@@ -35,7 +35,7 @@ export default Route.extend({
       this.save(item);
     },
 
-    markItemsAs(items, status) {
+    markItemsAs(items, status, childrenStatus) {
       castArray(items).forEach(item => {
         item.markAs(status);
         this.save(item);
@@ -46,7 +46,7 @@ export default Route.extend({
 
         if (item.isProject && status !== 'new') {
           item.activeTasks.forEach(task => {
-            task.markAs(status);
+            task.markAs(childrenStatus || status);
             this.save(task);
           });
         }

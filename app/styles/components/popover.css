@@ -3,14 +3,15 @@
   position: relative;
   border-radius: rem(10px);
   box-shadow: 0 rem(1px) rem(10px) rgba(0, 0, 0, 0.2);
+  top: 0;
 
   > div[x-arrow] {
-    height: rem(16px);
-    width: rem(16px);
+    height: rem(18px);
+    width: rem(18px);
     position: absolute;
     z-index: -1;
     box-shadow: rem(-3px) rem(3px) rem(10px) rgba(0, 0, 0, 0.1);
-    border-radius: rem(2px);
+    border-radius: rem(3px);
     background-color: #fff;
   }
 }

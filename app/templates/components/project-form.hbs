@@ -1,28 +1,12 @@
 <div class="c-item-form c-item-form--project">
   {{#animated-container}}
     <div class="c-item-form__section c-item-form__section--no-border">
-      {{#if @project.isProcessed}}
-        <div class="c-checkbox c-checkbox--big c-checkbox--project is-checked" title="Mark project as uncompleted" {{action @markProjectAsNew}}>
-          {{#if @project.isCompleted}}
-            {{svg-jar "checkbox-mark" class="c-checkbox__icon"}}
-          {{else}}
-            {{svg-jar "cancel" class="c-checkbox__icon c-checkbox__icon--cancel"}}
-          {{/if}}
-        </div>
-      {{else}}
-        {{#let (and @project.isSomeday (not @project.isCompleted)) as |isSomeday|}}
-          <div
-            class="c-checkbox c-checkbox--pie c-checkbox--big js-checkbox {{if isSomeday 'c-checkbox--someday'}}"
-            title="Mark as completed"
-            {{action @markProjectAsCompleted}}
-          >
-            {{progress-pie
-              progress=@project.progress
-              isDashedBorder=isSomeday
-            }}
-          </div>
-        {{/let}}
-      {{/if}}
+      {{project-checkbox
+        isBig=true
+        project=@project
+        markProjectAsNew=@markProjectAsNew
+        markProjectAsCompleted=@markProjectAsCompleted
+      }}
 
       {{text-input
         class="c-item-form__project-input js-title-input"

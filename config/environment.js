@@ -14,7 +14,7 @@ module.exports = function(environment) {
       arrow: true,
       lazyRender: true,
       showOn: 'click',
-      hideOn: 'escapekey blur'
+      hideOn: 'escapekey clickout'
     },
 
     EmberENV: {

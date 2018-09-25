@@ -1,12 +1,13 @@
 import Model from 'ember-data/model';
 import { hasMany } from 'ember-data/relationships';
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { alias, notEmpty } from '@ember/object/computed';
 import ItemModel from 'things/mixins/item-model';
 
 export default Model.extend(ItemModel, {
   tasks: hasMany('task'),
 
+  hasActiveTasks: notEmpty('activeTasks'),
   isShownInTrash: alias('isDeleted'),
 
   isActive: computed('isProcessed', 'isDeleted', 'isSomeday', 'isUpcoming', function() {
