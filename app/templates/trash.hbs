@@ -9,7 +9,12 @@
     >
       Empty Trash
 
-      {{#attach-popover placement="bottom"}}
+      {{#attach-popover
+        class="c-popover"
+        placement="bottom"
+        showOn="click"
+        hideOn="clickout escapekey"
+      }}
         <div class="c-popover__inner">
           <div class="c-popover__title">
             Are you sure you want to remove the items in the Trash permanently?

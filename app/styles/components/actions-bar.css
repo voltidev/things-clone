@@ -6,8 +6,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: rem(6px);
+  border-radius: rem(10px);
   background: #2b323a;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
 .c-actions-bar__action {
@@ -36,7 +38,7 @@
   fill: currentColor;
 
   &:not(:last-child) {
-    margin-right: rem(6px);
+    margin-right: rem(8px);
   }
 }
 

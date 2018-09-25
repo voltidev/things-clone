@@ -9,12 +9,10 @@ module.exports = function(environment) {
     locationType: 'auto',
 
     emberAttacher: {
-      class: 'c-popover',
       animation: 'shift',
       arrow: true,
       lazyRender: true,
-      showOn: 'click',
-      hideOn: 'escapekey clickout'
+      tooltipClass: 'c-tooltip'
     },
 
     EmberENV: {

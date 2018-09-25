@@ -1,0 +1,24 @@
+.c-tooltip {
+  max-width: rem(160px);
+  padding: rem(8px) rem(12px);
+  position: relative;
+  will-change: transform;
+  background: #2b323a;
+  border-radius: rem(8px);
+  color: #fff;
+  text-align: center;
+  font-size: rem(14px);
+  line-height: 1.4;
+  will-change: transform;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  > div[x-arrow] {
+    height: rem(18px);
+    width: rem(18px);
+    position: absolute;
+    z-index: -1;
+    border-radius: rem(3px);
+    background: #2b323a;
+  }
+}

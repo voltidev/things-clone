@@ -12,6 +12,8 @@
   z-index: var(--z-index-fs-dialog);
   background: transparent;
   will-change: transform, opacity;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 
   &.ember-basic-dropdown-content--below.ember-basic-dropdown--transitioning-in {
     animation: drop-fade-below 150ms;
@@ -32,7 +34,7 @@
 
 .c-dropdown__content-inner {
   padding: rem(7px);
-  border-radius: rem(6px);
+  border-radius: rem(10px);
   box-shadow: 0 0 rem(1px) 0 rgba(0, 0, 0, 0.25), 0 rem(2px) rem(9px) 0 rgba(0, 0, 0, 0.2);
   background: #2b323a;
 }
@@ -44,8 +46,8 @@
 .c-dropdown__item {
   display: flex;
   align-items: center;
-  padding: rem(4px) rem(8px);
-  border-radius: rem(4px);
+  padding: rem(6px) rem(8px);
+  border-radius: rem(6px);
   text-decoration: none;
   color: rgba(255, 255, 255, 0.9);
   transition: all 0.1s ease-out;

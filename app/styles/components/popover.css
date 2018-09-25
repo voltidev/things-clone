@@ -3,7 +3,7 @@
   position: relative;
   border-radius: rem(10px);
   box-shadow: 0 rem(1px) rem(10px) rgba(0, 0, 0, 0.2);
-  top: 0;
+  will-change: transform;
 
   > div[x-arrow] {
     height: rem(18px);

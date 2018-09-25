@@ -11,6 +11,8 @@
   overflow: hidden;
   outline: 0;
   background: rgba(0, 0, 0, 0.2);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 
   &.is-transitioning-in {
     animation: fade-in 150ms;
@@ -27,7 +29,7 @@
   width: rem(300px);
   max-height: rem(400px);
   background: #2b323a;
-  border-radius: rem(6px);
+  border-radius: rem(10px);
   box-shadow: 0 rem(2px) rem(6px) rgba(0, 0, 0, 0.2);
 
   .is-transitioning-in > & {
@@ -105,8 +107,8 @@
 .c-dialog__options-item {
   display: flex;
   align-items: center;
-  padding: rem(4px) rem(8px);
-  border-radius: rem(4px);
+  padding: rem(6px) rem(8px);
+  border-radius: rem(6px);
   text-decoration: none;
   color: rgba(255, 255, 255, 0.7);
   transition: all 0.1s ease-out;

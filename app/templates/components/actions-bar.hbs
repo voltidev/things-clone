@@ -8,6 +8,11 @@
     <div class="c-actions-bar__text">
       Move
     </div>
+
+    {{#attach-tooltip hideOn="mouseleave click" showDelay="700"}}
+      Move selected items
+      <br>to another list
+    {{/attach-tooltip}}
   </div>
 
   <div
@@ -19,6 +24,11 @@
     <div class="c-actions-bar__text">
       When
     </div>
+
+    {{#attach-tooltip hideOn="mouseleave click" showDelay="700"}}
+      Decide when to start
+      <br>Today or Later?
+    {{/attach-tooltip}}
   </div>
 
 
@@ -29,6 +39,10 @@
       <div class="c-actions-bar__text">
         Put back
       </div>
+
+      {{#attach-tooltip hideOn="mouseleave click" showDelay="700"}}
+        Recover selected items
+      {{/attach-tooltip}}
     </div>
   {{else}}
     <div class="c-actions-bar__action" {{action @delete}}>
@@ -37,6 +51,10 @@
       <div class="c-actions-bar__text">
         Delete
       </div>
+
+      {{#attach-tooltip hideOn="mouseleave click" showDelay="700"}}
+        Delete selected items
+      {{/attach-tooltip}}
     </div>
   {{/if}}
 

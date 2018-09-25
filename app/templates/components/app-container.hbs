@@ -80,6 +80,10 @@
   <div class="c-floating-button">
     <div class="c-floating-button__inner" {{action "createNewTask"}}>
       {{svg-jar "plus" class="c-floating-button__iner__icon"}}
+
+      {{#attach-tooltip hideOn="mouseleave click" showDelay="700"}}
+        Create New To-Do
+      {{/attach-tooltip}}
     </div>
   </div>
 {{/animated-if}}

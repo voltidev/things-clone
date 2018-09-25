@@ -46,7 +46,13 @@
                   {{svg-jar "complete-project" class="c-dropdown__item-icon"}}
                   <div class="c-dropdown__item-text">Mark as completed</div>
 
-                  {{#attach-popover placement="right" renderInPlace=true}}
+                  {{#attach-popover
+                    class="c-popover"
+                    placement="right"
+                    renderInPlace=true
+                    showOn="click"
+                    hideOn="clickout escapekey"
+                  }}
                     <div class="c-popover__inner">
                       <div class="c-popover__title">
                         {{#let (eq @project.activeTasks.length 1) as |hasOneTask|}}

@@ -22,7 +22,12 @@
         isDashedBorder=isSomeday
       }}
 
-      {{#attach-popover placement="bottom"}}
+      {{#attach-popover
+        class="c-popover"
+        placement="bottom"
+        showOn="click"
+        hideOn="clickout escapekey"
+      }}
         <div class="c-popover__inner">
           <div class="c-popover__title">
             {{#let (eq @project.activeTasks.length 1) as |hasOneTask|}}
