@@ -1,32 +1,41 @@
 import Component from '@ember/component';
 import fade from 'ember-animated/transitions/fade';
+import { set } from '@ember/object';
 
 export default Component.extend({
+  _nameFieldValue: '',
+  _notesFieldValue: '',
   fade,
+
+  init() {
+    this._super(...arguments);
+    set(this, '_nameFieldValue', this.project.name);
+    set(this, '_notesFieldValue', this.project.notes);
+  },
 
   didRender() {
     this._super(...arguments);
 
     if (!this.project.name) {
-      this.focusTitleInput();
+      this.focusNameField();
     }
   },
 
   actions: {
-    blurTitleInput() {
-      let input = this.element.querySelector('.js-title-input');
+    blur(className) {
+      let filed = this.element.querySelector(`.${className}`);
 
-      if (input) {
-        input.blur();
+      if (filed) {
+        filed.blur();
       }
     }
   },
 
-  focusTitleInput() {
-    let input = this.element.querySelector('.js-title-input');
+  focusNameField() {
+    let nameField = this.element.querySelector('.js-name-field');
 
-    if (input) {
-      input.focus();
+    if (nameField) {
+      nameField.focus();
     }
   }
 });

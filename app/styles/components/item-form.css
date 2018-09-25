@@ -40,7 +40,6 @@
   width: rem(18px);
 }
 
-
 .c-item-form__section {
   display: flex;
   align-items: center;
@@ -110,7 +109,7 @@
   }
 
   &--upcoming {
-    fill: #D82257;
+    fill: #d82257;
   }
 
   &--anytime {

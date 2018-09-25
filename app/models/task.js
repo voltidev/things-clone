@@ -28,9 +28,18 @@ export default Model.extend(ItemModel, {
     return this.isUpcoming && this.isActive && !this.isInbox && !this.isProjectDeleted;
   }),
 
-  isShownInAnytime: computed('isAnytime', 'isToday', 'isActive', 'isInbox', 'isProjectDeleted', function() {
-    return (this.isAnytime || this.isToday) && this.isActive && !this.isInbox && !this.isProjectDeleted;
-  }),
+  isShownInAnytime: computed(
+    'isAnytime',
+    'isToday',
+    'isActive',
+    'isInbox',
+    'isProjectDeleted',
+    function() {
+      return (
+        (this.isAnytime || this.isToday) && this.isActive && !this.isInbox && !this.isProjectDeleted
+      );
+    }
+  ),
 
   isShownInSomeday: computed('isSomeday', 'isActive', 'isInbox', 'isProjectDeleted', function() {
     return this.isSomeday && this.isActive && !this.isInbox && !this.isProjectDeleted;

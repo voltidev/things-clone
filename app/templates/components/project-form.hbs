@@ -9,14 +9,15 @@
       }}
 
       {{text-input
-        class="c-item-form__project-input js-title-input"
+        class="c-item-form__project-input js-name-field"
         placeholder="New project"
-        value=@project.name
+        value=this._nameFieldValue
         autoresize=true
         max-width=400
-        update=(action @updateProjectName)
-        enter=(action "blurTitleInput")
-        escape-press=(action "blurTitleInput")
+        update=(action (mut this._nameFieldValue))
+        focusOut=(action @updateProjectName this._nameFieldValue)
+        enter=(action "blur" "js-name-field")
+        escape-press=(action "blur" "js-name-field")
       }}
 
       {{#basic-dropdown
@@ -38,9 +39,38 @@
                   <div class="c-dropdown__item-text">Mark as uncompleted</div>
                 </div>
               {{else}}
-                <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsCompleted)}}>
+                <div
+                  class="c-dropdown__item"
+                  {{action (optional (if @project.hasActiveTasks null (queue dropdown.actions.close @markProjectAsCompleted)))}}
+                >
                   {{svg-jar "complete-project" class="c-dropdown__item-icon"}}
                   <div class="c-dropdown__item-text">Mark as completed</div>
+
+                  {{#attach-popover placement="right" renderInPlace=true}}
+                    <div class="c-popover__inner">
+                      <div class="c-popover__title">
+                        {{#let (eq @project.activeTasks.length 1) as |hasOneTask|}}
+                          This project contains {{@project.activeTasks.length}} incomplete to-do{{if hasOneTask "" "s"}}.
+                          <br>
+                          What would you like to do with {{if hasOneTask "it" "them"}}?
+                        {{/let}}
+                      </div>
+
+                      <div
+                        class="c-popover__option"
+                        {{action (queue (action @markProjectAsCompleted "completed") dropdown.actions.close)}}
+                      >
+                        Mark as Completed
+                      </div>
+
+                      <div
+                        class="c-popover__option"
+                        {{action (queue (action @markProjectAsCompleted "canceled") dropdown.actions.close)}}
+                      >
+                        Mark as Cancelled
+                      </div>
+                    </div>
+                  {{/attach-popover}}
                 </div>
               {{/if}}
 
@@ -85,15 +115,16 @@
       </label>
 
       {{text-area
-        class="c-item-form__notes"
+        class="c-item-form__notes js-notes-field"
         id="project-notes"
+        value=@project.notes
+        placeholder="Notes"
         autoresize=true
         max-rows=10
-        placeholder="Notes"
-        value=@project.notes
-        update=(route-action "updateItemNotes" project)
-        enter=(action "blurTitleInput")
-        escape-press=(action "blurTitleInput")
+        update=(action (mut this._notesFieldValue))
+        focusOut=(action @updateProjectNotes this._notesFieldValue)
+        enter=(action "blur" "js-notes-field")
+        escape-press=(action "blur" "js-notes-field")
       }}
     </div>
 
@@ -115,7 +146,7 @@
               {{/if}}
             </div>
 
-            <div class="c-item-form__value-reset" {{action (route-action "setItemsWhen" project "anytime") bubbles=false}}>
+            <div class="c-item-form__value-reset" {{action @setProjectWhen bubbles=false}}>
               {{svg-jar "no"}}
             </div>
           </div>
@@ -137,7 +168,7 @@
               {{moment-format @project.deadline 'MMM DD'}}
             </div>
 
-            <div class="c-item-form__value-reset" {{action (route-action "setItemsDeadline" project null) bubbles=false}}>
+            <div class="c-item-form__value-reset" {{action @setProjectDeadline null bubbles=false}}>
               {{svg-jar "no"}}
             </div>
           </div>
@@ -151,7 +182,7 @@
   {{to-elsewhere named="modal" send=(
     component "deadline-dialog"
     value=@project.deadline
-    setDeadline=(route-action "setItemsDeadline" project)
+    setDeadline=@setProjectDeadline
     close=(toggle-action "isDeadlineDialogOpen" this)
   )}}
 {{/if}}
@@ -160,7 +191,7 @@
   {{to-elsewhere named="modal" send=(
     component "when-dialog"
     selectedDate=@project.upcomingAt
-    setWhen=(route-action "setItemsWhen" project)
+    setWhen=@setProjectWhen
     close=(toggle-action "isWhenDialogOpen" this)
   )}}
 {{/if}}
