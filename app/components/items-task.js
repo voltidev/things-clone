@@ -152,7 +152,7 @@ export default Component.extend({
       this.setItemsDeadline(this.task, deadline);
     }
 
-    if (changedAttrs.includes('when') && !isInbox) {
+    if ((changedAttrs.includes('when') || changedAttrs.includes('upcomingAt')) && !isInbox) {
       this.setItemsWhen(this.task, when, when === 'upcoming' ? upcomingAt : null);
     }
 

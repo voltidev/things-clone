@@ -2,7 +2,6 @@
   max-width: rem(160px);
   padding: rem(8px) rem(12px);
   position: relative;
-  will-change: transform;
   background: #2b323a;
   border-radius: rem(8px);
   color: #fff;
