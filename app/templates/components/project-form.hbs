@@ -35,7 +35,7 @@
             <div class="c-dropdown__section">
               {{#if @project.isProcessed}}
                 <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsNew)}}>
-                  {{svg-jar "uncomplete" class="c-dropdown__item-icon"}}
+                  {{svg-jar "uncompleted-project" class="c-dropdown__item-icon"}}
                   <div class="c-dropdown__item-text">Mark as uncompleted</div>
                 </div>
               {{else}}
@@ -43,7 +43,7 @@
                   class="c-dropdown__item"
                   {{action (optional (if @project.hasActiveTasks null (queue dropdown.actions.close @markProjectAsCompleted)))}}
                 >
-                  {{svg-jar "complete-project" class="c-dropdown__item-icon"}}
+                  {{svg-jar "completed-project" class="c-dropdown__item-icon"}}
                   <div class="c-dropdown__item-text">Mark as completed</div>
 
                   {{#attach-popover
