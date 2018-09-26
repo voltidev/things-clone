@@ -21,7 +21,8 @@ export default Service.extend({
       status: task.status,
       isInbox: task.isInbox,
       isDeleted: task.isDeleted,
-      project: task.project
+      project: task.project,
+      tags: task.tags
     };
 
     set(this, 'task', Object.assign({}, taskData));

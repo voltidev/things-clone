@@ -15,7 +15,7 @@
         autoresize=true
         max-width=400
         update=(action (mut this._nameFieldValue))
-        focusOut=(action @updateProjectName this._nameFieldValue)
+        focusOut=(action @setProjectName this._nameFieldValue)
         enter=(action "blur" "js-name-field")
         escape-press=(action "blur" "js-name-field")
       }}
@@ -128,7 +128,7 @@
         autoresize=true
         max-rows=10
         update=(action (mut this._notesFieldValue))
-        focusOut=(action @updateProjectNotes this._notesFieldValue)
+        focusOut=(action @setProjectNotes this._notesFieldValue)
         enter=(action "blur" "js-notes-field")
         escape-press=(action "blur" "js-notes-field")
       }}

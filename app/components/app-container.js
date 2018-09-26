@@ -8,6 +8,7 @@ import move from 'ember-animated/motions/move';
 import { easeOut, easeIn } from 'ember-animated/easings/cosine';
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
+  isTagsDialogOpen: true,
   router: service(),
   itemSelector: service(),
   taskEditor: service(),
@@ -33,7 +34,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   }),
 
   shortcutDeleteSelected: on(keyUp('Backspace'), function() {
-    this.deleteSelected();
+    this.deleteSelectedItems();
   }),
 
   actions: {
@@ -41,15 +42,15 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.createNewTask();
     },
 
-    markSelectedAs(status) {
-      this.markSelectedAs(status);
+    markSelectedItemsAs(status) {
+      this.markSelectedItemsAs(status);
     },
 
-    deleteSelected() {
-      this.deleteSelected();
+    deleteSelectedItems() {
+      this.deleteSelectedItems();
     },
 
-    undeleteSelected() {
+    undeleteSelectedItems() {
       if (!this.hasSelected) {
         return;
       }
@@ -58,7 +59,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.itemSelector.clear();
     },
 
-    setDeadlineForSelected(deadline) {
+    setSelectedItemsDeadline(deadline) {
       if (!this.hasSelected) {
         return;
       }
@@ -66,7 +67,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.setItemsDeadline(this.itemSelector.items, deadline);
     },
 
-    setSelectedWhen(when, date) {
+    setSelectedItemsWhen(when, date) {
       if (!this.hasSelected) {
         return;
       }
@@ -74,7 +75,15 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.setItemsWhen(this.itemSelector.items, when, date);
     },
 
-    moveSelectedToInbox() {
+    setSelectedItemsTags(tags) {
+      if (!this.hasSelected) {
+        return;
+      }
+
+      this.setItemsTags(this.itemSelector.items, tags);
+    },
+
+    moveSelectedTasksToInbox() {
       if (!this.hasSelected || this.hasSelectedProjects) {
         return;
       }
@@ -82,7 +91,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.moveTasksToInbox(this.itemSelector.items);
     },
 
-    moveSelectedToProject(project) {
+    moveSelectedTasksToProject(project) {
       if (!this.hasSelected || this.hasSelectedProjects) {
         return;
       }
@@ -101,7 +110,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     setTimeout(() => this.taskEditor.edit(newTask), 1);
   },
 
-  markSelectedAs(status) {
+  markSelectedItemsAs(status) {
     if (!this.hasSelected) {
       return;
     }
@@ -110,7 +119,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     this.itemSelector.clear();
   },
 
-  deleteSelected() {
+  deleteSelectedItems() {
     if (!this.hasSelected) {
       return;
     }

@@ -8,7 +8,7 @@
 
     <div class="c-dialog__buttons-wrap">
       <button class="c-dialog__button" {{action this.closeDialog}}>
-        Cancel
+        {{or @closeTitle "Cancel"}}
       </button>
     </div>
   </div>

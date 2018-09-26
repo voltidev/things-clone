@@ -1,8 +1,8 @@
 {{#if @project}}
   {{project-form
     project=@project
-    updateProjectName=(route-action "updateItemName" @project)
-    updateProjectNotes=(route-action "updateItemNotes" @project)
+    setProjectName=(route-action "setItemName" @project)
+    setProjectNotes=(route-action "setItemNotes" @project)
     markProjectAsCompleted=(route-action "markItemsAs" @project "completed")
     markProjectAsNew=(route-action "markItemsAs" @project "new")
     deleteProject=(pipe (route-action "deleteItems" @project) (route-action "replaceRoute" "today"))

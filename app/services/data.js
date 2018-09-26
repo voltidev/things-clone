@@ -13,6 +13,7 @@ export default Service.extend({
   store: service(),
   tasks: null,
   projects: null,
+  tags: null,
 
   tasksAndProjects: union('tasks', 'projects'),
 
@@ -25,13 +26,15 @@ export default Service.extend({
 
     set(this, 'tasks', this.store.peekAll('task'));
     set(this, 'projects', this.store.peekAll('project'));
+    set(this, 'tags', this.store.peekAll('tag'));
     this.get('store').findAll('task');
     this.get('store').findAll('project');
+    this.get('store').findAll('tag');
 
-    this.updateUpcomingItems.perform();
+    this.setUpcomingItems.perform();
   },
 
-  updateUpcomingItems: task(function* () {
+  setUpcomingItems: task(function* () {
     while (true) {
       yield timeout(2000);
       let now = new Date(new Date().toDateString());

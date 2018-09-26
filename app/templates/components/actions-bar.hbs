@@ -71,14 +71,27 @@
     {{#dropdown.content class="c-dropdown__content c-actions-bar__dropdown-content js-items-actions"}}
       <div class="c-dropdown__content-inner">
         <div class="c-dropdown__section">
-          <div
-            class="c-dropdown__item c-actions-bar__dropdown-item"
-            {{action (queue dropdown.actions.close @openDeadlineDialog)}}
-          >
-            {{svg-jar "flag" class="c-dropdown__item-icon"}}
+          {{#if @openTagsDialog}}
+            <div
+              class="c-dropdown__item c-actions-bar__dropdown-item"
+              {{action (queue dropdown.actions.close @openTagsDialog)}}
+            >
+              {{svg-jar "tag" class="c-dropdown__item-icon"}}
 
-            <div class="c-dropdown__item-text">Add deadline</div>
-          </div>
+              <div class="c-dropdown__item-text">Set Tags</div>
+            </div>
+          {{/if}}
+
+          {{#if @openDeadlineDialog}}
+            <div
+              class="c-dropdown__item c-actions-bar__dropdown-item"
+              {{action (queue dropdown.actions.close @openDeadlineDialog)}}
+            >
+              {{svg-jar "flag" class="c-dropdown__item-icon"}}
+
+              <div class="c-dropdown__item-text">Set Deadline</div>
+            </div>
+          {{/if}}
 
           {{#if @markAsNew}}
             <div
@@ -87,7 +100,7 @@
             >
               {{svg-jar "mark-as-uncompleted" class="c-dropdown__item-icon"}}
 
-              <div class="c-dropdown__item-text">Mark as uncompleted</div>
+              <div class="c-dropdown__item-text">Mark as Incomplete</div>
             </div>
           {{/if}}
 
@@ -98,7 +111,7 @@
             >
               {{svg-jar "mark-as-completed" class="c-dropdown__item-icon"}}
 
-              <div class="c-dropdown__item-text">Mark as completed</div>
+              <div class="c-dropdown__item-text">Mark as Completed</div>
             </div>
           {{/if}}
 
@@ -108,7 +121,7 @@
           >
             {{svg-jar "mark-as-canceled" class="c-dropdown__item-icon"}}
 
-            <div class="c-dropdown__item-text">Mark as canceled</div>
+            <div class="c-dropdown__item-text">Mark as Canceled</div>
           </div>
         </div>
       </div>

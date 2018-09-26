@@ -141,11 +141,11 @@ export default Component.extend({
     let isProjectChanged = get(this, 'task.project.id') !== get(this, 'taskEditor.task.project.id');
 
     if (changedAttrs.includes('name')) {
-      this.updateItemName(this.task, name);
+      this.setItemName(this.task, name);
     }
 
     if (changedAttrs.includes('notes')) {
-      this.updateItemNotes(this.task, notes);
+      this.setItemNotes(this.task, notes);
     }
 
     if (changedAttrs.includes('deadline')) {

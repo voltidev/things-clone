@@ -1,6 +1,6 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import { belongsTo } from 'ember-data/relationships';
+import { belongsTo, hasMany } from 'ember-data/relationships';
 import { set, computed } from '@ember/object';
 import { equal, alias } from '@ember/object/computed';
 import ItemModel from 'things/mixins/item-model';
@@ -8,6 +8,7 @@ import ItemModel from 'things/mixins/item-model';
 export default Model.extend(ItemModel, {
   isInbox: attr('boolean', { defaultValue: true }),
   project: belongsTo('project'),
+  tags: hasMany('tag'),
 
   isProjectDeleted: equal('project.isDeleted', true),
   isShownInTrash: alias('isDeleted'),

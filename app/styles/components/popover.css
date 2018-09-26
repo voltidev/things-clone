@@ -1,8 +1,11 @@
 .c-popover {
   width: rem(300px);
   position: relative;
+  border: 1px solid rgba(217, 217, 217, 0.85);
   border-radius: rem(10px);
-  box-shadow: 0 rem(1px) rem(10px) rgba(0, 0, 0, 0.2);
+  box-shadow: 0 rem(1px) rem(16px) rgba(0, 0, 0, 0.15);
+  -moz-osx-font-smoothing: auto;
+  -webkit-font-smoothing: auto;
   will-change: transform;
 
   > div[x-arrow] {
@@ -10,8 +13,9 @@
     width: rem(18px);
     position: absolute;
     z-index: -1;
-    box-shadow: rem(-3px) rem(3px) rem(10px) rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(217, 217, 217, 0.85);
     border-radius: rem(3px);
+    box-shadow: rem(-3px) rem(3px) rem(16px) rgba(0, 0, 0, 0.1);
     background-color: #fff;
   }
 }
@@ -31,7 +35,7 @@
 
 .c-popover__option {
   padding: rem(16px);
-  border-top: 1px solid #d8dbdd;
+  border-top: 1px solid rgba(217, 217, 217, 0.85);
   text-align: center;
   font-size: rem(16px);
   color: #629bf0;

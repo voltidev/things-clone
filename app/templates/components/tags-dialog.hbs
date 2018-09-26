@@ -1,0 +1,20 @@
+{{#modal-dialog
+  class="js-items-actions"
+  title="Tags"
+  closeTitle="Done"
+  close=@close
+}}
+  <div class="c-dialog__options">
+    <div class="c-dialog__section">
+      {{#each (sort-by 'name' (filter-by "isActive" true this.data.tags)) as |tag|}}
+        <div class="c-dialog__options-item">
+          {{svg-jar "tag" class="c-dialog__options-icon"}}
+
+          <div class="c-dialog__options-text">
+            {{tag.name}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+{{/modal-dialog}}

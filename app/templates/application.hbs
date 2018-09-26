@@ -1,14 +1,15 @@
 {{#app-container
-  createTask=(route-action "createTask")
-  createProject=(route-action "createProject")
-  reorderItems=(route-action "reorderItems")
-  setItemsDeadline=(route-action "setItemsDeadline")
   markItemsAs=(route-action "markItemsAs")
-  deleteItems=(route-action "deleteItems")
-  undeleteItems=(route-action "undeleteItems")
+  reorderItems=(route-action "reorderItems")
   setItemsWhen=(route-action "setItemsWhen")
+  setItemsDeadline=(route-action "setItemsDeadline")
+  setItemsTags=(route-action "setItemsTags")
   moveTasksToInbox=(route-action "moveTasksToInbox")
   moveTasksToProject=(route-action "moveTasksToProject")
+  createTask=(route-action "createTask")
+  createProject=(route-action "createProject")
+  deleteItems=(route-action "deleteItems")
+  undeleteItems=(route-action "undeleteItems")
 }}
   {{outlet}}
 {{/app-container}}

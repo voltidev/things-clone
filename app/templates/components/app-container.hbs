@@ -31,11 +31,12 @@
       openMoveDialog=(if this.hasSelectedProjects null (toggle-action "isMoveDialogOpen" this))
       openWhenDialog=(toggle-action "isWhenDialogOpen" this)
       openDeadlineDialog=(toggle-action "isDeadlineDialogOpen" this)
-      markAsCompleted=(action "markSelectedAs" "completed")
-      markAsNew=(action "markSelectedAs" "new")
-      markAsCanceled=(action "markSelectedAs" "canceled")
-      delete=(action "deleteSelected")
-      undelete=(action "undeleteSelected")
+      openTagsDialog=(toggle-action "isTagsDialogOpen" this)
+      markAsCompleted=(action "markSelectedItemsAs" "completed")
+      markAsNew=(action "markSelectedItemsAs" "new")
+      markAsCanceled=(action "markSelectedItemsAs" "canceled")
+      delete=(action "deleteSelectedItems")
+      undelete=(action "undeleteSelectedItems")
     }}
 
     {{#from-elsewhere name="actions-bar" as |actionsBar|}}
@@ -54,8 +55,8 @@
 {{#if this.isMoveDialogOpen}}
   {{to-elsewhere named="modal" send=(
     component "move-dialog"
-    moveToInbox=(action "moveSelectedToInbox")
-    moveToProject=(action "moveSelectedToProject")
+    moveToInbox=(action "moveSelectedTasksToInbox")
+    moveToProject=(action "moveSelectedTasksToProject")
     close=(toggle-action "isMoveDialogOpen" this)
   )}}
 {{/if}}
@@ -63,7 +64,7 @@
 {{#if this.isWhenDialogOpen}}
   {{to-elsewhere named="modal" send=(
     component "when-dialog"
-    setWhen=(action "setSelectedWhen")
+    setWhen=(action "setSelectedItemsWhen")
     close=(toggle-action "isWhenDialogOpen" this)
   )}}
 {{/if}}
@@ -71,8 +72,19 @@
 {{#if this.isDeadlineDialogOpen}}
   {{to-elsewhere named="modal" send=(
     component "deadline-dialog"
-    setDeadline=(action "setDeadlineForSelected")
+    setDeadline=(action "setSelectedItemsDeadline")
     close=(toggle-action "isDeadlineDialogOpen" this)
+  )}}
+{{/if}}
+
+{{#if this.isTagsDialogOpen}}
+  {{to-elsewhere named="modal" send=(
+    component "tags-dialog"
+    setTags=(action "setSelectedItemsTags")
+    createTag=(route-action "createTag")
+    setTagName=(route-action "setTagName")
+    deleteTag=(route-action "deleteTag")
+    close=(toggle-action "isTagsDialogOpen" this)
   )}}
 {{/if}}
 

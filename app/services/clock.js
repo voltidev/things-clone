@@ -6,7 +6,7 @@ const INTERVAL = 30000;
 export default Service.extend({
   date: null,
 
-  updateDate: task(function* () {
+  setDate: task(function* () {
     while (true) {
       yield timeout(INTERVAL);
       this.set('date', new Date());
@@ -20,10 +20,10 @@ export default Service.extend({
   },
 
   start() {
-    this.updateDate.perform();
+    this.setDate.perform();
   },
 
   stop() {
-    this.updateDate.cancelAll();
+    this.setDate.cancelAll();
   }
 });

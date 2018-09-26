@@ -16,7 +16,8 @@ export default Route.extend({
   model() {
     return {
       tasks: this.data.tasks,
-      projects: this.data.projects
+      projects: this.data.projects,
+      tags: this.data.tags
     };
   },
 
@@ -25,12 +26,12 @@ export default Route.extend({
       this.replaceWith(route);
     },
 
-    updateItemName(item, name) {
+    setItemName(item, name) {
       set(item, 'name', name);
       this.save(item);
     },
 
-    updateItemNotes(item, notes) {
+    setItemNotes(item, notes) {
       set(item, 'notes', notes);
       this.save(item);
     },
@@ -41,7 +42,7 @@ export default Route.extend({
         this.save(item);
 
         if (item.isTask && status === 'new') {
-          this.updateProjectIfNeeded(item);
+          this.setProjectIfNeeded(item);
         }
 
         if (item.isProject && status !== 'new') {
@@ -84,7 +85,7 @@ export default Route.extend({
         this.save(item);
 
         if (item.isTask) {
-          this.updateProjectIfNeeded(item);
+          this.setProjectIfNeeded(item);
         }
       });
     },
@@ -108,6 +109,10 @@ export default Route.extend({
         item.setWhen(when, date);
         this.save(item);
       });
+    },
+
+    setItemsTags(tags) {
+      console.log('setItemsTags', tags);
     },
 
     moveTasksToInbox(items) {
@@ -157,10 +162,25 @@ export default Route.extend({
       let project = this.store.createRecord('project', { order });
       this.save(project);
       this.transitionTo('project', project);
+    },
+
+    createTag(name) {
+      let tag = this.store.createRecord('tag', { name });
+      this.save(tag);
+      return tag;
+    },
+
+    setTagName(name, tag) {
+      set(tag, 'name', name);
+    },
+
+    deleteTag(tag) {
+      tag.delete();
+      this.save(tag);
     }
   },
 
-  updateProjectIfNeeded(task) {
+  setProjectIfNeeded(task) {
     let project = task.get('project.content');
 
     if (!project) {
