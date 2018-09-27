@@ -20,6 +20,14 @@
   cursor: pointer;
   color: rgba(255, 255, 255, 0.86);
 
+  &:first-child {
+    border-radius: rem(10px) 0 0 rem(10px);
+  }
+
+  &.c-dropdown__trigger {
+    border-radius: 0 rem(10px) rem(10px) 0;
+  }
+
   &.ember-basic-dropdown-trigger--center,
   &:hover {
     background: rgba(255, 255, 255, 0.2);

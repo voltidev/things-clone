@@ -105,7 +105,7 @@
                 </div>
               {{else}}
                 <div class="c-dropdown__item" {{action (queue dropdown.actions.close @deleteProject)}}>
-                  {{svg-jar "delete2" class="c-dropdown__item-icon"}}
+                  {{svg-jar "delete" class="c-dropdown__item-icon"}}
                   <div class="c-dropdown__item-text">Delete project</div>
                 </div>
               {{/if}}
@@ -152,7 +152,7 @@
               {{/if}}
             </div>
 
-            <div class="c-item-form__value-reset" {{action @setProjectWhen bubbles=false}}>
+            <div class="c-item-form__value-reset" {{action @setProjectWhen "anytime" bubbles=false}}>
               {{svg-jar "no"}}
             </div>
           </div>

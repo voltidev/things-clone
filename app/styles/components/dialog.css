@@ -28,9 +28,9 @@
   flex-flow: column;
   width: rem(300px);
   max-height: rem(400px);
-  background: #2b323a;
-  border-radius: rem(10px);
-  box-shadow: 0 rem(2px) rem(6px) rgba(0, 0, 0, 0.2);
+  background: #fff;
+  border-radius: rem(6px);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.12), 0 rem(2px) rem(12px) rgba(0, 0, 0, 0.12);
 
   .is-transitioning-in > & {
     animation: drop-fade-below 150ms;
@@ -50,10 +50,10 @@
 .c-dialog__title {
   padding: rem(10px);
   font-size: rem(16px);
-  font-weight: var(--book);
+  font-weight: var(--semi-bold);
   text-align: center;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
 }
 
 .c-dialog__buttons-wrap {
@@ -70,12 +70,12 @@
   border: 0;
   background: none;
   font-size: rem(15px);
-  color: rgba(255, 255, 255, 0.6);
+  color: #666;
   transition: color 0.2s ease-out;
   cursor: pointer;
 
   &:hover {
-    color: #777;
+    color: hsla(216, 83%, 60%, 1);
   }
 }
 
@@ -108,16 +108,15 @@
   display: flex;
   align-items: center;
   padding: rem(6px) rem(8px);
-  border-radius: rem(6px);
+  border-radius: rem(4px);
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   transition: all 0.1s ease-out;
   cursor: pointer;
 
   &:hover,
   &.is-active {
-    background: #0d95ec;
-    color: rgba(255, 255, 255, 1);
+    background: hsla(216, 83%, 96%, 1);
   }
 }
 
@@ -126,6 +125,30 @@
   height: rem(18px);
   width: rem(18px);
   fill: currentColor;
+
+  &--inbox {
+    fill: #279be6;
+  }
+
+  &--today {
+    fill: #ffd402;
+
+    .icon-today__border {
+      stroke: #f0c402;
+    }
+  }
+
+  &--anytime {
+    fill: #40a69b;
+  }
+
+  &--someday {
+    fill: #bdb176;
+  }
+
+  &--project {
+    color: #1b61c2;
+  }
 
   &--no {
     padding: rem(2px);
@@ -148,7 +171,7 @@
   padding: rem(8px);
   text-align: center;
   font-size: rem(14px);
-  border-radius: rem(6px);
+  border-radius: rem(4px);
   background: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.8);
   cursor: pointer;

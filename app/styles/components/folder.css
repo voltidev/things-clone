@@ -76,7 +76,7 @@
   text-decoration: none;
 
   &:hover {
-    color: #3493e2;
+    color: hsla(216, 83%, 60%, 1);
   }
 }
 

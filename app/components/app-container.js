@@ -8,7 +8,6 @@ import move from 'ember-animated/motions/move';
 import { easeOut, easeIn } from 'ember-animated/easings/cosine';
 
 export default Component.extend(EKMixin, EKOnInsertMixin, {
-  isTagsDialogOpen: true,
   router: service(),
   itemSelector: service(),
   taskEditor: service(),

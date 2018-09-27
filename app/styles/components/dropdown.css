@@ -12,8 +12,6 @@
   z-index: var(--z-index-fs-dialog);
   background: transparent;
   will-change: transform, opacity;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
 
   &.ember-basic-dropdown-content--below.ember-basic-dropdown--transitioning-in {
     animation: drop-fade-below 150ms;
@@ -34,9 +32,9 @@
 
 .c-dropdown__content-inner {
   padding: rem(7px);
-  border-radius: rem(10px);
-  box-shadow: 0 0 rem(1px) 0 rgba(0, 0, 0, 0.25), 0 rem(2px) rem(9px) 0 rgba(0, 0, 0, 0.2);
-  background: #2b323a;
+  border-radius: rem(6px);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.12), 0 rem(2px) rem(12px) rgba(0, 0, 0, 0.12);
+  background: #fff;
 }
 
 .c-dropdown__section:not(:last-child) {
@@ -46,17 +44,16 @@
 .c-dropdown__item {
   display: flex;
   align-items: center;
-  padding: rem(6px) rem(8px);
-  border-radius: rem(6px);
+  padding: rem(6px) rem(10px);
+  border-radius: rem(4px);
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.9);
-  transition: all 0.1s ease-out;
+  color: #777;
   cursor: pointer;
 
   &:hover,
   &.is-active {
-    background: #0d95ec;
-    color: rgba(255, 255, 255, 1);
+    background: hsla(216, 83%, 96%, 1);
+    color: hsla(216, 83%, 60%, 1);
   }
 }
 
@@ -65,13 +62,10 @@
   height: rem(18px);
   width: rem(18px);
   fill: #5f96e8;
+  fill: currentColor;
 
   &--small {
     padding: 2px;
-  }
-
-  :hover > & {
-    fill: currentColor;
   }
 }
 

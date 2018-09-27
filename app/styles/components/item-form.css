@@ -76,8 +76,8 @@
 }
 
 .c-item-form__label {
-  padding: rem(14px) rem(10px);
-  padding-left: 0;
+  padding: rem(14px) 0;
+  margin-right: rem(4px);
   font-weight: var(--semi-bold);
   cursor: pointer;
 }
@@ -91,10 +91,6 @@
 .c-item-form__value-icon {
   height: rem(16px);
   width: rem(16px);
-
-  &:not(:last-child) {
-    margin-right: rem(6px);
-  }
 
   &--inbox {
     fill: #279be6;
@@ -133,11 +129,14 @@
 .c-item-form__value-box {
   display: flex;
   align-items: center;
-  padding: rem(4px) rem(10px);
-  background: rgba(0, 0, 0, 0.07);
+  padding-left: rem(8px);
   border-radius: rem(4px);
   font-size: rem(14px);
-  color: rgba(0, 0, 0, 0.4);
+  color: #555;
+
+  &:hover {
+    background: hsla(216, 83%, 96%, 1);
+  }
 
   &:not(:last-child) {
     margin-right: rem(10px);
@@ -145,19 +144,20 @@
 }
 
 .c-item-form__value-text {
-  opacity: 0.8;
-
-  &:not(:last-child) {
-    margin-right: 8px;
-  }
+  padding: rem(6px) rem(8px);
 }
 
 .c-item-form__value-reset {
-  color: #999;
-  cursor: pointer;
+  padding: rem(6px) rem(8px);
+  opacity: 0;
+
+  .c-item-form__value-box:hover > & {
+    opacity: 0.8;
+  }
 
   &:hover {
-    color: #2694e7;
+    opacity: 1;
+    color: hsla(216, 83%, 60%, 1);
   }
 
   svg {

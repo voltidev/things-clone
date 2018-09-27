@@ -7,7 +7,7 @@
     <div class="c-dialog__section">
       {{#each (array "today" "anytime" "someday") as |when|}}
         <div class="c-dialog__options-item u-capitalize" {{action (queue (action @setWhen when) @close)}}>
-          {{svg-jar when class="c-dialog__options-icon"}}
+          {{svg-jar when class=(concat "c-dialog__options-icon c-dialog__options-icon--" when)}}
 
           <div class="c-dialog__options-text">
             {{when}}

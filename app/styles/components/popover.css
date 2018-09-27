@@ -1,27 +1,25 @@
 .c-popover {
   width: rem(300px);
   position: relative;
-  border: 1px solid rgba(217, 217, 217, 0.85);
-  border-radius: rem(10px);
-  box-shadow: 0 rem(1px) rem(16px) rgba(0, 0, 0, 0.15);
-  -moz-osx-font-smoothing: auto;
-  -webkit-font-smoothing: auto;
+  border-radius: rem(6px);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.12), 0 rem(2px) rem(12px) rgba(0, 0, 0, 0.12);
   will-change: transform;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 
   > div[x-arrow] {
     height: rem(18px);
     width: rem(18px);
     position: absolute;
     z-index: -1;
-    border: 1px solid rgba(217, 217, 217, 0.85);
     border-radius: rem(3px);
-    box-shadow: rem(-3px) rem(3px) rem(16px) rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.10), 0 0 rem(12px) rgba(0, 0, 0, 0.12);
     background-color: #fff;
   }
 }
 
 .c-popover__inner {
-  border-radius: rem(10px);
+  border-radius: rem(6px);
   background-color: #fff;
 }
 
@@ -38,10 +36,22 @@
   border-top: 1px solid rgba(217, 217, 217, 0.85);
   text-align: center;
   font-size: rem(16px);
-  color: #629bf0;
+  color: hsla(216, 83%, 60%, 1);
   cursor: pointer;
 
+  &:last-child {
+    border-radius: 0 0 rem(6px) rem(6px);
+  }
+
+  &:hover {
+    background: hsla(216, 83%, 96%, 1);
+  }
+
   &--danger {
-    color: #f13f3e;
+    color: hsl(0, 86%, 59%);
+  }
+
+  &--danger:hover {
+    background: hsl(0, 86%, 98%);
   }
 }
