@@ -82,6 +82,7 @@
 .c-dialog__body {
   flex: 1;
   padding: 0 rem(10px);
+  margin-bottom: rem(10px);
   overflow-y: auto;
 
   &::-webkit-scrollbar {
@@ -102,81 +103,4 @@
 .c-dialog__footer {
   flex-shrink: 0;
   height: rem(2px);
-}
-
-.c-dialog__options-item {
-  display: flex;
-  align-items: center;
-  padding: rem(6px) rem(8px);
-  border-radius: rem(4px);
-  text-decoration: none;
-  color: #666;
-  transition: all 0.1s ease-out;
-  cursor: pointer;
-
-  &:hover,
-  &.is-active {
-    background: hsla(216, 83%, 96%, 1);
-  }
-}
-
-.c-dialog__options-icon {
-  margin-right: rem(8px);
-  height: rem(18px);
-  width: rem(18px);
-  fill: currentColor;
-
-  &--inbox {
-    fill: #279be6;
-  }
-
-  &--today {
-    fill: #ffd402;
-
-    .icon-today__border {
-      stroke: #f0c402;
-    }
-  }
-
-  &--anytime {
-    fill: #40a69b;
-  }
-
-  &--someday {
-    fill: #bdb176;
-  }
-
-  &--project {
-    color: #1b61c2;
-  }
-
-  &--no {
-    padding: rem(2px);
-  }
-}
-
-.c-dialog__options-text {
-  flex: 1;
-  overflow: hidden;
-  font-size: rem(16px);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.c-dialog__section {
-  margin-bottom: rem(10px);
-}
-
-.c-dialog__action {
-  padding: rem(8px);
-  text-align: center;
-  font-size: rem(14px);
-  border-radius: rem(4px);
-  background: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
 }

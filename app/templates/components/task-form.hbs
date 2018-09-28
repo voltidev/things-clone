@@ -42,129 +42,139 @@
   </div>
 
   <div class="c-item-form__section">
-    <div class="c-item-form__label" {{action (toggle "isWhenDialogOpen" this)}}>
-      When:
-    </div>
+    {{#basic-dropdown
+      class="c-dropdown"
+      as |dropdown|
+    }}
+      <div class="c-item-form__label" {{action dropdown.actions.open}}>
+        When:
+      </div>
 
-    <div class="c-item-form__value" {{action (toggle "isWhenDialogOpen" this)}}>
-      {{#if (and @task.when (not @task.isInbox))}}
-        <div class="c-item-form__value-box">
-          {{svg-jar @task.when class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.when)}}
+      <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
+        {{#if (and @task.when (not @task.isInbox))}}
+          <div class="c-item-form__value-box">
+            {{svg-jar @task.when class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.when)}}
 
-          <div class="c-item-form__value-text u-capitalize">
-            {{#if (eq @task.when "upcoming")}}
-              {{moment-format @task.upcomingAt 'MMM DD'}}
-            {{else}}
-              {{@task.when}}
+            <div class="c-item-form__value-text u-capitalize">
+              {{#if (eq @task.when "upcoming")}}
+                {{moment-format @task.upcomingAt 'MMM DD'}}
+              {{else}}
+                {{@task.when}}
+              {{/if}}
+            </div>
+
+            {{#if (not-eq @task.when "anytime")}}
+              <div class="c-item-form__value-reset" {{action "setWhen" "anytime" bubbles=false}}>
+                {{svg-jar "no"}}
+              </div>
             {{/if}}
           </div>
-        </div>
-      {{else}}
-        <div class="c-item-form__placeholder">
-          Set when
-        </div>
-      {{/if}}
-    </div>
-  </div>
+        {{else}}
+          <div class="c-item-form__placeholder">
+            Set when
+          </div>
+        {{/if}}
+      </div>
 
-  <div class="c-item-form__section">
-    <div class="c-item-form__label" {{action (toggle "isMoveDialogOpen" this)}}>
-      List:
-    </div>
-
-    <div class="c-item-form__value" {{action (toggle "isMoveDialogOpen" this)}}>
-      {{#if @task.project}}
-        <div class="c-item-form__value-box">
-          {{progress-pie
-            class="c-item-form__value-icon c-item-form__value-icon--project"
-            progress=@task.project.progress
+      {{#dropdown.content class="c-dropdown__content js-items-actions"}}
+        <div class="c-dropdown__content-inner">
+          {{when-options
+            selectedDate=@task.upcomingAt
+            setWhen=(queue (action "setWhen") dropdown.actions.close)
           }}
-
-          <div class="c-item-form__value-text">
-            {{or @task.project.name "New project"}}
-          </div>
-
-          <div class="c-item-form__value-reset" {{action "moveToProject" null bubbles=false}}>
-            {{svg-jar "no"}}
-          </div>
         </div>
-      {{else if @task.isInbox}}
-        <div class="c-item-form__value-box">
-          {{svg-jar "inbox" class="c-item-form__value-icon c-item-form__value-icon--inbox"}}
-
-          <div class="c-item-form__value-text u-capitalize">
-            Inbox
-          </div>
-        </div>
-      {{else}}
-        <div class="c-item-form__placeholder">
-          No project
-        </div>
-      {{/if}}
-    </div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
   </div>
 
   <div class="c-item-form__section">
-    <div class="c-item-form__label" {{action (toggle "isDeadlineDialogOpen" this)}}>
-      Deadline:
-    </div>
+    {{#basic-dropdown
+      class="c-dropdown"
+      as |dropdown|
+    }}
+      <div class="c-item-form__label" {{action dropdown.actions.open}}>
+        List:
+      </div>
 
-    <div class="c-item-form__value" {{action (toggle "isDeadlineDialogOpen" this)}}>
-      {{#if @task.deadline}}
-        <div class="c-item-form__value-box">
-          {{svg-jar "flag" class="c-item-form__value-icon c-item-form__value-icon--flag"}}
+      <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
+        {{#if @task.project}}
+          <div class="c-item-form__value-box">
+            {{progress-pie
+              class="c-item-form__value-icon c-item-form__value-icon--project"
+              progress=@task.project.progress
+            }}
 
-          <div class="c-item-form__value-text">
-            {{moment-format @task.deadline 'MMM DD'}}
+            <div class="c-item-form__value-text">
+              {{or @task.project.name "New project"}}
+            </div>
+
+            <div class="c-item-form__value-reset" {{action "moveToProject" null bubbles=false}}>
+              {{svg-jar "no"}}
+            </div>
           </div>
+        {{else if @task.isInbox}}
+          <div class="c-item-form__value-box">
+            {{svg-jar "inbox" class="c-item-form__value-icon c-item-form__value-icon--inbox"}}
 
-          <div class="c-item-form__value-reset" {{action (mut @task.deadline) null bubbles=false}}>
-            {{svg-jar "no"}}
+            <div class="c-item-form__value-text u-capitalize">
+              Inbox
+            </div>
           </div>
+        {{else}}
+          <div class="c-item-form__placeholder">
+            No project
+          </div>
+        {{/if}}
+      </div>
+
+      {{#dropdown.content class="c-dropdown__content js-items-actions"}}
+        <div class="c-dropdown__content-inner">
+          {{move-options
+            moveToInbox=(queue (action "moveToInbox") dropdown.actions.close)
+            moveToProject=(queue (action "moveToProject") dropdown.actions.close)
+          }}
         </div>
-      {{else}}
-        <div class="c-item-form__placeholder">
-          Add deadline
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  </div>
+
+  <div class="c-item-form__section">
+    {{#basic-dropdown
+      class="c-dropdown"
+      as |dropdown|
+    }}
+      <div class="c-item-form__label" {{action dropdown.actions.open}}>
+        Deadline:
+      </div>
+
+      <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
+        {{#if @task.deadline}}
+          <div class="c-item-form__value-box">
+            {{svg-jar "flag" class="c-item-form__value-icon c-item-form__value-icon--flag"}}
+
+            <div class="c-item-form__value-text">
+              {{moment-format @task.deadline 'MMM DD'}}
+            </div>
+
+            <div class="c-item-form__value-reset" {{action (mut @task.deadline) null bubbles=false}}>
+              {{svg-jar "no"}}
+            </div>
+          </div>
+        {{else}}
+          <div class="c-item-form__placeholder">
+            Add deadline
+          </div>
+        {{/if}}
+      </div>
+
+      {{#dropdown.content class="c-dropdown__content js-items-actions"}}
+        <div class="c-dropdown__content-inner">
+          {{deadline-options
+            value=@task.deadline
+            setDeadline=(queue (action (mut @task.deadline)) dropdown.actions.close)
+          }}
         </div>
-      {{/if}}
-    </div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
   </div>
 </div>
-
-{{#if this.isDeadlineDialogOpen}}
-  {{to-elsewhere named="modal" send=(
-    component "deadline-dialog"
-    value=@task.deadline
-    setDeadline=(action (mut @task.deadline))
-    close=(toggle-action "isDeadlineDialogOpen" this)
-  )}}
-{{/if}}
-
-{{#if this.isWhenDialogOpen}}
-  {{to-elsewhere named="modal" send=(
-    component "when-dialog"
-    selectedDate=@task.upcomingAt
-    setWhen=(action "setWhen")
-    close=(toggle-action "isWhenDialogOpen" this)
-  )}}
-{{/if}}
-
-{{#if this.isMoveDialogOpen}}
-  {{to-elsewhere named="modal" send=(
-    component "move-dialog"
-    moveToInbox=(action "moveToInbox")
-    moveToProject=(action "moveToProject")
-    close=(toggle-action "isMoveDialogOpen" this)
-  )}}
-{{/if}}
-
-{{to-elsewhere named="actions-bar" send=(
-  component "actions-bar"
-  isDeleted=this.task.isDeleted
-  openMoveDialog=(toggle-action "isMoveDialogOpen" this)
-  openWhenDialog=(toggle-action "isWhenDialogOpen" this)
-  openDeadlineDialog=(toggle-action "isDeadlineDialogOpen" this)
-  delete=(action "toggleIsDeleted")
-  undelete=(action "toggleIsDeleted")
-  markAsCanceled=(action (mut @task.status) "canceled")
-)}}

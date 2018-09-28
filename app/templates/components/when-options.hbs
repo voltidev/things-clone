@@ -1,0 +1,22 @@
+<div class="c-options__section">
+  {{#each (array "today" "anytime" "someday") as |when|}}
+    <div class="c-options__item u-capitalize" {{action @setWhen when}}>
+      {{svg-jar when class=(concat "c-options__icon c-options__icon--" when)}}
+
+      <div class="c-options__text">
+        {{when}}
+      </div>
+    </div>
+  {{/each}}
+</div>
+
+{{#power-calendar
+  selected=@selectedDate
+  center=(or this.center @selectedDate)
+  onCenterChange=(action (mut this.center) value="date")
+  onSelect=(action (action @setWhen "upcoming") value="date")
+  as |calendar|
+}}
+  {{calendar.nav}}
+  {{calendar.days}}
+{{/power-calendar}}

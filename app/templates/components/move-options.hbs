@@ -1,0 +1,30 @@
+<div class="c-options__section">
+  <div class="c-options__item u-capitalize" {{action @moveToInbox}}>
+    {{svg-jar "inbox" class="c-options__icon c-options__icon--inbox"}}
+
+    <div class="c-options__text">
+      Inbox
+    </div>
+  </div>
+</div>
+
+<div class="c-options__section">
+  <div class="c-options__item" {{action @moveToProject null}}>
+    {{svg-jar "no" class="c-options__icon c-options__icon--no"}}
+
+    <div class="c-options__text">No project</div>
+  </div>
+
+  {{#each (sort-by 'order' (filter-by "isActive" true this.data.projects)) as |project|}}
+    <div class="c-options__item" {{action @moveToProject project}}>
+      {{progress-pie
+        class="c-options__icon c-options__icon--project"
+        progress=project.progress
+      }}
+
+      <div class="c-options__text">
+        {{or project.name 'New project'}}
+      </div>
+    </div>
+  {{/each}}
+</div>

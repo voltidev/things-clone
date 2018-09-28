@@ -1,0 +1,16 @@
+{{#power-calendar
+  selected=@value
+  center=(or this.center @value)
+  onCenterChange=(action (mut this.center) value="date")
+  onSelect=(action @setDeadline value="date")
+  as |calendar|
+}}
+  {{calendar.nav}}
+  {{calendar.days}}
+{{/power-calendar}}
+
+<div class="c-options__section">
+  <div class="c-options__action" {{action @setDeadline null}}>
+    Remove deadline
+  </div>
+</div>

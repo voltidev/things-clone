@@ -28,6 +28,11 @@ export default Component.extend({
       if (filed) {
         filed.blur();
       }
+    },
+
+    resetDropdown() {
+      set(this, 'isWhenDropdownOpen', false);
+      set(this, 'isDeadlineDropdownOpen', false);
     }
   },
 

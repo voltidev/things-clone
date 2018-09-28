@@ -14,4 +14,14 @@
   {{outlet}}
 {{/app-container}}
 
-{{from-elsewhere name="modal"}}
+{{#from-elsewhere name="modal" as |modal|}}
+  {{#if modal}}
+    {{#modal-dialog
+      class="js-items-actions"
+      title=modal.title
+      close=modal.close
+    }}
+      {{component modal.body}}
+    {{/modal-dialog}}
+  {{/if}}
+{{/from-elsewhere}}

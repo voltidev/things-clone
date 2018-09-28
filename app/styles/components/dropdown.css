@@ -8,7 +8,8 @@
 }
 
 .c-dropdown__content {
-  padding: rem(6px);
+  padding-top: rem(6px);
+  padding-bottom: rem(6px);
   z-index: var(--z-index-fs-dialog);
   background: transparent;
   will-change: transform, opacity;

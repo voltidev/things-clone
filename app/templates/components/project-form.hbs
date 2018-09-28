@@ -24,6 +24,7 @@
         class="c-dropdown"
         horizontalPosition="center"
         verticalPosition="below"
+        onClose=(action "resetDropdown")
         as |dropdown|
       }}
         {{#dropdown.trigger class="c-dropdown__trigger c-item-form__dropdown-trigger"}}
@@ -32,84 +33,96 @@
 
         {{#dropdown.content class="c-dropdown__content"}}
           <div class="c-dropdown__content-inner">
-            <div class="c-dropdown__section">
-              {{#if @project.isProcessed}}
-                <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsNew)}}>
-                  {{svg-jar "uncompleted-project" class="c-dropdown__item-icon"}}
-                  <div class="c-dropdown__item-text">Mark as uncompleted</div>
-                </div>
-              {{else}}
+            {{#if this.isDeadlineDropdownOpen}}
+              {{deadline-options
+                value=@project.deadline
+                setDeadline=(queue @setProjectDeadline dropdown.actions.close)
+              }}
+            {{else if this.isWhenDropdownOpen}}
+              {{when-options
+                selectedDate=@project.upcomingAt
+                setWhen=(queue @setProjectWhen dropdown.actions.close)
+              }}
+            {{else}}
+              <div class="c-dropdown__section">
+                {{#if @project.isProcessed}}
+                  <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsNew)}}>
+                    {{svg-jar "uncompleted-project" class="c-dropdown__item-icon"}}
+                    <div class="c-dropdown__item-text">Mark as uncompleted</div>
+                  </div>
+                {{else}}
+                  <div
+                    class="c-dropdown__item"
+                    {{action (optional (if @project.hasActiveTasks null (queue dropdown.actions.close @markProjectAsCompleted)))}}
+                  >
+                    {{svg-jar "completed-project" class="c-dropdown__item-icon"}}
+                    <div class="c-dropdown__item-text">Mark as completed</div>
+
+                    {{#attach-popover
+                      class="c-popover"
+                      placement="right"
+                      renderInPlace=true
+                      showOn="click"
+                      hideOn="clickout escapekey"
+                    }}
+                      <div class="c-popover__inner">
+                        <div class="c-popover__title">
+                          {{#let (eq @project.activeTasks.length 1) as |hasOneTask|}}
+                            This project contains {{@project.activeTasks.length}} incomplete to-do{{if hasOneTask "" "s"}}.
+                            <br>
+                            What would you like to do with {{if hasOneTask "it" "them"}}?
+                          {{/let}}
+                        </div>
+
+                        <div
+                          class="c-popover__option"
+                          {{action (queue (action @markProjectAsCompleted "completed") dropdown.actions.close)}}
+                        >
+                          Mark as Completed
+                        </div>
+
+                        <div
+                          class="c-popover__option"
+                          {{action (queue (action @markProjectAsCompleted "canceled") dropdown.actions.close)}}
+                        >
+                          Mark as Cancelled
+                        </div>
+                      </div>
+                    {{/attach-popover}}
+                  </div>
+                {{/if}}
+
                 <div
-                  class="c-dropdown__item"
-                  {{action (optional (if @project.hasActiveTasks null (queue dropdown.actions.close @markProjectAsCompleted)))}}
+                  class="c-dropdown__item c-actions-bar__dropdown-item"
+                  {{action (toggle "isWhenDropdownOpen" this)}}
                 >
-                  {{svg-jar "completed-project" class="c-dropdown__item-icon"}}
-                  <div class="c-dropdown__item-text">Mark as completed</div>
+                  {{svg-jar "upcoming" class="c-dropdown__item-icon"}}
 
-                  {{#attach-popover
-                    class="c-popover"
-                    placement="right"
-                    renderInPlace=true
-                    showOn="click"
-                    hideOn="clickout escapekey"
-                  }}
-                    <div class="c-popover__inner">
-                      <div class="c-popover__title">
-                        {{#let (eq @project.activeTasks.length 1) as |hasOneTask|}}
-                          This project contains {{@project.activeTasks.length}} incomplete to-do{{if hasOneTask "" "s"}}.
-                          <br>
-                          What would you like to do with {{if hasOneTask "it" "them"}}?
-                        {{/let}}
-                      </div>
-
-                      <div
-                        class="c-popover__option"
-                        {{action (queue (action @markProjectAsCompleted "completed") dropdown.actions.close)}}
-                      >
-                        Mark as Completed
-                      </div>
-
-                      <div
-                        class="c-popover__option"
-                        {{action (queue (action @markProjectAsCompleted "canceled") dropdown.actions.close)}}
-                      >
-                        Mark as Cancelled
-                      </div>
-                    </div>
-                  {{/attach-popover}}
+                  <div class="c-dropdown__item-text">When</div>
                 </div>
-              {{/if}}
 
-              <div
-                class="c-dropdown__item c-actions-bar__dropdown-item"
-                {{action (queue dropdown.actions.close (toggle-action "isWhenDialogOpen" this))}}
-              >
-                {{svg-jar "upcoming" class="c-dropdown__item-icon"}}
+                <div
+                  class="c-dropdown__item c-actions-bar__dropdown-item"
+                  {{action (toggle "isDeadlineDropdownOpen" this)}}
+                >
+                  {{svg-jar "flag" class="c-dropdown__item-icon"}}
 
-                <div class="c-dropdown__item-text">When</div>
+                  <div class="c-dropdown__item-text">Add deadline</div>
+                </div>
+
+                {{#if @project.isDeleted}}
+                  <div class="c-dropdown__item" {{action (queue dropdown.actions.close @undeleteProject)}}>
+                    {{svg-jar "redo" class="c-dropdown__item-icon"}}
+                    <div class="c-dropdown__item-text">Recover deleted project</div>
+                  </div>
+                {{else}}
+                  <div class="c-dropdown__item" {{action (queue dropdown.actions.close @deleteProject)}}>
+                    {{svg-jar "delete" class="c-dropdown__item-icon"}}
+                    <div class="c-dropdown__item-text">Delete project</div>
+                  </div>
+                {{/if}}
               </div>
-
-              <div
-                class="c-dropdown__item c-actions-bar__dropdown-item"
-                {{action (queue dropdown.actions.close (toggle-action "isDeadlineDialogOpen" this))}}
-              >
-                {{svg-jar "flag" class="c-dropdown__item-icon"}}
-
-                <div class="c-dropdown__item-text">Add deadline</div>
-              </div>
-
-              {{#if @project.isDeleted}}
-                <div class="c-dropdown__item" {{action (queue dropdown.actions.close @undeleteProject)}}>
-                  {{svg-jar "redo" class="c-dropdown__item-icon"}}
-                  <div class="c-dropdown__item-text">Recover deleted project</div>
-                </div>
-              {{else}}
-                <div class="c-dropdown__item" {{action (queue dropdown.actions.close @deleteProject)}}>
-                  {{svg-jar "delete" class="c-dropdown__item-icon"}}
-                  <div class="c-dropdown__item-text">Delete project</div>
-                </div>
-              {{/if}}
-            </div>
+            {{/if}}
           </div>
         {{/dropdown.content}}
       {{/basic-dropdown}}
@@ -136,68 +149,80 @@
 
     {{#animated-if (not @project.isAnytime) use=fade duration=200}}
       <div class="c-item-form__section">
-        <div class="c-item-form__label" {{action (toggle "isWhenDialogOpen" this)}}>
-          When:
-        </div>
+        {{#basic-dropdown
+          class="c-dropdown"
+          as |dropdown|
+        }}
+          <div class="c-item-form__label" {{action dropdown.actions.open}}>
+            When:
+          </div>
 
-        <div class="c-item-form__value" {{action (toggle "isWhenDialogOpen" this)}}>
-          <div class="c-item-form__value-box">
-            {{svg-jar @project.when class=(concat "c-item-form__value-icon c-item-form__value-icon--" @project.when)}}
+          <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
+            <div class="c-item-form__value-box">
+              {{svg-jar @project.when class=(concat "c-item-form__value-icon c-item-form__value-icon--" @project.when)}}
 
-            <div class="c-item-form__value-text u-capitalize">
-              {{#if (eq @project.when "upcoming")}}
-                {{moment-format @project.upcomingAt 'MMM DD'}}
-              {{else}}
-                {{@project.when}}
-              {{/if}}
-            </div>
+              <div class="c-item-form__value-text u-capitalize">
+                {{#if (eq @project.when "upcoming")}}
+                  {{moment-format @project.upcomingAt 'MMM DD'}}
+                {{else}}
+                  {{@project.when}}
+                {{/if}}
+              </div>
 
-            <div class="c-item-form__value-reset" {{action @setProjectWhen "anytime" bubbles=false}}>
-              {{svg-jar "no"}}
+              <div class="c-item-form__value-reset" {{action @setProjectWhen "anytime" bubbles=false}}>
+                {{svg-jar "no"}}
+              </div>
             </div>
           </div>
-        </div>
+
+          {{#dropdown.content class="c-dropdown__content js-items-actions"}}
+            <div class="c-dropdown__content-inner">
+              {{when-options
+                selectedDate=@project.upcomingAt
+                setWhen=(queue @setProjectWhen dropdown.actions.close)
+              }}
+            </div>
+          {{/dropdown.content}}
+        {{/basic-dropdown}}
       </div>
     {{/animated-if}}
 
     {{#animated-if @project.deadline use=fade duration=200}}
       <div class="c-item-form__section">
-        <div class="c-item-form__label" {{action (toggle "isDeadlineDialogOpen" this)}}>
-          Deadline:
-        </div>
-
-        <div class="c-item-form__value" {{action (toggle "isDeadlineDialogOpen" this)}}>
-          <div class="c-item-form__value-box">
-            {{svg-jar "flag" class="c-item-form__value-icon c-item-form__value-icon--flag"}}
-
-            <div class="c-item-form__value-text">
-              {{moment-format @project.deadline 'MMM DD'}}
-            </div>
-
-            <div class="c-item-form__value-reset" {{action @setProjectDeadline null bubbles=false}}>
-              {{svg-jar "no"}}
-            </div>
+        {{#basic-dropdown
+          class="c-dropdown"
+          as |dropdown|
+        }}
+          <div class="c-item-form__label" {{action dropdown.actions.open}}>
+            Deadline:
           </div>
-        </div>
+
+          <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
+            {{#if @project.deadline}}
+              <div class="c-item-form__value-box">
+                {{svg-jar "flag" class="c-item-form__value-icon c-item-form__value-icon--flag"}}
+
+                <div class="c-item-form__value-text">
+                  {{moment-format @project.deadline 'MMM DD'}}
+                </div>
+
+                <div class="c-item-form__value-reset" {{action @setProjectDeadline null bubbles=false}}>
+                  {{svg-jar "no"}}
+                </div>
+              </div>
+            {{/if}}
+          </div>
+
+          {{#dropdown.content class="c-dropdown__content js-items-actions"}}
+            <div class="c-dropdown__content-inner">
+              {{deadline-options
+                value=@project.deadline
+                setDeadline=(queue @setProjectDeadline dropdown.actions.close)
+              }}
+            </div>
+          {{/dropdown.content}}
+        {{/basic-dropdown}}
       </div>
     {{/animated-if}}
   {{/animated-container}}
 </div>
-
-{{#if this.isDeadlineDialogOpen}}
-  {{to-elsewhere named="modal" send=(
-    component "deadline-dialog"
-    value=@project.deadline
-    setDeadline=@setProjectDeadline
-    close=(toggle-action "isDeadlineDialogOpen" this)
-  )}}
-{{/if}}
-
-{{#if this.isWhenDialogOpen}}
-  {{to-elsewhere named="modal" send=(
-    component "when-dialog"
-    selectedDate=@project.upcomingAt
-    setWhen=@setProjectWhen
-    close=(toggle-action "isWhenDialogOpen" this)
-  )}}
-{{/if}}
