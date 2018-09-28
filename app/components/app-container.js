@@ -24,6 +24,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     return !this.isEditing && !['upcoming', 'logbook', 'trash'].includes(this.router.currentRouteName);
   }),
 
+  isActionsBarShown: computed('hasSelected', 'isEditing', function() {
+    return this.hasSelected && !this.isEditing;
+  }),
+
   shortcutNewTask: on(keyDown('KeyN'), function() {
     this.createNewTask();
   }),
