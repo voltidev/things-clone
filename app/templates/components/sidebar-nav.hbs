@@ -1,6 +1,6 @@
 <div class="c-sidebar-nav__section">
   {{#link-to "inbox" class="c-sidebar-nav__item" activeClass="is-active"}}
-    {{svg-jar "inbox" class="c-sidebar-nav__icon c-sidebar-nav__icon--inbox"}}
+    {{svg-jar "inbox" class="c-icon c-icon--inbox c-icon--18"}}
 
     <div class="c-sidebar-nav__text">
       Inbox
@@ -18,7 +18,7 @@
 
 <div class="c-sidebar-nav__section">
   {{#link-to "today" class="c-sidebar-nav__item" activeClass="is-active"}}
-    {{svg-jar "today" class="c-sidebar-nav__icon c-sidebar-nav__icon--today"}}
+    {{svg-jar "today" class="c-icon c-icon--today c-icon--18"}}
 
     <div class="c-sidebar-nav__text">
       Today
@@ -34,7 +34,7 @@
   {{/link-to}}
 
   {{#link-to "upcoming" class="c-sidebar-nav__item" activeClass="is-active"}}
-    {{svg-jar "upcoming" class="c-sidebar-nav__icon c-sidebar-nav__icon--upcoming"}}
+    {{svg-jar "upcoming" class="c-icon c-icon--upcoming c-icon--18"}}
 
     <div class="c-sidebar-nav__text">
       Upcoming
@@ -42,7 +42,7 @@
   {{/link-to}}
 
   {{#link-to "anytime" class="c-sidebar-nav__item" activeClass="is-active"}}
-    {{svg-jar "anytime" class="c-sidebar-nav__icon c-sidebar-nav__icon--anytime"}}
+    {{svg-jar "anytime" class="c-icon c-icon--anytime c-icon--18"}}
 
     <div class="c-sidebar-nav__text">
       Anytime
@@ -50,7 +50,7 @@
   {{/link-to}}
 
   {{#link-to "someday" class="c-sidebar-nav__item" activeClass="is-active"}}
-    {{svg-jar "someday" class="c-sidebar-nav__icon c-sidebar-nav__icon--someday"}}
+    {{svg-jar "someday" class="c-icon c-icon--someday c-icon--18"}}
 
     <div class="c-sidebar-nav__text">
       Someday
@@ -60,7 +60,7 @@
 
 <div class="c-sidebar-nav__section">
   {{#link-to "logbook" class="c-sidebar-nav__item" activeClass="is-active"}}
-    {{svg-jar "logbook" class="c-sidebar-nav__icon c-sidebar-nav__icon--logbook"}}
+    {{svg-jar "logbook" class="c-icon c-icon--logbook c-icon--18"}}
 
     <div class="c-sidebar-nav__text">
       Logbook
@@ -68,7 +68,7 @@
   {{/link-to}}
 
   {{#link-to "trash" class="c-sidebar-nav__item" activeClass="is-active"}}
-    {{svg-jar "trash" class="c-sidebar-nav__icon c-sidebar-nav__icon--trash"}}
+    {{svg-jar "trash" class="c-icon c-icon--trash c-icon--18"}}
 
     <div class="c-sidebar-nav__text">
       Trash
@@ -85,10 +85,7 @@
         distance=2
       }}
         {{#link-to "project" project.id class="c-sidebar-nav__item" activeClass="is-active"}}
-          {{progress-pie
-            class="c-sidebar-nav__icon c-sidebar-nav__icon--project"
-            progress=project.progress
-          }}
+          {{progress-pie class="c-icon c-icon--project c-icon--18" progress=project.progress}}
 
           <div class="c-sidebar-nav__text">
             {{or project.name 'New project'}}

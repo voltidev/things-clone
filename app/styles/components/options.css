@@ -1,5 +1,5 @@
 .c-options {
-  min-width: rem(250px);
+  min-width: rem(240px);
 }
 
 .c-options__item {
@@ -17,43 +17,9 @@
   }
 }
 
-.c-options__icon {
-  margin-right: rem(8px);
-  height: rem(18px);
-  width: rem(18px);
-  fill: currentColor;
-
-  &--inbox {
-    fill: #279be6;
-  }
-
-  &--today {
-    fill: #ffd402;
-
-    .icon-today__border {
-      stroke: #f0c402;
-    }
-  }
-
-  &--anytime {
-    fill: #40a69b;
-  }
-
-  &--someday {
-    fill: #bdb176;
-  }
-
-  &--project {
-    color: #1b61c2;
-  }
-
-  &--no {
-    padding: rem(2px);
-  }
-}
-
 .c-options__text {
   flex: 1;
+  margin-left: rem(8px);
   overflow: hidden;
   font-size: rem(16px);
   text-overflow: ellipsis;
@@ -71,12 +37,12 @@
   text-align: center;
   font-size: rem(14px);
   border-radius: rem(4px);
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.08);
   color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
 
   &:hover {
-    color: rgba(0, 0, 0, 0.6);
-    background: rgba(0, 0, 0, 0.15);
+    background: hsla(216, 83%, 96%, 1);
+    color: hsla(216, 83%, 60%, 1);
   }
 }

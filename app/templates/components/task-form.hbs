@@ -53,7 +53,7 @@
       <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
         {{#if (and @task.when (not @task.isInbox))}}
           <div class="c-item-form__value-box">
-            {{svg-jar @task.when class=(concat "c-item-form__value-icon c-item-form__value-icon--" @task.when)}}
+            {{svg-jar @task.when class=(concat "c-icon c-icon--16 c-icon--" @task.when)}}
 
             <div class="c-item-form__value-text u-capitalize">
               {{#if (eq @task.when "upcoming")}}
@@ -100,7 +100,7 @@
         {{#if @task.project}}
           <div class="c-item-form__value-box">
             {{progress-pie
-              class="c-item-form__value-icon c-item-form__value-icon--project"
+              class="c-icon c-icon--16 c-icon--project"
               progress=@task.project.progress
             }}
 
@@ -114,7 +114,7 @@
           </div>
         {{else if @task.isInbox}}
           <div class="c-item-form__value-box">
-            {{svg-jar "inbox" class="c-item-form__value-icon c-item-form__value-icon--inbox"}}
+            {{svg-jar "inbox" class="c-icon c-icon--16 c-icon--inbox"}}
 
             <div class="c-item-form__value-text u-capitalize">
               Inbox
@@ -150,7 +150,7 @@
       <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
         {{#if @task.deadline}}
           <div class="c-item-form__value-box">
-            {{svg-jar "flag" class="c-item-form__value-icon c-item-form__value-icon--flag"}}
+            {{svg-jar "flag" class="c-icon c-icon--16 c-icon--flag"}}
 
             <div class="c-item-form__value-text">
               {{moment-format @task.deadline 'MMM DD'}}

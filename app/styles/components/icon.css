@@ -1,0 +1,62 @@
+.c-icon {
+  &--inbox {
+    fill: #279be6;
+  }
+
+  &--today {
+    fill: #ffd402;
+
+    .icon-today__border {
+      stroke: #f0c402;
+    }
+  }
+
+  &--upcoming {
+    fill: #d82257;
+  }
+
+  &--anytime {
+    fill: #40a69b;
+  }
+
+  &--someday {
+    fill: #bdb176;
+  }
+
+  &--logbook {
+    fill: #41ad56;
+  }
+
+  &--trash {
+    fill: #b1b6bb;
+  }
+
+  &--project {
+    color: #1b61c2;
+  }
+
+  &--flag {
+    fill: #1b61c2;
+    padding: rem(1px);
+  }
+
+  &--no {
+    padding: rem(2px);
+    fill: #666;
+  }
+
+  &--16 {
+    height: rem(16px);
+    width: rem(16px);
+  }
+
+  &--18 {
+    height: rem(18px);
+    width: rem(18px);
+  }
+
+  &--24 {
+    height: rem(24px);
+    width: rem(24px);
+  }
+}

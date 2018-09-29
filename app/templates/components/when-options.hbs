@@ -1,7 +1,7 @@
 <div class="c-options__section">
   {{#each (array "today" "anytime" "someday") as |when|}}
     <div class="c-options__item u-capitalize" {{action @setWhen when}}>
-      {{svg-jar when class=(concat "c-options__icon c-options__icon--" when)}}
+      {{svg-jar when class=(concat "c-icon c-icon--18 c-icon--" when)}}
 
       <div class="c-options__text">
         {{when}}

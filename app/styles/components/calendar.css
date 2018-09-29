@@ -32,7 +32,8 @@
   }
 
   &:hover {
-    background: #0d95ec;
+    background: hsla(216, 83%, 96%, 1);
+    color: hsla(216, 83%, 60%, 1);
   }
 }
 
@@ -61,9 +62,9 @@
   align-items: center;
   justify-content: center;
   padding: rem(4px) 0;
-  border-radius: rem(4px);
+  border-radius: rem(6px);
   background-color: transparent;
-  border: none;
+  border: 2px solid transparent;
   outline: none;
   font-size: rem(14px);
   cursor: pointer;
@@ -83,16 +84,16 @@
   }
 
   &--selected {
-    box-shadow: 0 0 0 rem(2px) #0d95ec;
+    border-color: #0d95ec;
   }
 
   &--today {
-    background: rgba(255, 255, 255, 0.1);
+    background: #fef2ce;
   }
 
   &:hover {
     opacity: 1;
-    background: #0d95ec;
-    color: rgba(255, 255, 255, 0.8);
+    background: hsla(216, 83%, 96%, 1);
+    color: hsla(216, 83%, 60%, 1);
   }
 }

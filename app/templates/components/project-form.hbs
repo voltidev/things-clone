@@ -159,7 +159,7 @@
 
           <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
             <div class="c-item-form__value-box">
-              {{svg-jar @project.when class=(concat "c-item-form__value-icon c-item-form__value-icon--" @project.when)}}
+              {{svg-jar @project.when class=(concat "c-icon c-icon--16 c-icon--" @project.when)}}
 
               <div class="c-item-form__value-text u-capitalize">
                 {{#if (eq @project.when "upcoming")}}
@@ -200,7 +200,7 @@
           <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
             {{#if @project.deadline}}
               <div class="c-item-form__value-box">
-                {{svg-jar "flag" class="c-item-form__value-icon c-item-form__value-icon--flag"}}
+                {{svg-jar "flag" class="c-icon c-icon--16 c-icon--flag"}}
 
                 <div class="c-item-form__value-text">
                   {{moment-format @project.deadline 'MMM DD'}}

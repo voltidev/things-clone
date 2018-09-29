@@ -12,10 +12,7 @@
   }}
 {{else}}
   <div class="c-folder__title">
-    {{svg-jar
-      @folder
-      class=(concat "c-folder__icon c-folder__icon--" @folder)
-    }}
+    {{svg-jar @folder class=(concat "c-icon c-icon--24 c-icon--" @folder)}}
 
     <div class="c-folder__title-text">{{@folder}}</div>
   </div>

@@ -101,46 +101,8 @@
   }
 }
 
-.c-item-form__value-icon {
-  margin-right: rem(6px);
-  height: rem(16px);
-  width: rem(16px);
-
-  &--inbox {
-    fill: #279be6;
-  }
-
-  &--today {
-    fill: #ffd402;
-
-    .icon-today__border {
-      stroke: #f0c402;
-    }
-  }
-
-  &--upcoming {
-    fill: #d82257;
-  }
-
-  &--anytime {
-    fill: #40a69b;
-  }
-
-  &--someday {
-    fill: #bdb176;
-  }
-
-  &--project {
-    color: #1b61c2;
-  }
-
-  &--flag {
-    fill: #1b61c2;
-    padding: rem(1px);
-  }
-}
-
 .c-item-form__value-text {
+  margin-left: rem(6px);
   margin-right: rem(6px);
 }
 

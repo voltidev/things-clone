@@ -14,50 +14,9 @@
   }
 }
 
-.c-sidebar-nav__icon {
-  margin-right: rem(6px);
-  height: rem(18px);
-  width: rem(18px);
-
-  &--inbox {
-    fill: #279be6;
-  }
-
-  &--today {
-    fill: #ffd402;
-
-    .icon-today__border {
-      stroke: #f0c402;
-    }
-  }
-
-  &--upcoming {
-    fill: #d82257;
-  }
-
-  &--anytime {
-    fill: #40a69b;
-  }
-
-  &--someday {
-    fill: #bdb176;
-  }
-
-  &--logbook {
-    fill: #41ad56;
-  }
-
-  &--trash {
-    fill: #b1b6bb;
-  }
-
-  &--project {
-    color: #1b61c2;
-  }
-}
-
 .c-sidebar-nav__text {
   flex: 1;
+  margin-left: rem(6px);
   overflow: hidden;
   font-size: rem(16px);
   color: var(--base-text-color);
