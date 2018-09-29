@@ -1,8 +1,7 @@
 import Mixin from '@ember/object/mixin';
 import attr from 'ember-data/attr';
 import { set, computed } from '@ember/object';
-import { equal, or, alias } from '@ember/object/computed';
-import { inject as service } from '@ember/service';
+import { equal, or } from '@ember/object/computed';
 import moment from 'moment';
 
 const WHEN = ['today', 'upcoming', 'anytime', 'someday'];
@@ -34,8 +33,6 @@ export default Mixin.create({
   isAnytime: equal('when', 'anytime'),
   isSomeday: equal('when', 'someday'),
 
-  currentDate: alias('clock.date'),
-
   isActive: computed('isProcessed', 'isDeleted', function() {
     return !this.isProcessed && !this.isDeleted;
   }),
@@ -52,33 +49,6 @@ export default Mixin.create({
       sameElse: 'MMMM'
     });
   }),
-
-  daysLeft: computed('currentDate', 'deadline', function() {
-    if (!this.deadline) {
-      return 0;
-    }
-
-    // Ignoring time
-    let date = new Date(this.currentDate.toDateString());
-    return moment(date).diff(this.deadline, 'days') * -1;
-  }),
-
-  isDeadline: computed('daysLeft', function() {
-    return this.daysLeft <= 0;
-  }),
-
-  deadlineDisplay: computed('daysLeft', function() {
-    let days = Math.abs(this.daysLeft);
-    let lastWord = this.daysLeft > 0 ? 'left' : 'ago';
-
-    if (days === 0) {
-      return 'today';
-    }
-
-    return `${days} day${days === 1 ? '' : 's'} ${lastWord}`;
-  }),
-
-  clock: service(),
 
   markAs(status) {
     if (!STATUSES.includes(status)) {

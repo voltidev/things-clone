@@ -17,10 +17,6 @@ export default Component.extend({
   isSomeday: alias('task.isShownInSomeday'),
   isSortable: not('isEditing'),
 
-  isTimeShown: computed('router.currentRouteName', function() {
-    return !['logbook', 'trash'].includes(this.router.currentRouteName);
-  }),
-
   isProjectShown: computed('router.currentRouteName', function() {
     return ['logbook', 'trash', 'today'].includes(this.router.currentRouteName);
   }),

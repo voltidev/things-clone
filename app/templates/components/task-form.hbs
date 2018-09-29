@@ -156,6 +156,8 @@
               {{moment-format @task.deadline 'MMM DD'}}
             </div>
 
+            {{deadline-info class="c-item-form__deadline" deadline=@task.deadline}}
+
             <div class="c-item-form__value-reset" {{action (mut @task.deadline) null bubbles=false}}>
               {{svg-jar "no"}}
             </div>

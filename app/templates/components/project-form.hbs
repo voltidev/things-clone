@@ -206,6 +206,8 @@
                   {{moment-format @project.deadline 'MMM DD'}}
                 </div>
 
+                {{deadline-info class="c-item-form__deadline" deadline=@project.deadline}}
+
                 <div class="c-item-form__value-reset" {{action @setProjectDeadline null bubbles=false}}>
                   {{svg-jar "no"}}
                 </div>

@@ -88,7 +88,21 @@
   cursor: pointer;
 }
 
+.c-item-form__value-box {
+  display: flex;
+  align-items: center;
+  padding: rem(6px) rem(8px);
+  border-radius: rem(4px);
+  font-size: rem(14px);
+  color: #555;
+
+  &:hover {
+    background: hsla(216, 83%, 96%, 1);
+  }
+}
+
 .c-item-form__value-icon {
+  margin-right: rem(6px);
   height: rem(16px);
   width: rem(16px);
 
@@ -126,28 +140,12 @@
   }
 }
 
-.c-item-form__value-box {
-  display: flex;
-  align-items: center;
-  padding-left: rem(8px);
-  border-radius: rem(4px);
-  font-size: rem(14px);
-  color: #555;
-
-  &:hover {
-    background: hsla(216, 83%, 96%, 1);
-  }
-
-  &:not(:last-child) {
-    margin-right: rem(10px);
-  }
-}
-
 .c-item-form__value-text {
-  padding: rem(6px) rem(8px);
+  margin-right: rem(6px);
 }
 
 .c-item-form__value-reset {
+  margin: rem(-6px);
   padding: rem(6px) rem(8px);
   opacity: 0;
 
@@ -167,11 +165,22 @@
   }
 }
 
-.c-item-form__value-note {
-  opacity: 0.4;
-}
-
 .c-item-form__placeholder {
   margin-left: rem(8px);
   opacity: 0.4;
+}
+
+.c-item-form__deadline {
+  padding-left: rem(4px);
+  padding-right: rem(6px);
+  color: rgba(0, 0, 0, 0.4);
+  font-size: rem(14px);
+
+  &.is-overdue {
+    color: #f74878;
+  }
+
+  &.is-today {
+    color: #fc962e;
+  }
 }

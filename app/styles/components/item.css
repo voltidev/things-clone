@@ -88,7 +88,7 @@
 
   &--project {
     flex: 0 0 auto;
-    font-weight: var(--bold);
+    font-weight: var(--semi-bold);
   }
 
   &--placeholder {
@@ -106,14 +106,15 @@
 }
 
 .c-item__deadline {
+  margin-left: auto;
   color: rgba(0, 0, 0, 0.5);
   font-size: rem(14px);
 
-  &.c-item__deadline--alarm {
+  &.is-overdue {
     color: #f74878;
   }
-}
 
-.c-item__separator {
-  flex: 1;
+  &.is-today {
+    color: #fc962e;
+  }
 }
