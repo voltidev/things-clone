@@ -18,13 +18,13 @@
 
   {{#if @task.isShownInLogbook}}
     <div class="c-item__completed-at">
-      {{moment-format @task.processedAt 'MMM DD'}}
+      {{format-date @task.processedAt}}
     </div>
   {{/if}}
 
   {{#if @task.isShownInUpcoming}}
     <div class="c-item__upcoming-at">
-      {{moment-format @task.upcomingAt 'MMM DD'}}
+      {{format-date @task.upcomingAt}}
     </div>
   {{/if}}
 

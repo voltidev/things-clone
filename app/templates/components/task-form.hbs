@@ -57,7 +57,7 @@
 
             <div class="c-item-form__value-text u-capitalize">
               {{#if (eq @task.when "upcoming")}}
-                {{moment-format @task.upcomingAt 'MMM DD'}}
+                {{format-date @task.upcomingAt}}
               {{else}}
                 {{@task.when}}
               {{/if}}
@@ -153,7 +153,7 @@
             {{svg-jar "flag" class="c-icon c-icon--16 c-icon--flag"}}
 
             <div class="c-item-form__value-text">
-              {{moment-format @task.deadline 'MMM DD'}}
+              {{format-date @task.deadline}}
             </div>
 
             {{deadline-info class="c-item-form__deadline" deadline=@task.deadline}}

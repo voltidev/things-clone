@@ -4,6 +4,10 @@ import { set, computed } from '@ember/object';
 import { equal, or } from '@ember/object/computed';
 import moment from 'moment';
 
+function isThisYear(date) {
+  return date.getFullYear() === (new Date()).getFullYear();
+}
+
 const WHEN = ['today', 'upcoming', 'anytime', 'someday'];
 const STATUSES = ['new', 'completed', 'canceled'];
 export default Mixin.create({
@@ -38,15 +42,18 @@ export default Mixin.create({
   }),
 
   upcomingGroup: computed('upcomingAt', function() {
-    return moment(this.upcomingAt).format('MMMM');
+    let format = isThisYear(this.upcomingAt) ? 'MMMM' : 'MMMM, YYYY';
+    return moment(this.upcomingAt).format(format);
   }),
 
   logbookGroup: computed('processedAt', function() {
+    let format = isThisYear(this.processedAt) ? 'MMMM' : 'MMMM, YYYY';
+
     return moment(this.processedAt).calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
-      lastWeek: 'MMMM',
-      sameElse: 'MMMM'
+      lastWeek: format,
+      sameElse: format
     });
   }),
 

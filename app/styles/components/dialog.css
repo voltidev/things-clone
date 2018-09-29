@@ -84,20 +84,6 @@
   padding: 0 rem(10px);
   margin-bottom: rem(10px);
   overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: rem(20px);
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #2b323a;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border: rem(6px) solid #2b323a;
-    border-radius: rem(10px);
-    background-color: #777;
-  }
 }
 
 .c-dialog__footer {

@@ -11,13 +11,13 @@
 
   {{#if @item.isShownInLogbook}}
     <div class="c-item__completed-at">
-      {{moment-format @item.processedAt 'MMM DD'}}
+      {{format-date @item.processedAt}}
     </div>
   {{/if}}
 
   {{#if @item.isShownInUpcoming}}
     <div class="c-item__upcoming-at">
-      {{moment-format @item.upcomingAt 'MMM DD'}}
+      {{format-date @item.upcomingAt}}
     </div>
   {{/if}}
 
