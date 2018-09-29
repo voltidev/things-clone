@@ -52,7 +52,10 @@ export default Component.extend({
   willDestroyElement() {
     this.stopHandlingRootClick();
     this.stopEditing();
-    this.itemSelector.deselect(this.task);
+    // TODO:
+    // Find a way to only deselect items that are not on the screen anymore.
+    // run.next is preventing `Backtracking re-render` bug.
+    run.next(() => this.itemSelector.deselect(this.task));
   },
 
   actions: {
