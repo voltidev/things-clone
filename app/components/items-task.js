@@ -135,6 +135,7 @@ export default Component.extend({
     } = this.taskEditor.task;
 
     let isProjectChanged = get(this, 'task.project.id') !== get(this, 'taskEditor.task.project.id');
+    this.taskEditor.clear();
 
     if (changedAttrs.includes('name')) {
       this.setItemName(this.task, name);
@@ -167,8 +168,6 @@ export default Component.extend({
     if (changedAttrs.includes('isDeleted')) {
       (isDeleted ? this.deleteItems : this.undeleteItems)(this.task);
     }
-
-    this.taskEditor.clear();
   },
 
   startHandlingRootClick() {

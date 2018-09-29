@@ -1,9 +1,13 @@
-{{#if @isNotSortable}}
+{{#sortable-group onChange=(route-action "reorderItems") as |group|}}
   {{#animated-container}}
     {{#animated-each @items use=eachTransition duration=200 as |item|}}
-      <div
-        class="{{if (is-selected item) 'is-selected'}}"
-      >
+      {{#sortable-item
+        class=(if (is-selected item) 'is-selected')
+        model=item
+        group=group
+        distance=2
+        handle=(if (eq @isSortable false) ".does-not-exist" ".is-sortable")
+      }}
         {{#if item.isProject}}
           {{items-project
             item=item
@@ -25,43 +29,7 @@
             selectBetween=@selectBetween
           }}
         {{/if}}
-      </div>
+      {{/sortable-item}}
     {{/animated-each}}
   {{/animated-container}}
-{{else}}
-  {{#sortable-group onChange=(route-action "reorderItems") as |group|}}
-    {{#animated-container}}
-      {{#animated-each @items use=eachTransition duration=200 as |item|}}
-        {{#sortable-item
-          class=(if (is-selected item) 'is-selected')
-          model=item
-          group=group
-          distance=2
-          handle=".is-sortable"
-        }}
-          {{#if item.isProject}}
-            {{items-project
-              item=item
-              markItemsAs=(route-action "markItemsAs")
-              selectBetween=@selectBetween
-            }}
-          {{else}}
-            {{items-task
-              task=item
-              setItemName=(route-action "setItemName")
-              setItemNotes=(route-action "setItemNotes")
-              setItemsDeadline=(route-action "setItemsDeadline")
-              markItemsAs=(route-action "markItemsAs")
-              deleteItems=(route-action "deleteItems")
-              undeleteItems=(route-action "undeleteItems")
-              setItemsWhen=(route-action "setItemsWhen")
-              moveTasksToInbox=(route-action "moveTasksToInbox")
-              moveTasksToProject=(route-action "moveTasksToProject")
-              selectBetween=@selectBetween
-            }}
-          {{/if}}
-        {{/sortable-item}}
-      {{/animated-each}}
-    {{/animated-container}}
-  {{/sortable-group}}
-{{/if}}
+{{/sortable-group}}
