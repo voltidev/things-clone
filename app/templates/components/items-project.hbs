@@ -25,6 +25,10 @@
     {{if @item.name @item.name this.placeholder}}
   </div>
 
+  {{#if @item.notes}}
+    {{svg-jar "has-notes" class="c-item__has-icon"}}
+  {{/if}}
+
   <div class="c-item__counter">
     {{@item.activeTasks.length}}
   </div>

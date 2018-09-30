@@ -43,6 +43,7 @@
   height: rem(10px);
   width: rem(10px);
   fill: #fff;
+  transition: transform 0.2s ease-out;
 
   .c-checkbox--big > & {
     height: rem(14px);
@@ -57,6 +58,10 @@
   .c-checkbox--big > &--cancel {
     height: rem(10px);
     width: rem(10px);
+  }
+
+  :active > & {
+    transform: scale(0.7);
   }
 }
 

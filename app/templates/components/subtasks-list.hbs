@@ -1,0 +1,38 @@
+{{#sortable-group onChange=(action @reorderItems) as |group|}}
+  {{#animated-container}}
+    {{#animated-each @items use=eachTransition duration=200 as |item|}}
+      {{#sortable-item
+        model=item
+        group=group
+        distance=2
+        handle=".js-handle"
+      }}
+        {{subtasks-item
+          item=item
+          editingItem=this.editingItem
+          toggleItem=(action "toggleItem")
+          edit=(action "edit")
+          clearEditor=(action "clearEditor")
+          createItemUnder=(action "createItemUnder")
+          deleteItem=(action "deleteItem")
+          editItemAbove=(action "editItemAbove")
+        }}
+      {{/sortable-item}}
+    {{/animated-each}}
+  {{/animated-container}}
+{{/sortable-group}}
+
+<div class="c-subtasks__item c-subtasks__item--new">
+  <label class="c-subtasks__checkbox" for="new-subtask">
+    {{svg-jar "plus"}}
+  </label>
+
+  {{text-input
+    class="c-subtasks__name"
+    id="new-subtask"
+    placeholder="New Subtask"
+    value=this.newItemName
+    update=(action (mut this.newItemName))
+    enter=(queue (action "createItem" this.newItemName) (action (mut this.newItemName) ''))
+  }}
+</div>

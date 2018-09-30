@@ -15,6 +15,7 @@ export default Component.extend(
     shouldResizeWidth: true,
     significantWhitespace: true,
     attributeBindings: ['value', 'placeholder'],
+    keyboardPriority: 1,
 
     autoResizeText: computed('value', 'placeholder', function() {
       if (!this.value) {
@@ -25,11 +26,15 @@ export default Component.extend(
     }),
 
     onEnter: on(keyUp('Enter'), function(event) {
-      this.enter(event);
+      if (this.enter) {
+        this.enter(event);
+      }
     }),
 
     onEscape: on(keyUp('Escape'), function(event) {
-      this['escape-press'](event);
+      if (this['escape-press']) {
+        this['escape-press'](event);
+      }
     }),
 
     change(event) {

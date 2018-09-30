@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { set } from '@ember/object';
+import { set, get } from '@ember/object';
 import { notEmpty } from '@ember/object/computed';
 
 export default Service.extend({
@@ -22,7 +22,8 @@ export default Service.extend({
       isInbox: task.isInbox,
       isDeleted: task.isDeleted,
       project: task.project,
-      tags: task.tags
+      tags: task.tags,
+      subtasks: task.subtasks || []
     };
 
     set(this, 'task', Object.assign({}, taskData));
@@ -34,13 +35,21 @@ export default Service.extend({
       return [];
     }
 
-    return Object.keys(this.task).reduce((changedAttrs, attr) => {
+    let changes = Object.keys(this.task).reduce((changedAttrs, attr) => {
       if (this.task[attr] !== this._originalTask[attr]) {
         changedAttrs.push(attr);
       }
 
       return changedAttrs;
     }, []);
+
+    if (get(this, '_originalTask.project.id') !== get(this, 'task.project.id')) {
+      changes.push('project');
+    }
+
+    changes.push('subtasks');
+
+    return changes;
   },
 
   clear() {

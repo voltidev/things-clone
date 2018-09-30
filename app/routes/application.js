@@ -123,6 +123,11 @@ export default Route.extend({
       console.log('setItemsTags', tags);
     },
 
+    seTaskSubtasks(item, subtasks) {
+      item.setSubtasks(subtasks);
+      this.save(item);
+    },
+
     moveTasksToInbox(items) {
       castArray(items).forEach(item => {
         item.moveToInbox();

@@ -6,6 +6,7 @@ import { equal, alias } from '@ember/object/computed';
 import ItemModel from 'things/mixins/item-model';
 
 export default Model.extend(ItemModel, {
+  subtasks: attr('raw', { defaultValue: null }),
   isInbox: attr('boolean', { defaultValue: true }),
   project: belongsTo('project'),
   tags: hasMany('tag'),
@@ -83,5 +84,9 @@ export default Model.extend(ItemModel, {
       let lastTask = project.tasks.sortBy('order').lastObject;
       set(this, 'order', lastTask ? lastTask.order + 1 : 0);
     }
+  },
+
+  setSubtasks(subtasks) {
+    set(this, 'subtasks', subtasks);
   }
 });

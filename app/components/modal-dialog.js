@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { on } from '@ember/object/evented';
-import { run } from '@ember/runloop';
 import { EKMixin, EKOnInsertMixin, keyDown } from 'ember-keyboard';
 import { Promise } from 'rsvp';
 
@@ -14,23 +13,9 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     this.close();
   }),
 
-  init() {
-    this._super(...arguments);
-    this.closeOnSideClick = this.closeOnSideClick.bind(this);
-  },
-
   didInsertElement() {
     this._super(...arguments);
     this.animateIn();
-  },
-
-  didRender() {
-    this._super(...arguments);
-    this.startHandlingRootClick();
-  },
-
-  willDestroyElement() {
-    this.stopHandlingRootClick();
   },
 
   actions: {
@@ -43,20 +28,10 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     this.animateOut().then(() => this.close());
   },
 
-  closeOnSideClick({ target }) {
-    run(() => {
-      if (!this.element.querySelector('.js-dialog-body').contains(target)) {
-        this.closeDialog();
-      }
-    });
-  },
-
-  startHandlingRootClick() {
-    document.addEventListener('mousedown', this.closeOnSideClick, true);
-  },
-
-  stopHandlingRootClick() {
-    document.removeEventListener('mousedown', this.closeOnSideClick, true);
+  click({ target }) {
+    if (target === this.element) {
+      this.closeDialog();
+    }
   },
 
   animateIn() {

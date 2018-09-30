@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 
@@ -11,7 +11,6 @@ export default Component.extend({
   classNames: ['c-item', 'js-item'],
   classNameBindings: ['isCanceled', 'isSomeday', 'isEditing', 'isSelected', 'isSortable'],
   task: null,
-  isEditorInitialized: false,
   placeholder: 'New To-Do',
   isCanceled: alias('task.isCanceled'),
   isSomeday: alias('task.isShownInSomeday'),
@@ -29,28 +28,8 @@ export default Component.extend({
     return this.itemSelector.isSelected(this.task);
   }),
 
-  init() {
-    this._super(...arguments);
-    this.stopEditingOnSideClick = this.stopEditingOnSideClick.bind(this);
-  },
-
-  didRender() {
-    this._super(...arguments);
-
-    if (!this.isEditing && this.isEditorInitialized) {
-      this.set('isEditorInitialized', false);
-      this.stopHandlingRootClick();
-    }
-
-    if (this.isEditing && !this.isEditorInitialized) {
-      this.set('isEditorInitialized', true);
-      this.focusInput();
-      this.startHandlingRootClick();
-    }
-  },
-
   willDestroyElement() {
-    this.stopHandlingRootClick();
+    this._super(...arguments);
     this.stopEditing();
     // TODO:
     // Find a way to only deselect items that are not on the screen anymore.
@@ -124,21 +103,24 @@ export default Component.extend({
       return;
     }
 
+    this.saveTaskChanges();
+    this.taskEditor.clear();
+  },
+
+  saveTaskChanges() {
     let changedAttrs = this.taskEditor.getChangedAttributes();
     let {
       name,
       notes,
       when,
       project,
+      subtasks,
       status,
       isInbox,
       isDeleted,
       upcomingAt,
       deadline
     } = this.taskEditor.task;
-
-    let isProjectChanged = get(this, 'task.project.id') !== get(this, 'taskEditor.task.project.id');
-    this.taskEditor.clear();
 
     if (changedAttrs.includes('name')) {
       this.setItemName(this.task, name);
@@ -156,8 +138,12 @@ export default Component.extend({
       this.setItemsWhen(this.task, when, when === 'upcoming' ? upcomingAt : null);
     }
 
-    if (isProjectChanged) {
+    if (changedAttrs.includes('project')) {
       this.moveTasksToProject(this.task, project);
+    }
+
+    if (changedAttrs.includes('subtasks')) {
+      this.seTaskSubtasks(this.task, subtasks);
     }
 
     if (changedAttrs.includes('isInbox') && isInbox) {
@@ -171,24 +157,5 @@ export default Component.extend({
     if (changedAttrs.includes('isDeleted')) {
       (isDeleted ? this.deleteItems : this.undeleteItems)(this.task);
     }
-  },
-
-  startHandlingRootClick() {
-    document.addEventListener('mousedown', this.stopEditingOnSideClick, true);
-  },
-
-  stopHandlingRootClick() {
-    document.removeEventListener('mousedown', this.stopEditingOnSideClick, true);
-  },
-
-  stopEditingOnSideClick({ target }) {
-    run(() => {
-      let isInternalClick = this.element.contains(target);
-      let isItemsActions = [...document.querySelectorAll('.js-items-actions')].some(el => el.contains(target));
-
-      if (!isInternalClick && !isItemsActions) {
-        this.stopEditing();
-      }
-    });
   }
 });

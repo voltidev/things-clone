@@ -66,6 +66,11 @@
   }
 }
 
+.c-item__has-icon {
+  fill: rgba(0, 0, 0, 0.3);
+  margin-right: rem(8px);
+}
+
 .c-item__input {
   flex: 1;
   font-size: rem(15px);

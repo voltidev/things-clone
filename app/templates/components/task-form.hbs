@@ -13,7 +13,7 @@
   </div>
 
   {{text-input
-    class="c-item__input js-item-input"
+    class="c-item__input js-input"
     placeholder=@placeholder
     value=@task.name
     update=(action (mut @task.name))
@@ -38,6 +38,13 @@
       value=@task.notes
       update=(action (mut @task.notes))
       escape-press=@stopEditing
+    }}
+  </div>
+
+  <div class="c-item-form__section">
+    {{subtasks-list
+      items=@task.subtasks
+      reorderItems=(action (mut @task.subtasks))
     }}
   </div>
 

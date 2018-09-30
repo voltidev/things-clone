@@ -21,7 +21,9 @@ export default Component.extend(
     }),
 
     onEscape: on(keyUp('Escape'), function(event) {
-      this['escape-press'](event);
+      if (this['escape-press']) {
+        this['escape-press'](event);
+      }
     }),
 
     change(event) {

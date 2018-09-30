@@ -2,9 +2,10 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import { on } from '@ember/object/evented';
-import { run, scheduleOnce } from '@ember/runloop';
+import { scheduleOnce } from '@ember/runloop';
 import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
 import fade from 'ember-animated/transitions/fade';
+import OutsideClickMixin from 'things/mixins/outside-click';
 
 function selectOnlyElement(element) {
   if (!element) {
@@ -22,7 +23,7 @@ function selectElement(element) {
   element.dispatchEvent(new CustomEvent('selectitem', { bubbles: true }));
 }
 
-export default Component.extend(EKMixin, EKOnInsertMixin, {
+export default Component.extend(EKMixin, EKOnInsertMixin, OutsideClickMixin, {
   router: service(),
   itemSelector: service(),
   taskEditor: service(),
@@ -104,20 +105,6 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     }
   }),
 
-  init() {
-    this._super(...arguments);
-    this.deselectAllOnSideClick = this.deselectAllOnSideClick.bind(this);
-  },
-
-  didRender() {
-    this._super(...arguments);
-    this.startHandlingRootClick();
-  },
-
-  willDestroyElement() {
-    this.stopHandlingRootClick();
-  },
-
   actions: {
     selectBetween(clickedElement) {
       scheduleOnce('afterRender', this, this.handleSelectBetween, clickedElement);
@@ -141,27 +128,16 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       .forEach(element => selectElement(element));
   },
 
-  deselectAllOnSideClick({ target }) {
-    run(() => {
-      if (!this.hasSelected) {
-        return;
-      }
+  outsideClick({ target }) {
+    if (!this.hasSelected) {
+      return;
+    }
 
-      let isInternalClick = this.element.contains(target);
-      let isItemsActions = [...document.querySelectorAll('.js-items-actions')]
-        .some(el => el.contains(target));
+    let isItemsAction = [...document.querySelectorAll('.js-items-actions')]
+      .some(el => el.contains(target));
 
-      if (!isInternalClick && !isItemsActions) {
-        this.itemSelector.clear();
-      }
-    });
-  },
-
-  startHandlingRootClick() {
-    document.addEventListener('mousedown', this.deselectAllOnSideClick, true);
-  },
-
-  stopHandlingRootClick() {
-    document.removeEventListener('mousedown', this.deselectAllOnSideClick, true);
+    if (!isItemsAction) {
+      this.itemSelector.clear();
+    }
   }
 });

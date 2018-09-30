@@ -42,7 +42,6 @@
 
 .c-item-form__section {
   display: flex;
-  align-items: center;
   line-height: 1;
   font-size: rem(14px);
   border-top: 1px solid #f3f3f3;
@@ -53,6 +52,10 @@
 
   &--no-border {
     border: 0;
+  }
+
+  &--centered {
+    align-items: center;
   }
 }
 
@@ -95,6 +98,7 @@
   border-radius: rem(4px);
   font-size: rem(14px);
   color: #555;
+  cursor: pointer;
 
   &:hover {
     background: hsla(216, 83%, 96%, 1);

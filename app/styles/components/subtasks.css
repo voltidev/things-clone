@@ -1,0 +1,115 @@
+.c-subtasks {
+  flex: 1;
+  padding: rem(8px) 0;
+}
+
+.c-subtasks__item {
+  display: flex;
+  align-items: center;
+  border-radius: rem(4px);
+  transition: all 0.1s ease-out;
+  background: #fff;
+
+  &.is-editing {
+    background: #f5f5f5;
+  }
+}
+
+.c-subtasks__checkbox {
+  display: flex;
+  align-items: center;
+  height: rem(26px);
+  padding: 0 rem(6px);
+  color: #999;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+
+  &:active {
+    transform: scale(1.3);
+  }
+
+  .is-completed > & {
+    color: #165abc;
+  }
+
+  svg {
+    width: 13px;
+    height: 13px;
+    fill: currentColor;
+  }
+}
+
+.c-subtasks__name {
+  flex: 1;
+  padding: 0;
+  font-size: rem(14px);
+  line-height: rem(26px);
+  color: #575858;
+  background: transparent;
+  border: 0;
+
+  .is-completed > & {
+    opacity: 0.6;
+  }
+
+  .is-editing > & {
+    opacity: 1;
+  }
+}
+
+.c-subtasks__action {
+  display: flex;
+  align-items: center;
+  height: rem(26px);
+  padding: 0 rem(4px);
+  color: #999;
+  opacity: 0;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    color: hsla(216, 83%, 60%, 1);
+  }
+
+  .is-editing > & {
+    opacity: 1;
+  }
+
+  svg {
+    width: rem(12px);
+    height: rem(12px);
+    fill: currentColor;
+  }
+}
+
+.c-subtasks__action--handle {
+  svg {
+    width: rem(10px);
+    height: rem(10px);
+  }
+}
+
+.c-subtasks__new {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 rem(6px);
+  border-radius: rem(4px);
+  color: #999;
+  font-size: rem(14px);
+  line-height: rem(26px);
+  opacity: 0.8;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+    background: hsla(216, 83%, 96%, 1);
+    color: hsla(216, 83%, 60%, 1);
+  }
+
+  svg {
+    margin-right: rem(6px);
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+  }
+}

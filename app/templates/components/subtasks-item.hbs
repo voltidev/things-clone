@@ -1,0 +1,22 @@
+<div class="c-subtasks__checkbox" {{action @toggleItem @item}}>
+  {{svg-jar (if this.isCompleted "checkbox-mark" "subtask-checkbox")}}
+</div>
+
+{{text-input
+  class="c-subtasks__name js-input"
+  value=@item.name
+  update=(action (mut @item.name))
+  enter=(action @createItemUnder @item)
+  escape-press=(action "stopEditing")
+  keyDown=(action "onInputKeyDown")
+  focusIn=(action "startEditing")
+  focusOut=(action "stopEditing")
+}}
+
+<div class="c-subtasks__action" {{action @deleteItem @item}}>
+  {{svg-jar "subtask-delete"}}
+</div>
+
+<div class="c-subtasks__action c-subtasks__action--handle js-handle">
+  {{svg-jar "handle"}}
+</div>
