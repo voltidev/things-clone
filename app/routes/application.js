@@ -98,7 +98,7 @@ export default Route.extend({
       this.data.projects
         .filterBy('isDeleted', true)
         .forEach(async project => {
-          let childTasks = project.hasMany('tasks').value().toArray();
+          let childTasks = (project.hasMany('tasks').value() || []).toArray();
           await project.destroyRecord();
           childTasks.forEach(task => task.destroyRecord());
         });
