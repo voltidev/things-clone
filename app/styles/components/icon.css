@@ -1,4 +1,6 @@
 .c-icon {
+  fill: currentColor;
+
   &--inbox {
     fill: #279be6;
   }
@@ -43,6 +45,11 @@
   &--no {
     padding: rem(2px);
     fill: #666;
+  }
+
+  &--14 {
+    height: rem(14px);
+    width: rem(14px);
   }
 
   &--16 {

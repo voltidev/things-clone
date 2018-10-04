@@ -12,6 +12,7 @@
   transition: all 0.1s ease-out;
   cursor: pointer;
 
+  &.is-active,
   &:hover {
     background: hsla(216, 83%, 96%, 1);
   }
@@ -24,6 +25,20 @@
   font-size: rem(16px);
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  .c-options--small & {
+    font-size: rem(14px);
+  }
+}
+
+.c-options__icon {
+  height: rem(18px);
+  width: rem(18px);
+
+  .c-options--small & {
+    height: rem(14px);
+    width: rem(14px);
+  }
 }
 
 .c-options__section {

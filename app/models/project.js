@@ -6,7 +6,6 @@ import ItemModel from 'things/mixins/item-model';
 
 export default Model.extend(ItemModel, {
   tasks: hasMany('task'),
-  tags: hasMany('tag'),
 
   hasActiveTasks: notEmpty('activeTasks'),
   isShownInTrash: alias('isDeleted'),

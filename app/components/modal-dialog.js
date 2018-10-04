@@ -8,6 +8,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   classNameBindings: ['isTransitioningIn', 'isTransitioningOut'],
   isTransitioningIn: true,
   isTransitioningOut: false,
+  keyboardPriority: 1,
 
   shortcutClose: on(keyDown('Escape'), function() {
     this.close();

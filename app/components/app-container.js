@@ -1,13 +1,13 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { alias, equal } from '@ember/object/computed';
+import { alias, equal, not } from '@ember/object/computed';
 import { set, computed } from '@ember/object';
 import { on } from '@ember/object/evented';
-import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
+import { EKMixin, keyDown } from 'ember-keyboard';
 import move from 'ember-animated/motions/move';
 import { easeOut, easeIn } from 'ember-animated/easings/cosine';
 
-export default Component.extend(EKMixin, EKOnInsertMixin, {
+export default Component.extend(EKMixin, {
   router: service(),
   itemSelector: service(),
   taskEditor: service(),
@@ -19,6 +19,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
   hasSelected: alias('itemSelector.hasItems'),
   hasSelectedProjects: alias('itemSelector.hasProjects'),
   isInTrashList: equal('router.currentRouteName', 'trash'),
+  keyboardActivated: not('isEditing'),
 
   canCreateTask: computed('router.currentRouteName', 'isEditing', function() {
     return !this.isEditing && !['upcoming', 'logbook', 'trash'].includes(this.router.currentRouteName);
@@ -36,7 +37,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
     set(this, 'isShortcutsDialogOpen', true);
   }),
 
-  shortcutDeleteSelected: on(keyUp('Backspace'), function() {
+  shortcutDeleteSelected: on(keyDown('Backspace'), function() {
     this.deleteSelectedItems();
   }),
 
@@ -78,12 +79,7 @@ export default Component.extend(EKMixin, EKOnInsertMixin, {
       this.setItemsWhen(this.itemSelector.items, when, date);
     },
 
-    setSelectedItemsTags(tags) {
-      if (!this.hasSelected) {
-        return;
-      }
-
-      this.setItemsTags(this.itemSelector.items, tags);
+    setSelectedItemsTags() {
     },
 
     moveSelectedTasksToInbox() {

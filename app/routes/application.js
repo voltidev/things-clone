@@ -119,8 +119,16 @@ export default Route.extend({
       });
     },
 
-    setItemsTags(tags) {
-      console.log('setItemsTags', tags);
+    addItemTag(item, tag) {
+      let projectsOrTasks = item.isProject ? 'projects' : 'tasks';
+      tag.get(projectsOrTasks).pushObject(item);
+      this.save(tag);
+    },
+
+    removeItemTag(item, tag) {
+      let projectsOrTasks = item.isProject ? 'projects' : 'tasks';
+      tag.get(projectsOrTasks).removeObject(item);
+      this.save(tag);
     },
 
     seTaskSubtasks(item, subtasks) {

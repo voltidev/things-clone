@@ -1,9 +1,9 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
+import { alias, not } from '@ember/object/computed';
 import { on } from '@ember/object/evented';
 import { scheduleOnce } from '@ember/runloop';
-import { EKMixin, EKOnInsertMixin, keyDown, keyUp } from 'ember-keyboard';
+import { EKMixin, keyDown, keyUp } from 'ember-keyboard';
 import fade from 'ember-animated/transitions/fade';
 import OutsideClickMixin from 'things/mixins/outside-click';
 
@@ -23,13 +23,15 @@ function selectElement(element) {
   element.dispatchEvent(new CustomEvent('selectitem', { bubbles: true }));
 }
 
-export default Component.extend(EKMixin, EKOnInsertMixin, OutsideClickMixin, {
+export default Component.extend(EKMixin, OutsideClickMixin, {
   router: service(),
   itemSelector: service(),
   taskEditor: service(),
   classNames: ['l-container__content', 'c-folder'],
   fade,
   hasSelected: alias('itemSelector.hasItems'),
+  isEditing: alias('taskEditor.hasTask'),
+  keyboardActivated: not('isEditing'),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {
     if (!this.hasSelected) {

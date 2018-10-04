@@ -1,0 +1,73 @@
+{{#basic-dropdown
+  class="c-dropdown"
+  initiallyOpened=true
+  onClose=(action "preventDropdownFromClosing")
+  as |dropdown|
+}}
+  {{#each @itemTags as |tag|}}
+    <div
+      class="c-tags-field__tag {{if (eq tag selectedTag) 'is-selected'}}"
+      {{action "selectTag" tag}}
+      data-test-tags-field-tag={{tag.id}}
+    >
+      <div class="c-tags-field__tag-text">
+        {{tag.name}}
+      </div>
+
+      <div
+        class="c-tags-field__remove"
+        {{action "removeTag" tag bubbles=false}}
+        data-test-tags-field-remove
+      >
+        {{svg-jar "no"}}
+      </div>
+    </div>
+  {{/each}}
+
+  {{text-input
+    class="c-tags-field__input js-input"
+    data-ebd-id=(concat dropdown.uniqueId "-trigger")
+    value=this.rawInput
+    placeholder="Add Tags"
+    update=(action "onInputValueChanged")
+    enter=(action "onInputEnter")
+    escape-press=(action "onInputEscape")
+    keyDown=(action "onInputKeyDown")
+    focusIn=(action "onInputFocusIn")
+    data-test-tags-field-input=true
+  }}
+
+  {{#if this.areOptionsShown}}
+    {{#dropdown.content class="c-dropdown__content js-items-actions"}}
+      <div class="c-dropdown__content-inner">
+        <div class="c-options c-options--small js-dropdown">
+          <div class="c-options__section">
+            {{#each this.tagOptions as |tag|}}
+              <div class="c-options__item {{if (eq tag this.activeTagOption) 'is-active'}}"
+                data-test-tags-field-option={{tag.id}}
+                {{action "addTag" tag}}
+              >
+                {{svg-jar "tag" class="c-icon c-options__icon"}}
+
+                <div class="c-options__text">
+                  {{tag.name}}
+                </div>
+              </div>
+            {{/each}}
+
+            <div class="c-options__item {{if (not this.activeTagOption) 'is-active'}}"
+              data-test-tags-field-option="create"
+              {{action "addNewTag"}}
+            >
+              {{svg-jar "plus" class="c-icon c-options__icon"}}
+
+              <div class="c-options__text">
+                {{this.normalizedInput}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/dropdown.content}}
+  {{/if}}
+{{/basic-dropdown}}

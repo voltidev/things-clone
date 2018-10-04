@@ -1,5 +1,6 @@
 import Mixin from '@ember/object/mixin';
 import { run } from '@ember/runloop';
+import { set } from '@ember/object';
 
 export default Mixin.create({
   init() {
@@ -18,11 +19,17 @@ export default Mixin.create({
   },
 
   startHandlingOutsideClick() {
+    if (this.isHandlingOutsideClick) {
+      return;
+    }
+
     document.addEventListener('mousedown', this.handleOutsideClick, true);
+    set(this, 'isHandlingOutsideClick', true);
   },
 
   stopHandlingOutsideClick() {
     document.removeEventListener('mousedown', this.handleOutsideClick, true);
+    set(this, 'isHandlingOutsideClick', false);
   },
 
   handleOutsideClick(event) {

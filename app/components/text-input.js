@@ -1,13 +1,13 @@
 import Component from '@ember/component';
 import { on } from '@ember/object/evented';
-import { EKMixin, EKOnInsertMixin, EKFirstResponderOnFocusMixin, keyUp } from 'ember-keyboard';
-import { computed } from '@ember/object';
+import { EKMixin, EKOnFocusMixin, EKFirstResponderOnFocusMixin, keyUp } from 'ember-keyboard';
+import { computed, set } from '@ember/object';
 import AutoResize from 'ember-autoresize/mixins/autoresize';
 
 export default Component.extend(
   AutoResize,
   EKMixin,
-  EKOnInsertMixin,
+  EKOnFocusMixin,
   EKFirstResponderOnFocusMixin,
   {
     tagName: 'input',
@@ -15,7 +15,6 @@ export default Component.extend(
     shouldResizeWidth: true,
     significantWhitespace: true,
     attributeBindings: ['value', 'placeholder'],
-    keyboardPriority: 1,
 
     autoResizeText: computed('value', 'placeholder', function() {
       if (!this.value) {
@@ -36,6 +35,12 @@ export default Component.extend(
         this['escape-press'](event);
       }
     }),
+
+    init() {
+      this._super(...arguments);
+      let dataAttrs = Object.keys(this.attrs).filter(attr => attr.indexOf('data-') === 0);
+      set(this, 'attributeBindings', [...this.attributeBindings, ...dataAttrs]);
+    },
 
     change(event) {
       this._processNewValue(event.target.value);

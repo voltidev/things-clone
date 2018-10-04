@@ -3,6 +3,7 @@ import attr from 'ember-data/attr';
 import { set, computed } from '@ember/object';
 import { equal, or } from '@ember/object/computed';
 import moment from 'moment';
+import { hasMany } from 'ember-data/relationships';
 
 function isThisYear(date) {
   return date.getFullYear() === (new Date()).getFullYear();
@@ -27,6 +28,8 @@ export default Mixin.create({
       return new Date();
     }
   }),
+
+  tags: hasMany('tag'),
 
   isCompleted: equal('status', 'completed'),
   isCanceled: equal('status', 'canceled'),

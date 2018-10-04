@@ -3,14 +3,14 @@ import fade from 'ember-animated/transitions/fade';
 import { set } from '@ember/object';
 
 export default Component.extend({
-  _nameFieldValue: '',
-  _notesFieldValue: '',
+  nameFieldValue: '',
+  notesFieldValue: '',
   fade,
 
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
-    set(this, '_nameFieldValue', this.project.name);
-    set(this, '_notesFieldValue', this.project.notes);
+    set(this, 'nameFieldValue', this.project.name);
+    set(this, 'notesFieldValue', this.project.notes);
   },
 
   didRender() {

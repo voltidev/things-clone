@@ -1,0 +1,64 @@
+.c-tags-field {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: rem(14px) 0;
+}
+
+.c-tags-field__tag {
+  display: flex;
+  align-items: center;
+  margin: rem(4px) rem(4px) rem(4px) 0;
+  padding: 0 rem(8px);
+  border-radius: rem(30px);
+  border: 1px solid transparent;
+  background: hsl(216, 85%, 93%);
+  white-space: nowrap;
+  cursor: pointer;
+
+  &.is-selected {
+    background: hsl(216, 85%, 91%);
+    border-color: hsl(216, 63%, 80%);
+  }
+}
+
+.c-tags-field__tag-text {
+  margin-right: rem(6px);
+  font-size: rem(13px);
+  line-height: rem(20px);
+  color: hsla(216, 50%, 40%, 80%);
+
+  .is-selected > & {
+    color: hsl(216, 64%, 60%);
+  }
+}
+
+.c-tags-field__remove {
+  display: flex;
+  align-items: center;
+  margin-right: rem(-6px);
+  padding: 0 rem(6px);
+  padding-left: 0;
+  height: rem(20px);
+  color: hsl(216, 50%, 70%);
+
+  &:hover {
+    color: hsl(216, 68%, 60%);
+  }
+
+  svg {
+    height: 8px;
+    width: 8px;
+    fill: currentColor;
+  }
+}
+
+.c-tags-field__input {
+  flex: 1;
+  padding: 0 rem(2px);
+  border: 0;
+  background: transparent;
+  font-size: rem(15px);
+  line-height: rem(24px);
+}

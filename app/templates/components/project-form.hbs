@@ -11,11 +11,11 @@
       {{text-input
         class="c-item-form__project-input js-name-field"
         placeholder="New project"
-        value=this._nameFieldValue
+        value=this.nameFieldValue
         autoresize=true
         max-width=400
-        update=(action (mut this._nameFieldValue))
-        focusOut=(action @setProjectName this._nameFieldValue)
+        update=(action (mut this.nameFieldValue))
+        focusOut=(action @setProjectName this.nameFieldValue)
         enter=(action "blur" "js-name-field")
         escape-press=(action "blur" "js-name-field")
       }}
@@ -140,8 +140,8 @@
         placeholder="Notes"
         autoresize=true
         max-rows=10
-        update=(action (mut this._notesFieldValue))
-        focusOut=(action @setProjectNotes this._notesFieldValue)
+        update=(action (mut this.notesFieldValue))
+        focusOut=(action @setProjectNotes this.notesFieldValue)
         enter=(action "blur" "js-notes-field")
         escape-press=(action "blur" "js-notes-field")
       }}
@@ -227,4 +227,13 @@
       </div>
     {{/animated-if}}
   {{/animated-container}}
+
+  <div class="c-item-form__section">
+      {{tags-field
+        itemTags=@project.tags
+        addTag=(route-action "addItemTag" @project)
+        removeTag=(route-action "removeItemTag" @project)
+        createTag=(route-action "createTag")
+      }}
+  </div>
 </div>
