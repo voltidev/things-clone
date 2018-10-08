@@ -1,6 +1,6 @@
 <div class="c-item-form c-item-form--project">
   {{#animated-container}}
-    <div class="c-item-form__section c-item-form__section--centered c-item-form__section--no-border">
+    <div class="c-item-form__section c-item-form__section--project">
       {{project-checkbox
         isBig=true
         project=@project
@@ -128,35 +128,12 @@
       {{/basic-dropdown}}
     </div>
 
-    <div class="c-item-form__section c-item-form__section--no-border c-item-form__section--notes">
-      <label class="c-item-form__notes-label" for="project-notes">
-        {{svg-jar "note"}}
-      </label>
-
-      {{text-area
-        class="c-item-form__notes js-notes-field"
-        id="project-notes"
-        value=@project.notes
-        placeholder="Notes"
-        autoresize=true
-        max-rows=10
-        update=(action (mut this.notesFieldValue))
-        focusOut=(action @setProjectNotes this.notesFieldValue)
-        enter=(action "blur" "js-notes-field")
-        escape-press=(action "blur" "js-notes-field")
-      }}
-    </div>
-
     {{#animated-if (not @project.isAnytime) use=fade duration=200}}
-      <div class="c-item-form__section">
+      <div class="c-item-form__section c-item-form__section--box">
         {{#basic-dropdown
           class="c-dropdown"
           as |dropdown|
         }}
-          <div class="c-item-form__label" {{action dropdown.actions.open}}>
-            When:
-          </div>
-
           <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
             <div class="c-item-form__value-box">
               {{svg-jar @project.when class=(concat "c-icon c-icon--16 c-icon--" @project.when)}}
@@ -188,15 +165,11 @@
     {{/animated-if}}
 
     {{#animated-if @project.deadline use=fade duration=200}}
-      <div class="c-item-form__section">
+      <div class="c-item-form__section c-item-form__section--box">
         {{#basic-dropdown
           class="c-dropdown"
           as |dropdown|
         }}
-          <div class="c-item-form__label" {{action dropdown.actions.open}}>
-            Deadline:
-          </div>
-
           <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
             {{#if @project.deadline}}
               <div class="c-item-form__value-box">
@@ -226,14 +199,33 @@
         {{/basic-dropdown}}
       </div>
     {{/animated-if}}
-  {{/animated-container}}
 
-  <div class="c-item-form__section">
-    {{tags-field
-      itemTags=@project.tags
-      addTag=(route-action "addItemTag" @project)
-      removeTag=(route-action "removeItemTag" @project)
-      createTag=(route-action "createTag")
-    }}
-  </div>
+    <div class="c-item-form__section">
+      {{tags-field
+        itemTags=@project.tags
+        addTag=(route-action "addItemTag" @project)
+        removeTag=(route-action "removeItemTag" @project)
+        createTag=(route-action "createTag")
+      }}
+    </div>
+
+    <div class="c-item-form__section c-item-form__section--notes">
+      <label class="c-item-form__notes-label" for="project-notes">
+        {{svg-jar "note"}}
+      </label>
+
+      {{text-area
+        class="c-item-form__notes js-notes-field"
+        id="project-notes"
+        value=@project.notes
+        placeholder="Notes"
+        autoresize=true
+        max-rows=10
+        update=(action (mut this.notesFieldValue))
+        focusOut=(action @setProjectNotes this.notesFieldValue)
+        enter=(action "blur" "js-notes-field")
+        escape-press=(action "blur" "js-notes-field")
+      }}
+    </div>
+  {{/animated-container}}
 </div>

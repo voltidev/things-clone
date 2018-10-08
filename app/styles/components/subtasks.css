@@ -1,6 +1,5 @@
 .c-subtasks {
   flex: 1;
-  padding: rem(8px) 0;
 }
 
 .c-subtasks__item {
@@ -19,7 +18,7 @@
   display: flex;
   align-items: center;
   height: rem(26px);
-  padding: 0 rem(6px);
+  padding: 0 rem(5px);
   color: #999;
   cursor: pointer;
   transition: transform 0.2s ease-out;

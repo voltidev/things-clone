@@ -3,7 +3,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding: rem(14px) 0;
 }
 
 .c-tags-field__tag {

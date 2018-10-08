@@ -45,17 +45,23 @@
   line-height: 1;
   font-size: rem(14px);
   border-top: 1px solid #f3f3f3;
+  padding: rem(8px) rem(4px);
 
   &--notes {
     align-items: baseline;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
-  &--no-border {
+  &--project {
+    align-items: center;
+    padding-bottom: rem(8px);
     border: 0;
   }
 
-  &--centered {
-    align-items: center;
+  &--box {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
@@ -78,13 +84,6 @@
   }
 }
 
-.c-item-form__label {
-  padding: rem(14px) 0;
-  margin-right: rem(4px);
-  font-weight: var(--semi-bold);
-  cursor: pointer;
-}
-
 .c-item-form__value {
   display: flex;
   align-items: center;
@@ -94,7 +93,7 @@
 .c-item-form__value-box {
   display: flex;
   align-items: center;
-  padding: rem(6px) rem(8px);
+  padding: rem(4px);
   border-radius: rem(4px);
   font-size: rem(14px);
   color: #555;
@@ -132,7 +131,8 @@
 }
 
 .c-item-form__placeholder {
-  margin-left: rem(8px);
+  padding: rem(4px);
+  font-size: rem(14px);
   opacity: 0.4;
 }
 
