@@ -229,11 +229,11 @@
   {{/animated-container}}
 
   <div class="c-item-form__section">
-      {{tags-field
-        itemTags=@project.tags
-        addTag=(route-action "addItemTag" @project)
-        removeTag=(route-action "removeItemTag" @project)
-        createTag=(route-action "createTag")
-      }}
+    {{tags-field
+      itemTags=@project.tags
+      addTag=(route-action "addItemTag" @project)
+      removeTag=(route-action "removeItemTag" @project)
+      createTag=(route-action "createTag")
+    }}
   </div>
 </div>

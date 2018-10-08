@@ -2,6 +2,10 @@
   padding: rem(26px) rem(16px);
 }
 
+.c-sidebar-nav__item-wrap {
+  text-decoration: none;
+}
+
 .c-sidebar-nav__item {
   display: flex;
   align-items: center;
@@ -9,7 +13,7 @@
   border-radius: rem(4px);
   text-decoration: none;
 
-  &.is-active {
+  .is-active > & {
     background: #e4e6e8;
   }
 }
