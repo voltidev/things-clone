@@ -115,6 +115,7 @@ export default Component.extend({
       when,
       project,
       subtasks,
+      tags,
       status,
       isInbox,
       isDeleted,
@@ -143,7 +144,11 @@ export default Component.extend({
     }
 
     if (changedAttrs.includes('subtasks')) {
-      this.seTaskSubtasks(this.task, subtasks);
+      this.setTaskSubtasks(this.task, subtasks);
+    }
+
+    if (changedAttrs.includes('tags')) {
+      this.setItemTags(this.task, tags);
     }
 
     if (changedAttrs.includes('isInbox') && isInbox) {

@@ -22,7 +22,7 @@ export default Service.extend({
       isInbox: task.isInbox,
       isDeleted: task.isDeleted,
       project: task.project,
-      tags: task.tags,
+      tags: task.tags.toArray(),
       subtasks: task.subtasks || []
     };
 
@@ -48,6 +48,7 @@ export default Service.extend({
     }
 
     changes.push('subtasks');
+    changes.push('tags');
 
     return changes;
   },

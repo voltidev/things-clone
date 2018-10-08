@@ -33,6 +33,10 @@
     {{@item.activeTasks.length}}
   </div>
 
+  {{#each @item.tags as |tag|}}
+    <div class="c-item__tag">{{tag.name}}</div>
+  {{/each}}
+
   {{#if (and (not this.isCompleted) @item.deadline)}}
     {{deadline-info class="c-item__deadline" deadline=@item.deadline}}
   {{/if}}

@@ -49,6 +49,10 @@
     {{svg-jar "has-subtasks" class="c-item__has-icon"}}
   {{/if}}
 
+  {{#each @task.tags as |tag|}}
+    <div class="c-item__tag">{{tag.name}}</div>
+  {{/each}}
+
   {{#if (and @task.deadline (not @task.isCompleted))}}
     {{deadline-info class="c-item__deadline" deadline=@task.deadline}}
   {{/if}}

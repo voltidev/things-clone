@@ -120,18 +120,27 @@ export default Route.extend({
     },
 
     addItemTag(item, tag) {
-      let projectsOrTasks = item.isProject ? 'projects' : 'tasks';
-      tag.get(projectsOrTasks).pushObject(item);
+      item.tags.pushObject(tag);
       this.save(tag);
     },
 
     removeItemTag(item, tag) {
-      let projectsOrTasks = item.isProject ? 'projects' : 'tasks';
-      tag.get(projectsOrTasks).removeObject(item);
+      item.tags.removeObject(tag);
       this.save(tag);
     },
 
-    seTaskSubtasks(item, subtasks) {
+    setItemTags(item, newTags) {
+      let currentTags = item.tags.toArray();
+      let tagsToAdd = newTags.filter(newTag => !currentTags.includes(newTag));
+      let tagsToRemove = currentTags.filter(currentTag => !newTags.includes(currentTag));
+
+      item.tags.pushObjects(tagsToAdd);
+      item.tags.removeObjects(tagsToRemove);
+
+      [...tagsToAdd, ...tagsToRemove].forEach(tag => this.save(tag));
+    },
+
+    setTaskSubtasks(item, subtasks) {
       item.setSubtasks(subtasks);
       this.save(item);
     },

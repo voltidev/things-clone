@@ -48,6 +48,15 @@
     }}
   </div>
 
+  <div class="c-item-form__section">
+    {{tags-field
+      itemTags=@task.tags
+      addTag=(action "addTag")
+      removeTag=(action "removeTag")
+      createTag=(route-action "createTag")
+    }}
+  </div>
+
   <div class="c-item-form__section c-item-form__section--box">
     {{#basic-dropdown
       class="c-dropdown"

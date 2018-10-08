@@ -49,6 +49,14 @@ export default Component.extend(OutsideClickMixin, {
     toggleCheckbox() {
       let newStatus = this.isProcessed ? 'new' : 'completed';
       set(this, 'task.status', newStatus);
+    },
+
+    addTag(tag) {
+      this.task.tags.pushObject(tag);
+    },
+
+    removeTag(tag) {
+      this.task.tags.removeObject(tag);
     }
   },
 
