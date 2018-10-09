@@ -31,8 +31,7 @@
     {{/attach-tooltip}}
   </div>
 
-
-  {{#if @isDeleted}}
+  {{#if @isInTrashList}}
     <div class="c-actions-bar__action" {{action @undelete}}>
       {{svg-jar "redo" class="c-actions-bar__icon"}}
 

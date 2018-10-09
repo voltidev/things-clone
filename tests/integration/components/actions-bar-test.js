@@ -8,7 +8,20 @@ module('Integration | Component | actions-bar', function(hooks) {
 
   test('it renders', async function(assert) {
     this.set('deleteSelected', () => null);
-    await render(hbs`{{actions-bar deleteSelected=deleteSelected}}`);
-    assert.equal(this.element.textContent.trim(), 'Delete');
+    await render(hbs`
+      {{actions-bar
+        isInTrashList=false
+        openMoveDialog=(optional)
+        openWhenDialog=(optional)
+        openDeadlineDialog=(optional)
+        markAsCompleted=(optional)
+        markAsNew=(optional)
+        markAsCanceled=(optional)
+        delete=(optional)
+        undelete=(optional)
+      }}
+    `);
+
+    assert.notEqual(this.element.textContent.trim(), '');
   });
 });

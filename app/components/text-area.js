@@ -28,6 +28,8 @@ export default Component.extend(
 
     init() {
       this._super(...arguments);
+
+      // eslint-disable-next-line ember/no-attrs-in-components
       let dataAttrs = Object.keys(this.attrs).filter(attr => attr.indexOf('data-') === 0);
       set(this, 'attributeBindings', [...this.attributeBindings, ...dataAttrs]);
     },

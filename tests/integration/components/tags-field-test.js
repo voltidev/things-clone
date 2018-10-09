@@ -20,8 +20,18 @@ module('Integration | Component | tags-field', function(hooks) {
     this.dataService = this.owner.lookup('service:data');
 
     this.itemTags = this.dataService.tags.slice(0, 2);
+    this.addTag = tag => this.itemTags.addObject(tag);
+    this.removeTag = tag => this.itemTags.removeObject(tag);
     this.createTag = name => make('tag', { name });
-    await render(hbs`{{tags-field itemTags=itemTags createTag=createTag}}`);
+
+    await render(hbs`
+      {{tags-field
+        itemTags=itemTags
+        addTag=addTag
+        removeTag=removeTag
+        createTag=createTag
+      }}
+    `);
   });
 
   // Tags list tests
@@ -399,14 +409,6 @@ module('Integration | Component | tags-field', function(hooks) {
     assert.dom('[data-test-tags-field-option]').exists();
 
     await fillIn('[data-test-tags-field-input]', '');
-    assert.dom('[data-test-tags-field-option]').doesNotExist();
-  });
-
-  test('it hides options on input blur', async function(assert) {
-    await fillIn('[data-test-tags-field-input]', 'text');
-    assert.dom('[data-test-tags-field-option]').exists();
-
-    await blur('[data-test-tags-field-input]');
     assert.dom('[data-test-tags-field-option]').doesNotExist();
   });
 
