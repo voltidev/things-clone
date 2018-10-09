@@ -173,7 +173,7 @@ export default Route.extend({
         project = this.data.projects.findBy('id', this.router.currentURL.split('/')[2]);
       }
 
-      if (project && project.isCompleted && !project.isDeleted) {
+      if (project && project.isProcessed) {
         project.markAs('new');
         this.save(project);
       }

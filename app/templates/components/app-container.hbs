@@ -27,7 +27,7 @@
 
   {{#animated-if this.isActionsBarShown use=transition duration=200}}
     {{actions-bar
-      isDeleted=this.isInTrashList
+      isInTrashList=this.isInTrashList
       openMoveDialog=(if this.hasSelectedProjects null (toggle-action "isMoveDialogOpen" this))
       openWhenDialog=(toggle-action "isWhenDialogOpen" this)
       openDeadlineDialog=(toggle-action "isDeadlineDialogOpen" this)
