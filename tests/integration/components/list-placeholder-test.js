@@ -7,20 +7,8 @@ module('Integration | Component | list-placeholder', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    await render(hbs`  {{list-placeholder folder="anytime"}}`);
 
-    await render(hbs`{{list-placeholder}}`);
-
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#list-placeholder}}
-        template block text
-      {{/list-placeholder}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.notEqual(this.element.textContent.trim(), '');
   });
 });

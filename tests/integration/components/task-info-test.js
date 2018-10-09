@@ -7,20 +7,15 @@ module('Integration | Component | task-info', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
-
-    await render(hbs`{{task-info}}`);
-
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
     await render(hbs`
-      {{#task-info}}
-        template block text
-      {{/task-info}}
+      {{task-info
+        task=(hash)
+        placeholder=''
+        isProjectShown=false
+        toggleCheckbox=(optional)
+      }}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), '');
   });
 });

@@ -7,20 +7,7 @@ module('Integration | Component | progress-pie', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
-
-    await render(hbs`{{progress-pie}}`);
-
+    await render(hbs`{{progress-pie progress=100}}`);
     assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#progress-pie}}
-        template block text
-      {{/progress-pie}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
   });
 });

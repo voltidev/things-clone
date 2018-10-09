@@ -3,15 +3,21 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | project-checkbox', function(hooks) {
+module('Integration | Component | project-form', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
     await render(hbs`
-      {{project-checkbox
+      {{project-form
         project=(hash)
-        markProjectAsNew=(optional)
+        setProjectName=(optional)
+        setProjectNotes=(optional)
         markProjectAsCompleted=(optional)
+        markProjectAsNew=(optional)
+        deleteProject=(optional)
+        undeleteProject=(optional)
+        setProjectWhen=(optional)
+        setProjectDeadline=(optional)
       }}
     `);
 

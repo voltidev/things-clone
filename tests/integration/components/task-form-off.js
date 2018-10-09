@@ -3,15 +3,18 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Helper | format-date', function(hooks) {
+module('Integration | Component | task-form', function(hooks) {
   setupRenderingTest(hooks);
 
-  // Replace this with your real tests.
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+    await render(hbs`
+      {{task-form
+        task=(hash)
+        placeholder=""
+        stopEditing=(optional)
+      }}
+    `);
 
-    await render(hbs`{{format-date inputValue}}`);
-
-    assert.equal(this.element.textContent.trim(), '1234');
+    assert.equal(this.element.textContent.trim(), '');
   });
 });

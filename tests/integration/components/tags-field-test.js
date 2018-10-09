@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, find, focus, blur, triggerKeyEvent, click } from '@ember/test-helpers';
+import { render, fillIn, find, focus, triggerKeyEvent, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setupFactoryGuy, makeList, make } from 'ember-data-factory-guy';
 import stubService from '../../helpers/stub-service';
