@@ -13,6 +13,7 @@
   border-radius: rem(4px);
   text-decoration: none;
 
+  &.is-active,
   .is-active > & {
     background: #e4e6e8;
   }
