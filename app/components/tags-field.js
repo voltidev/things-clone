@@ -238,8 +238,17 @@ export default Component.extend(EKMixin, OutsideClickMixin, {
       return;
     }
 
-    if (!this.data.tags.findBy('name', this.normalizedInput)) {
-      this.addTag(this.createTag(this.normalizedInput));
+    let newTagName = this.normalizedInput;
+    let suitableTagOption = this.tagOptions.findBy('name', newTagName);
+
+    if (suitableTagOption) {
+      this.addTag(suitableTagOption);
+      return;
+    }
+
+    let isUniqueName = !this.data.tags.findBy('name', newTagName);
+    if (isUniqueName) {
+      this.addTag(this.createTag(newTagName));
     }
   },
 

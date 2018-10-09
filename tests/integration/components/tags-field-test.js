@@ -611,6 +611,17 @@ module('Integration | Component | tags-field', function(hooks) {
     assert.dom('[data-test-tags-field-input]').hasValue('');
   });
 
+  test('it adds tag to tag list on create option click if input equals any tag option\'s name', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag 3');
+    assert.dom('[data-test-tags-field-tag="3"]').doesNotExist();
+    assert.dom('[data-test-tags-field-option="3"]').exists();
+
+    await click('[data-test-tags-field-option="create"]');
+    await fillIn('[data-test-tags-field-input]', 'tag 3');
+    assert.dom('[data-test-tags-field-tag="3"]').exists();
+    assert.dom('[data-test-tags-field-option="3"]').doesNotExist();
+  });
+
   test('it does not create tag on create option Enter if name is not unique', async function(assert) {
     assert.dom('[data-test-tags-field-tag]').exists({ count: 2 });
 
@@ -620,5 +631,16 @@ module('Integration | Component | tags-field', function(hooks) {
     await triggerKeyEvent('[data-test-tags-field-input]', 'keyup', 'Enter');
     assert.dom('[data-test-tags-field-tag]').exists({ count: 2 });
     assert.dom('[data-test-tags-field-input]').hasValue('');
+  });
+
+  test('it adds tag to tag list on create option click if input equals any tag option\'s name', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag 3');
+    assert.dom('[data-test-tags-field-tag="3"]').doesNotExist();
+    assert.dom('[data-test-tags-field-option="3"]').exists();
+
+    await triggerKeyEvent('[data-test-tags-field-input]', 'keyup', 'Enter');
+    await fillIn('[data-test-tags-field-input]', 'tag 3');
+    assert.dom('[data-test-tags-field-tag="3"]').exists();
+    assert.dom('[data-test-tags-field-option="3"]').doesNotExist();
   });
 });
