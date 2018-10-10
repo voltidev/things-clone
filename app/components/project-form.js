@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import fade from 'ember-animated/transitions/fade';
 import { set } from '@ember/object';
+import { scheduleOnce } from '@ember/runloop';
 
 export default Component.extend({
   nameFieldValue: '',
@@ -11,13 +12,9 @@ export default Component.extend({
     this._super(...arguments);
     set(this, 'nameFieldValue', this.project.name);
     set(this, 'notesFieldValue', this.project.notes);
-  },
-
-  didRender() {
-    this._super(...arguments);
 
     if (!this.project.name) {
-      this.focusNameField();
+      scheduleOnce('afterRender', this, this.focusNameField);
     }
   },
 
