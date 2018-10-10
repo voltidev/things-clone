@@ -93,14 +93,22 @@ export default Route.extend({
     destroyDeletedItems() {
       this.data.tasks
         .filterBy('isDeleted', true)
-        .forEach(task => task.destroyRecord());
+        .forEach(task => {
+          this.removeItemTags(task);
+          task.destroyRecord();
+        });
 
       this.data.projects
         .filterBy('isDeleted', true)
         .forEach(async project => {
-          let childTasks = (project.hasMany('tasks').value() || []).toArray();
+          let projectTasks = project.tasks.toArray();
+          this.removeItemTags(project);
           await project.destroyRecord();
-          childTasks.forEach(task => task.destroyRecord());
+
+          projectTasks.forEach(task => {
+            this.removeItemTags(task);
+            task.destroyRecord();
+          });
         });
     },
 
@@ -221,6 +229,12 @@ export default Route.extend({
       project.markAs('new');
       this.save(project);
     }
+  },
+
+  removeItemTags(item) {
+    let itemTags = item.tags.toArray();
+    item.tags.removeObjects(itemTags);
+    itemTags.forEach(tag => this.save(tag));
   },
 
   save(item) {
