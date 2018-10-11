@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, find, focus, triggerKeyEvent, click } from '@ember/test-helpers';
+import { render, fillIn, find, focus, triggerKeyEvent, click, blur } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setupFactoryGuy, makeList, make } from 'ember-data-factory-guy';
 import stubService from '../../helpers/stub-service';
@@ -227,6 +227,22 @@ module('Integration | Component | tags-field', function(hooks) {
     assert.dom('[data-test-tags-field-tag="2"]').hasNoClass('is-selected');
   });
 
+  test('it deselects selected tag on Tab', async function(assert) {
+    await click('[data-test-tags-field-tag="1"]');
+    assert.dom('[data-test-tags-field-tag].is-selected').exists({ count: 1 });
+
+    await triggerKeyEvent(this.element, 'keydown', 'Tab');
+    assert.dom('[data-test-tags-field-tag].is-selected').doesNotExist();
+  });
+
+  test('it deselects selected tag on Tab + Shift', async function(assert) {
+    await click('[data-test-tags-field-tag="1"]');
+    assert.dom('[data-test-tags-field-tag].is-selected').exists({ count: 1 });
+
+    await triggerKeyEvent(this.element, 'keydown', 'Tab', { shiftKey: true });
+    assert.dom('[data-test-tags-field-tag].is-selected').doesNotExist();
+  });
+
   test('it deselects selected tag on outside click', async function(assert) {
     await click('[data-test-tags-field-tag="1"]');
     assert.dom('[data-test-tags-field-tag="1"]').hasClass('is-selected');
@@ -387,6 +403,24 @@ module('Integration | Component | tags-field', function(hooks) {
     assert.dom('[data-test-tags-field-input]').isNotFocused();
   });
 
+  test('it focuses input on tag option click', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    await blur('[data-test-tags-field-input]');
+    assert.dom('[data-test-tags-field-input]').isNotFocused();
+
+    await click('[data-test-tags-field-option="3"]');
+    assert.dom('[data-test-tags-field-input]').isFocused();
+  });
+
+  test('it focuses input on create option click', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    await blur('[data-test-tags-field-input]');
+    assert.dom('[data-test-tags-field-input]').isNotFocused();
+
+    await click('[data-test-tags-field-option="create"]');
+    assert.dom('[data-test-tags-field-input]').isFocused();
+  });
+
   // Options
   test('it shows options on input focus if value is not empty', async function(assert) {
     await focus('[data-test-tags-field-input]');
@@ -407,8 +441,102 @@ module('Integration | Component | tags-field', function(hooks) {
   test('it hides options if input value gets empty', async function(assert) {
     await fillIn('[data-test-tags-field-input]', 'text');
     assert.dom('[data-test-tags-field-option]').exists();
-
     await fillIn('[data-test-tags-field-input]', '');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+
+    await fillIn('[data-test-tags-field-input]', 'text');
+    assert.dom('[data-test-tags-field-option]').exists();
+    await fillIn('[data-test-tags-field-input]', '  ');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+  });
+
+  test('it does not hide options on input focus out', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'text');
+    assert.dom('[data-test-tags-field-option]').exists();
+
+    await blur('[data-test-tags-field-input]');
+    assert.dom('[data-test-tags-field-option]').exists();
+  });
+
+  test('it hides options on any option click', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    assert.dom('[data-test-tags-field-option]').exists();
+    await click('[data-test-tags-field-option="3"]');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    assert.dom('[data-test-tags-field-option]').exists();
+    await click('[data-test-tags-field-option="create"]');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+  });
+
+  test('it hides options on Enter with any option', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    assert.dom('[data-test-tags-field-option="3"]').hasClass('is-active');
+    await triggerKeyEvent('[data-test-tags-field-input]', 'keyup', 'Enter');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+
+    await fillIn('[data-test-tags-field-input]', 'new');
+    assert.dom('[data-test-tags-field-option="create"]').hasClass('is-active');
+    await triggerKeyEvent('[data-test-tags-field-input]', 'keyup', 'Enter');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+  });
+
+  test('it hides options on tag click', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    assert.dom('[data-test-tags-field-option]').exists();
+
+    await click('[data-test-tags-field-tag="1"]');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+  });
+
+  test('it hides options on input ArrowLeft if caret is at start', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    moveCaretToStart('[data-test-tags-field-input]');
+    assert.dom('[data-test-tags-field-option]').exists();
+
+    await triggerKeyEvent('[data-test-tags-field-input]', 'keydown', 'ArrowLeft');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+  });
+
+  test('it does not hide options on input ArrowLeft if caret is not at start', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    assert.dom('[data-test-tags-field-option]').exists();
+
+    await triggerKeyEvent('[data-test-tags-field-input]', 'keydown', 'ArrowLeft');
+    assert.dom('[data-test-tags-field-option]').exists();
+  });
+
+  test('it hides options on input Backspace if caret is at start', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    moveCaretToStart('[data-test-tags-field-input]');
+    assert.dom('[data-test-tags-field-option]').exists();
+
+    await triggerKeyEvent('[data-test-tags-field-input]', 'keydown', 'Backspace');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+  });
+
+  test('it does not hide options on input Backspace if caret is not at start', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    assert.dom('[data-test-tags-field-option]').exists();
+
+    await triggerKeyEvent('[data-test-tags-field-input]', 'keydown', 'Backspace');
+    assert.dom('[data-test-tags-field-option]').exists();
+  });
+
+  test('it hides options on input Tag', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    assert.dom('[data-test-tags-field-option]').exists();
+
+    await triggerKeyEvent('[data-test-tags-field-input]', 'keydown', 'Tab');
+    assert.dom('[data-test-tags-field-option]').doesNotExist();
+  });
+
+  test('it hides options on outside click', async function(assert) {
+    await fillIn('[data-test-tags-field-input]', 'tag');
+    assert.dom('[data-test-tags-field-option]').exists();
+
+    await click(this.element);
     assert.dom('[data-test-tags-field-option]').doesNotExist();
   });
 
@@ -429,7 +557,17 @@ module('Integration | Component | tags-field', function(hooks) {
     assert.dom('[data-test-tags-field-option="3"]').exists();
     assert.dom('[data-test-tags-field-option="4"]').exists();
 
+    await fillIn('[data-test-tags-field-input]', '  tag  ');
+    assert.dom('[data-test-tags-field-option]').exists({ count: 3 });
+    assert.dom('[data-test-tags-field-option="3"]').exists();
+    assert.dom('[data-test-tags-field-option="4"]').exists();
+
     await fillIn('[data-test-tags-field-input]', 'tag 4');
+    assert.dom('[data-test-tags-field-option]').exists({ count: 2 });
+    assert.dom('[data-test-tags-field-option="3"]').doesNotExist();
+    assert.dom('[data-test-tags-field-option="4"]').exists();
+
+    await fillIn('[data-test-tags-field-input]', '  tag 4  ');
     assert.dom('[data-test-tags-field-option]').exists({ count: 2 });
     assert.dom('[data-test-tags-field-option="3"]').doesNotExist();
     assert.dom('[data-test-tags-field-option="4"]').exists();
@@ -568,7 +706,7 @@ module('Integration | Component | tags-field', function(hooks) {
   test('it adds new tag to tags list on create option click', async function(assert) {
     assert.dom('[data-test-tags-field-tag="5"]').doesNotExist();
 
-    await fillIn('[data-test-tags-field-input]', 'new tag');
+    await fillIn('[data-test-tags-field-input]', '  new tag   ');
     await click('[data-test-tags-field-option="create"]');
     assert.dom('[data-test-tags-field-tag="5"]').exists();
     assert.dom('[data-test-tags-field-tag="5"]').hasText('new tag');
