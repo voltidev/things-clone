@@ -1,0 +1,25 @@
+{{#let (if project this.tagsForProject this.tagsForList) as |tags|}}
+  {{#if tags}}
+    <div
+      class="c-tags-filter__item {{if this.isAllTagsMode 'is-selected'}}"
+      {{action "clearFilter"}}
+    >
+      All
+    </div>
+
+    {{#each tags as |tag|}}
+      {{tags-filter-item
+        item=tag
+        selectItem=(action "selectItem")
+        toggleItem=(action "toggleItem")
+      }}
+    {{/each}}
+
+    <div
+      class="c-tags-filter__item {{if this.isNoTagMode 'is-selected'}}"
+      {{action "enableNoTagMode"}}
+    >
+      No Tag
+    </div>
+  {{/if}}
+{{/let}}

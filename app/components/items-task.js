@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
-import { alias, not } from '@ember/object/computed';
+import { alias, not, or } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 
 export default Component.extend({
@@ -13,7 +13,7 @@ export default Component.extend({
   task: null,
   placeholder: 'New To-Do',
   isCanceled: alias('task.isCanceled'),
-  isSomeday: alias('task.isShownInSomeday'),
+  isSomeday: or('task.isShownInSomeday', 'task.isShownInProjectSomeday'),
   isSortable: not('isEditing'),
 
   isProjectShown: computed('router.currentRouteName', function() {

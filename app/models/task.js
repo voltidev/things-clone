@@ -1,7 +1,7 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
 import { belongsTo } from 'ember-data/relationships';
-import { set, computed } from '@ember/object';
+import { get, set, computed } from '@ember/object';
 import { equal, alias } from '@ember/object/computed';
 import ItemModel from 'things/mixins/item-model';
 
@@ -17,16 +17,20 @@ export default Model.extend(ItemModel, {
     return this.belongsTo('project').id() !== null;
   }),
 
+  isProjectInactive: computed('hasProject', 'project.isActive', function() {
+    return this.hasProject && !get(this, 'project.isActive');
+  }),
+
   isShownInInbox: computed('isInbox', 'isActive', function() {
     return this.isInbox && this.isActive;
   }),
 
-  isShownInToday: computed('isToday', 'isActive', 'isInbox', 'isProjectDeleted', function() {
-    return this.isToday && this.isActive && !this.isInbox && !this.isProjectDeleted;
+  isShownInToday: computed('isToday', 'isActive', 'isInbox', 'isProjectInactive', function() {
+    return this.isToday && this.isActive && !this.isInbox && !this.isProjectInactive;
   }),
 
-  isShownInUpcoming: computed('isUpcoming', 'isActive', 'isInbox', 'isProjectDeleted', function() {
-    return this.isUpcoming && this.isActive && !this.isInbox && !this.isProjectDeleted;
+  isShownInUpcoming: computed('isUpcoming', 'isActive', 'isInbox', 'isProjectInactive', function() {
+    return this.isUpcoming && this.isActive && !this.isInbox && !this.isProjectInactive;
   }),
 
   isShownInAnytime: computed(
@@ -34,16 +38,19 @@ export default Model.extend(ItemModel, {
     'isToday',
     'isActive',
     'isInbox',
-    'isProjectDeleted',
+    'isProjectInactive',
     function() {
       return (
-        (this.isAnytime || this.isToday) && this.isActive && !this.isInbox && !this.isProjectDeleted
+        (this.isAnytime || this.isToday)
+        && this.isActive
+        && !this.isInbox
+        && !this.isProjectInactive
       );
     }
   ),
 
-  isShownInSomeday: computed('isSomeday', 'isActive', 'isInbox', 'isProjectDeleted', function() {
-    return this.isSomeday && this.isActive && !this.isInbox && !this.isProjectDeleted;
+  isShownInSomeday: computed('isSomeday', 'isActive', 'isInbox', 'isProjectInactive', function() {
+    return this.isSomeday && this.isActive && !this.isInbox && !this.isProjectInactive;
   }),
 
   isShownInLogbook: computed('isProcessed', 'isDeleted', 'isProjectDeleted', function() {
@@ -52,6 +59,10 @@ export default Model.extend(ItemModel, {
 
   isShownInProjectAnytime: computed('isAnytime', 'isToday', 'isActive', 'isInbox', function() {
     return (this.isAnytime || this.isToday) && this.isActive && !this.isInbox;
+  }),
+
+  isShownInProjectUpcoming: computed('isUpcoming', 'isActive', 'isInbox', function() {
+    return this.isUpcoming && this.isActive && !this.isInbox;
   }),
 
   isShownInProjectSomeday: computed('isSomeday', 'isActive', 'isInbox', function() {

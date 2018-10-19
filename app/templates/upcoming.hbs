@@ -3,7 +3,10 @@
   folder="upcoming"
   as |selectBetween|
 }}
-  {{#each-in (group-by "upcomingGroup" (sort-by "upcomingAt" this.items)) as |groupName groupItems|}}
+  {{#each-in
+    (group-by "upcomingGroup" (sort-by "upcomingAt" (filter-by-tags this.items)))
+    as |groupName groupItems|
+  }}
     <div class="c-folder__group">
       <div class="c-folder__group-title">
         <div class="c-folder__group-title-inner">

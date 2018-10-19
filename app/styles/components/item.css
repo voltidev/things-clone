@@ -1,4 +1,5 @@
 .c-item {
+  margin: 0 rem(-9px);
   cursor: default;
   transition: all 150ms ease-out;
   border-radius: rem(5px);
@@ -19,8 +20,8 @@
   }
 
   &.is-editing {
-    padding: rem(10px) 0;
-    margin: rem(20px) 0;
+    padding: rem(10px) rem(16px);
+    margin: rem(20) rem(-20px);
     box-shadow: 0 rem(2px) rem(6px) rgba(0, 0, 0, 0.2);
     border-radius: rem(5px);
     background: var(--white);
@@ -30,10 +31,10 @@
 .c-item__line {
   display: flex;
   align-items: center;
-  padding: 0 rem(16px);
+  padding: 0 rem(10px);
 
   &--form {
-    padding: 0 rem(20px);
+    padding: 0 rem(4px);
   }
 }
 

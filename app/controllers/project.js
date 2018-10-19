@@ -6,11 +6,13 @@ export default Controller.extend({
   fade,
   project: alias('model'),
   anytimeTasks: filterBy('project.tasks', 'isShownInProjectAnytime'),
+  upcomingTasks: filterBy('project.tasks', 'isShownInProjectUpcoming'),
   somedayTasks: filterBy('project.tasks', 'isShownInProjectSomeday'),
   logbookTasks: filterBy('project.tasks', 'isShownInProjectLogbook'),
 
   hasAnytime: notEmpty('anytimeTasks'),
+  hasUpcoming: notEmpty('upcomingTasks'),
   hasSomeday: notEmpty('somedayTasks'),
   hasLogbook: notEmpty('logbookTasks'),
-  hasContent: or('hasAnytime', 'hasSomeday', 'hasLogbook')
+  hasContent: or('hasAnytime', 'hasUpcoming', 'hasSomeday', 'hasLogbook')
 });

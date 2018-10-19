@@ -4,7 +4,7 @@
   as |selectBetween|
 }}
   {{items-list
-    items=(sort-by "order" this.items)
+    items=(sort-by "order" (filter-by-tags this.items))
     selectBetween=selectBetween
   }}
 {{/app-main}}

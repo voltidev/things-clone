@@ -4,11 +4,14 @@
   padding: rem(60px) rem(80px);
 }
 
+.c-folder__title-section {
+  margin-bottom: rem(40px);
+}
+
 .c-folder__title {
   display: flex;
   align-items: center;
-  margin-bottom: rem(40px);
-  padding: 0 rem(20px);
+  margin-bottom: rem(16px);
 }
 
 .c-folder__checkbox {
@@ -29,7 +32,6 @@
 }
 
 .c-folder__group-title {
-  padding: 0 rem(16px);
   margin-bottom: rem(10px);
   display: block;
   color: var(--base-text-color);
@@ -66,7 +68,6 @@
 
 .c-folder__buttons {
   margin-bottom: rem(20px);
-  padding: 0 rem(12px);
 }
 
 .c-folder__button {

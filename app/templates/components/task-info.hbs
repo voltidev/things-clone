@@ -22,7 +22,7 @@
     </div>
   {{/if}}
 
-  {{#if @task.isShownInUpcoming}}
+  {{#if (or @task.isShownInUpcoming @task.isShownInProjectUpcoming)}}
     <div class="c-item__upcoming-at">
       {{format-date @task.upcomingAt}}
     </div>

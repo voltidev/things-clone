@@ -4,6 +4,7 @@ import { set } from '@ember/object';
 import { scheduleOnce } from '@ember/runloop';
 
 export default Component.extend({
+  classNames: ['c-item-form'],
   nameFieldValue: '',
   notesFieldValue: '',
   fade,

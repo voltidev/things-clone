@@ -1,9 +1,5 @@
-.c-item-form {
-  padding: 0 rem(16px);
-
-  &--project {
-    margin-bottom: rem(30px);
-  }
+.c-item-form:not(:last-child) {
+  margin-bottom: rem(20px);
 }
 
 .c-item-form__project-input {

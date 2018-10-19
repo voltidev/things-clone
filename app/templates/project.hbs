@@ -6,12 +6,12 @@
 }}
   <div class="c-folder__group">
     {{items-list
-      items=(sort-by "order" this.anytimeTasks)
+      items=(sort-by "order" (filter-by-tags this.anytimeTasks))
       selectBetween=selectBetween
     }}
   </div>
 
-  {{#if hasSomeday}}
+  {{#if (or hasUpcoming hasSomeday)}}
     <div class="c-folder__buttons">
       <button class="c-folder__button" {{action (toggle "areLaterItemsShown" this)}}>
         {{if this.areLaterItemsShown "Hide" "Show"}} later items
@@ -23,7 +23,13 @@
     {{#animated-if this.areLaterItemsShown use=fade duration=200}}
       <div class="c-folder__group">
         {{items-list
-          items=(sort-by "order" this.somedayTasks)
+          items=(sort-by "order" (filter-by-tags this.upcomingTasks))
+          isSortable=false
+          selectBetween=selectBetween
+        }}
+
+        {{items-list
+          items=(sort-by "order" (filter-by-tags this.somedayTasks))
           selectBetween=selectBetween
         }}
       </div>
@@ -42,7 +48,7 @@
     {{#animated-if this.areLoggedItemsShown use=fade duration=200}}
       <div class="c-folder__group">
         {{items-list
-          items=(sort-by "order" this.logbookTasks)
+          items=(sort-by "order" (filter-by-tags this.logbookTasks))
           isSortable=false
           selectBetween=selectBetween
         }}

@@ -1,0 +1,33 @@
+.c-tags-filter {
+  display: flex;
+  align-items: center;
+}
+
+.c-tags-filter__item {
+  margin-right: rem(4px);
+  padding: 0 rem(10px);
+  border: 1px solid transparent;
+  border-radius: rem(20px);
+  font-size: rem(14px);
+  line-height: 1.4;
+  color: #999;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+
+  &:hover {
+    border-color: #b4b7ba;
+  }
+
+  &:active {
+    border-color: transparent;
+    background: #eee;
+    transform: scale(0.97);
+  }
+
+  &.is-selected {
+    border-color: transparent;
+    background: #b4b7ba;
+    color: #fff;
+  }
+}

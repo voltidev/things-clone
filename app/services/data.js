@@ -31,10 +31,10 @@ export default Service.extend({
     this.get('store').findAll('project');
     this.get('store').findAll('tag');
 
-    this.setUpcomingItems.perform();
+    this.updateUpcomingItems.perform();
   },
 
-  setUpcomingItems: task(function* () {
+  updateUpcomingItems: task(function* () {
     while (true) {
       yield timeout(2000);
       let now = new Date(new Date().toDateString());

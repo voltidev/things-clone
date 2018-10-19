@@ -5,7 +5,7 @@
 }}
   <div class="c-folder__group">
     {{items-list
-      items=(sort-by "order" this.noProjectTasks)
+      items=(sort-by "order" (filter-by-tags this.noProjectTasks))
       selectBetween=selectBetween
     }}
   </div>
@@ -26,7 +26,7 @@
       {{/link-to}}
 
       {{items-list
-        items=(sort-by "order" (filter-by "isShownInAnytime" project.tasks))
+        items=(sort-by "order" (filter-by "isShownInAnytime" (filter-by-tags project.tasks)))
         selectBetween=selectBetween
       }}
     </div>

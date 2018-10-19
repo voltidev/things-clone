@@ -1,231 +1,229 @@
-<div class="c-item-form c-item-form--project">
-  {{#animated-container}}
-    <div class="c-item-form__section c-item-form__section--project">
-      {{project-checkbox
-        isBig=true
-        project=@project
-        markProjectAsNew=@markProjectAsNew
-        markProjectAsCompleted=@markProjectAsCompleted
-      }}
+{{#animated-container}}
+  <div class="c-item-form__section c-item-form__section--project">
+    {{project-checkbox
+      isBig=true
+      project=@project
+      markProjectAsNew=@markProjectAsNew
+      markProjectAsCompleted=@markProjectAsCompleted
+    }}
 
-      {{text-input
-        class="c-item-form__project-input js-name-field"
-        placeholder="New project"
-        value=this.nameFieldValue
-        autoresize=true
-        max-width=400
-        update=(action (mut this.nameFieldValue))
-        focusOut=(action @setProjectName this.nameFieldValue)
-        enter=(action "blur" "js-name-field")
-        escape-press=(action "blur" "js-name-field")
-      }}
+    {{text-input
+      class="c-item-form__project-input js-name-field"
+      placeholder="New project"
+      value=this.nameFieldValue
+      autoresize=true
+      max-width=400
+      update=(action (mut this.nameFieldValue))
+      focusOut=(action @setProjectName this.nameFieldValue)
+      enter=(action "blur" "js-name-field")
+      escape-press=(action "blur" "js-name-field")
+    }}
 
+    {{#basic-dropdown
+      class="c-dropdown"
+      horizontalPosition="center"
+      verticalPosition="below"
+      onClose=(action "resetDropdown")
+      as |dropdown|
+    }}
+      {{#dropdown.trigger class="c-dropdown__trigger c-item-form__dropdown-trigger"}}
+        {{svg-jar "more" class="c-dropdown__trigger-icon c-item-form__dropdown-trigger-icon"}}
+      {{/dropdown.trigger}}
+
+      {{#dropdown.content class="c-dropdown__content"}}
+        <div class="c-dropdown__content-inner">
+          {{#if this.isDeadlineDropdownOpen}}
+            {{deadline-options
+              value=@project.deadline
+              setDeadline=(queue @setProjectDeadline dropdown.actions.close)
+            }}
+          {{else if this.isWhenDropdownOpen}}
+            {{when-options
+              selectedDate=@project.upcomingAt
+              setWhen=(queue @setProjectWhen dropdown.actions.close)
+            }}
+          {{else}}
+            <div class="c-dropdown__section">
+              {{#if @project.isProcessed}}
+                <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsNew)}}>
+                  {{svg-jar "uncompleted-project" class="c-dropdown__item-icon"}}
+                  <div class="c-dropdown__item-text">Mark as uncompleted</div>
+                </div>
+              {{else}}
+                <div
+                  class="c-dropdown__item"
+                  {{action (optional (if @project.hasActiveTasks null (queue dropdown.actions.close @markProjectAsCompleted)))}}
+                >
+                  {{svg-jar "completed-project" class="c-dropdown__item-icon"}}
+                  <div class="c-dropdown__item-text">Mark as completed</div>
+
+                  {{#attach-popover
+                    class="c-popover"
+                    placement="right"
+                    renderInPlace=true
+                    showOn="click"
+                    hideOn="clickout escapekey"
+                  }}
+                    <div class="c-popover__inner">
+                      <div class="c-popover__title">
+                        {{#let (eq @project.activeTasks.length 1) as |hasOneTask|}}
+                          This project contains {{@project.activeTasks.length}} incomplete to-do{{if hasOneTask "" "s"}}.
+                          <br>
+                          What would you like to do with {{if hasOneTask "it" "them"}}?
+                        {{/let}}
+                      </div>
+
+                      <div
+                        class="c-popover__option"
+                        {{action (queue (action @markProjectAsCompleted "completed") dropdown.actions.close)}}
+                      >
+                        Mark as Completed
+                      </div>
+
+                      <div
+                        class="c-popover__option"
+                        {{action (queue (action @markProjectAsCompleted "canceled") dropdown.actions.close)}}
+                      >
+                        Mark as Cancelled
+                      </div>
+                    </div>
+                  {{/attach-popover}}
+                </div>
+              {{/if}}
+
+              <div
+                class="c-dropdown__item c-actions-bar__dropdown-item"
+                {{action (toggle "isWhenDropdownOpen" this)}}
+              >
+                {{svg-jar "upcoming" class="c-dropdown__item-icon"}}
+
+                <div class="c-dropdown__item-text">When</div>
+              </div>
+
+              <div
+                class="c-dropdown__item c-actions-bar__dropdown-item"
+                {{action (toggle "isDeadlineDropdownOpen" this)}}
+              >
+                {{svg-jar "flag" class="c-dropdown__item-icon"}}
+
+                <div class="c-dropdown__item-text">Add deadline</div>
+              </div>
+
+              {{#if @project.isDeleted}}
+                <div class="c-dropdown__item" {{action (queue dropdown.actions.close @undeleteProject)}}>
+                  {{svg-jar "redo" class="c-dropdown__item-icon"}}
+                  <div class="c-dropdown__item-text">Recover deleted project</div>
+                </div>
+              {{else}}
+                <div class="c-dropdown__item" {{action (queue dropdown.actions.close @deleteProject)}}>
+                  {{svg-jar "delete" class="c-dropdown__item-icon"}}
+                  <div class="c-dropdown__item-text">Delete project</div>
+                </div>
+              {{/if}}
+            </div>
+          {{/if}}
+        </div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  </div>
+
+  {{#animated-if (not @project.isAnytime) use=fade duration=200}}
+    <div class="c-item-form__section c-item-form__section--box">
       {{#basic-dropdown
         class="c-dropdown"
-        horizontalPosition="center"
-        verticalPosition="below"
-        onClose=(action "resetDropdown")
         as |dropdown|
       }}
-        {{#dropdown.trigger class="c-dropdown__trigger c-item-form__dropdown-trigger"}}
-          {{svg-jar "more" class="c-dropdown__trigger-icon c-item-form__dropdown-trigger-icon"}}
-        {{/dropdown.trigger}}
+        <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
+          <div class="c-item-form__value-box">
+            {{svg-jar @project.when class=(concat "c-icon c-icon--16 c-icon--" @project.when)}}
 
-        {{#dropdown.content class="c-dropdown__content"}}
+            <div class="c-item-form__value-text u-capitalize">
+              {{#if (eq @project.when "upcoming")}}
+                {{format-date @project.upcomingAt}}
+              {{else}}
+                {{@project.when}}
+              {{/if}}
+            </div>
+
+            <div class="c-item-form__value-reset" {{action @setProjectWhen "anytime" bubbles=false}}>
+              {{svg-jar "no"}}
+            </div>
+          </div>
+        </div>
+
+        {{#dropdown.content class="c-dropdown__content js-items-actions"}}
           <div class="c-dropdown__content-inner">
-            {{#if this.isDeadlineDropdownOpen}}
-              {{deadline-options
-                value=@project.deadline
-                setDeadline=(queue @setProjectDeadline dropdown.actions.close)
-              }}
-            {{else if this.isWhenDropdownOpen}}
-              {{when-options
-                selectedDate=@project.upcomingAt
-                setWhen=(queue @setProjectWhen dropdown.actions.close)
-              }}
-            {{else}}
-              <div class="c-dropdown__section">
-                {{#if @project.isProcessed}}
-                  <div class="c-dropdown__item" {{action (queue dropdown.actions.close @markProjectAsNew)}}>
-                    {{svg-jar "uncompleted-project" class="c-dropdown__item-icon"}}
-                    <div class="c-dropdown__item-text">Mark as uncompleted</div>
-                  </div>
-                {{else}}
-                  <div
-                    class="c-dropdown__item"
-                    {{action (optional (if @project.hasActiveTasks null (queue dropdown.actions.close @markProjectAsCompleted)))}}
-                  >
-                    {{svg-jar "completed-project" class="c-dropdown__item-icon"}}
-                    <div class="c-dropdown__item-text">Mark as completed</div>
-
-                    {{#attach-popover
-                      class="c-popover"
-                      placement="right"
-                      renderInPlace=true
-                      showOn="click"
-                      hideOn="clickout escapekey"
-                    }}
-                      <div class="c-popover__inner">
-                        <div class="c-popover__title">
-                          {{#let (eq @project.activeTasks.length 1) as |hasOneTask|}}
-                            This project contains {{@project.activeTasks.length}} incomplete to-do{{if hasOneTask "" "s"}}.
-                            <br>
-                            What would you like to do with {{if hasOneTask "it" "them"}}?
-                          {{/let}}
-                        </div>
-
-                        <div
-                          class="c-popover__option"
-                          {{action (queue (action @markProjectAsCompleted "completed") dropdown.actions.close)}}
-                        >
-                          Mark as Completed
-                        </div>
-
-                        <div
-                          class="c-popover__option"
-                          {{action (queue (action @markProjectAsCompleted "canceled") dropdown.actions.close)}}
-                        >
-                          Mark as Cancelled
-                        </div>
-                      </div>
-                    {{/attach-popover}}
-                  </div>
-                {{/if}}
-
-                <div
-                  class="c-dropdown__item c-actions-bar__dropdown-item"
-                  {{action (toggle "isWhenDropdownOpen" this)}}
-                >
-                  {{svg-jar "upcoming" class="c-dropdown__item-icon"}}
-
-                  <div class="c-dropdown__item-text">When</div>
-                </div>
-
-                <div
-                  class="c-dropdown__item c-actions-bar__dropdown-item"
-                  {{action (toggle "isDeadlineDropdownOpen" this)}}
-                >
-                  {{svg-jar "flag" class="c-dropdown__item-icon"}}
-
-                  <div class="c-dropdown__item-text">Add deadline</div>
-                </div>
-
-                {{#if @project.isDeleted}}
-                  <div class="c-dropdown__item" {{action (queue dropdown.actions.close @undeleteProject)}}>
-                    {{svg-jar "redo" class="c-dropdown__item-icon"}}
-                    <div class="c-dropdown__item-text">Recover deleted project</div>
-                  </div>
-                {{else}}
-                  <div class="c-dropdown__item" {{action (queue dropdown.actions.close @deleteProject)}}>
-                    {{svg-jar "delete" class="c-dropdown__item-icon"}}
-                    <div class="c-dropdown__item-text">Delete project</div>
-                  </div>
-                {{/if}}
-              </div>
-            {{/if}}
+            {{when-options
+              selectedDate=@project.upcomingAt
+              setWhen=(queue @setProjectWhen dropdown.actions.close)
+            }}
           </div>
         {{/dropdown.content}}
       {{/basic-dropdown}}
     </div>
+  {{/animated-if}}
 
-    {{#animated-if (not @project.isAnytime) use=fade duration=200}}
-      <div class="c-item-form__section c-item-form__section--box">
-        {{#basic-dropdown
-          class="c-dropdown"
-          as |dropdown|
-        }}
-          <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
+  {{#animated-if @project.deadline use=fade duration=200}}
+    <div class="c-item-form__section c-item-form__section--box">
+      {{#basic-dropdown
+        class="c-dropdown"
+        as |dropdown|
+      }}
+        <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
+          {{#if @project.deadline}}
             <div class="c-item-form__value-box">
-              {{svg-jar @project.when class=(concat "c-icon c-icon--16 c-icon--" @project.when)}}
+              {{svg-jar "flag" class="c-icon c-icon--16 c-icon--flag"}}
 
-              <div class="c-item-form__value-text u-capitalize">
-                {{#if (eq @project.when "upcoming")}}
-                  {{format-date @project.upcomingAt}}
-                {{else}}
-                  {{@project.when}}
-                {{/if}}
+              <div class="c-item-form__value-text">
+                {{format-date @project.deadline}}
               </div>
 
-              <div class="c-item-form__value-reset" {{action @setProjectWhen "anytime" bubbles=false}}>
+              {{deadline-info class="c-item-form__deadline" deadline=@project.deadline}}
+
+              <div class="c-item-form__value-reset" {{action @setProjectDeadline null bubbles=false}}>
                 {{svg-jar "no"}}
               </div>
             </div>
+          {{/if}}
+        </div>
+
+        {{#dropdown.content class="c-dropdown__content js-items-actions"}}
+          <div class="c-dropdown__content-inner">
+            {{deadline-options
+              value=@project.deadline
+              setDeadline=(queue @setProjectDeadline dropdown.actions.close)
+            }}
           </div>
-
-          {{#dropdown.content class="c-dropdown__content js-items-actions"}}
-            <div class="c-dropdown__content-inner">
-              {{when-options
-                selectedDate=@project.upcomingAt
-                setWhen=(queue @setProjectWhen dropdown.actions.close)
-              }}
-            </div>
-          {{/dropdown.content}}
-        {{/basic-dropdown}}
-      </div>
-    {{/animated-if}}
-
-    {{#animated-if @project.deadline use=fade duration=200}}
-      <div class="c-item-form__section c-item-form__section--box">
-        {{#basic-dropdown
-          class="c-dropdown"
-          as |dropdown|
-        }}
-          <div class="c-item-form__value" data-ebd-id="{{dropdown.uniqueId}}-trigger" {{action dropdown.actions.open}}>
-            {{#if @project.deadline}}
-              <div class="c-item-form__value-box">
-                {{svg-jar "flag" class="c-icon c-icon--16 c-icon--flag"}}
-
-                <div class="c-item-form__value-text">
-                  {{format-date @project.deadline}}
-                </div>
-
-                {{deadline-info class="c-item-form__deadline" deadline=@project.deadline}}
-
-                <div class="c-item-form__value-reset" {{action @setProjectDeadline null bubbles=false}}>
-                  {{svg-jar "no"}}
-                </div>
-              </div>
-            {{/if}}
-          </div>
-
-          {{#dropdown.content class="c-dropdown__content js-items-actions"}}
-            <div class="c-dropdown__content-inner">
-              {{deadline-options
-                value=@project.deadline
-                setDeadline=(queue @setProjectDeadline dropdown.actions.close)
-              }}
-            </div>
-          {{/dropdown.content}}
-        {{/basic-dropdown}}
-      </div>
-    {{/animated-if}}
-
-    <div class="c-item-form__section">
-      {{tags-field
-        itemTags=@project.tags
-        addTag=(route-action "addItemTag" @project)
-        removeTag=(route-action "removeItemTag" @project)
-        createTag=(route-action "createTag")
-      }}
+        {{/dropdown.content}}
+      {{/basic-dropdown}}
     </div>
+  {{/animated-if}}
 
-    <div class="c-item-form__section c-item-form__section--notes">
-      <label class="c-item-form__notes-label" for="project-notes">
-        {{svg-jar "note"}}
-      </label>
+  <div class="c-item-form__section">
+    {{tags-field
+      itemTags=@project.tags
+      addTag=(route-action "addItemTag" @project)
+      removeTag=(route-action "removeItemTag" @project)
+      createTag=(route-action "createTag")
+    }}
+  </div>
 
-      {{text-area
-        class="c-item-form__notes js-notes-field"
-        id="project-notes"
-        value=@project.notes
-        placeholder="Notes"
-        autoresize=true
-        max-rows=10
-        update=(action (mut this.notesFieldValue))
-        focusOut=(action @setProjectNotes this.notesFieldValue)
-        enter=(action "blur" "js-notes-field")
-        escape-press=(action "blur" "js-notes-field")
-      }}
-    </div>
-  {{/animated-container}}
-</div>
+  <div class="c-item-form__section c-item-form__section--notes">
+    <label class="c-item-form__notes-label" for="project-notes">
+      {{svg-jar "note"}}
+    </label>
+
+    {{text-area
+      class="c-item-form__notes js-notes-field"
+      id="project-notes"
+      value=@project.notes
+      placeholder="Notes"
+      autoresize=true
+      max-rows=10
+      update=(action (mut this.notesFieldValue))
+      focusOut=(action @setProjectNotes this.notesFieldValue)
+      enter=(action "blur" "js-notes-field")
+      escape-press=(action "blur" "js-notes-field")
+    }}
+  </div>
+{{/animated-container}}

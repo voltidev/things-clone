@@ -11,6 +11,8 @@ function castArray(value = []) {
 export default Route.extend({
   data: service(),
   router: service(),
+  tagsFilter: service(),
+
   savingProcesses: A(),
 
   model() {
@@ -42,7 +44,7 @@ export default Route.extend({
         this.save(item);
 
         if (item.isTask && status === 'new') {
-          this.setProjectIfNeeded(item);
+          this.updateProjectIfNeeded(item);
         }
 
         if (item.isProject && status !== 'new') {
@@ -85,7 +87,7 @@ export default Route.extend({
         this.save(item);
 
         if (item.isTask) {
-          this.setProjectIfNeeded(item);
+          this.updateProjectIfNeeded(item);
         }
       });
     },
@@ -114,7 +116,7 @@ export default Route.extend({
 
     setItemsWhen(items, when, date) {
       castArray(items).forEach(item => {
-        if (this.router.currentRouteName === 'trash') {
+        if (item.isDeleted) {
           this.send('undeleteItems', item);
         }
 
@@ -215,10 +217,14 @@ export default Route.extend({
     deleteTag(tag) {
       tag.delete();
       this.save(tag);
+    },
+
+    willTransition() {
+      this.tagsFilter.clear();
     }
   },
 
-  setProjectIfNeeded(task) {
+  updateProjectIfNeeded(task) {
     let project = task.get('project.content');
 
     if (!project) {
