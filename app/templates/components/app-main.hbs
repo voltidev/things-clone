@@ -22,8 +22,8 @@
   {{tags-filter project=@project}}
 </div>
 
-{{#animated-if hasContent use=fade duration=200}}
+{{#if hasContent}}
   {{yield (action "selectBetween")}}
 {{else}}
   {{list-placeholder folder=@folder}}
-{{/animated-if}}
+{{/if}}

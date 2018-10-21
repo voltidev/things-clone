@@ -10,25 +10,27 @@
     }}
   </div>
 
-  {{#animated-each (sort-by "order" anytimeProjects) use=eachTransition duration=200 as |project|}}
-    <div class="c-folder__group">
-      {{#link-to "project" project class="c-folder__group-title c-folder__project-link"}}
-        <div class="c-folder__group-title-inner">
-          {{progress-pie
-            class="c-folder__group-icon c-folder__group-icon--project"
-            progress=project.progress
-          }}
+  {{#animated-container}}
+    {{#animated-each (sort-by "order" anytimeProjects) use=eachTransition duration=200 as |project|}}
+      <div class="c-folder__group">
+        {{#link-to "project" project class="c-folder__group-title c-folder__project-link"}}
+          <div class="c-folder__group-title-inner">
+            {{progress-pie
+              class="c-folder__group-icon c-folder__group-icon--project"
+              progress=project.progress
+            }}
 
-          <div class="c-folder__group-text">
-            {{project.name}}
+            <div class="c-folder__group-text">
+              {{project.name}}
+            </div>
           </div>
-        </div>
-      {{/link-to}}
+        {{/link-to}}
 
-      {{items-list
-        items=(sort-by "order" (filter-by "isShownInAnytime" (filter-by-tags project.tasks)))
-        selectBetween=selectBetween
-      }}
-    </div>
-  {{/animated-each}}
+        {{items-list
+          items=(sort-by "order" (filter-by "isShownInAnytime" (filter-by-tags project.tasks)))
+          selectBetween=selectBetween
+        }}
+      </div>
+    {{/animated-each}}
+  {{/animated-container}}
 {{/app-main}}

@@ -3113,9 +3113,9 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-ember-animated@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/ember-animated/-/ember-animated-0.3.0.tgz#024e4d9af99c9e85b3fbc83aa287649cc2f4674b"
+ember-animated@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/ember-animated/-/ember-animated-0.3.1.tgz#030486f5448db8a9d784c54527b73ab7b37001d5"
   dependencies:
     ember-cli-babel "^6.11.0"
     ember-cli-htmlbars "^2.0.1"
