@@ -26,11 +26,8 @@ export default Service.extend({
   },
 
   select(items) {
+    this.items.addObjects(castArray(items));
     this.disableNoTagMode();
-
-    this.items.pushObjects(
-      castArray(items).filter(item => !this.isSelected(item))
-    );
   },
 
   toggle(items) {

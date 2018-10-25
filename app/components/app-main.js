@@ -1,11 +1,16 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { on } from '@ember/object/evented';
 import { scheduleOnce } from '@ember/runloop';
 import { EKMixin, keyDown, keyUp } from 'ember-keyboard';
 import fade from 'ember-animated/transitions/fade';
 import OutsideClickMixin from 'things/mixins/outside-click';
+
+function capitalize(str) {
+  return `${str[0].toUpperCase()}${str.slice(1)}`;
+}
 
 function selectOnlyElement(element) {
   if (!element) {
@@ -25,13 +30,45 @@ function selectElement(element) {
 
 export default Component.extend(EKMixin, OutsideClickMixin, {
   router: service(),
+  data: service(),
   itemSelector: service(),
   taskEditor: service(),
+
   classNames: ['l-container__content', 'c-folder'],
   fade,
   hasSelected: alias('itemSelector.hasItems'),
   isEditing: alias('taskEditor.hasTask'),
   keyboardActivated: not('isEditing'),
+  routeName: alias('router.currentRouteName'),
+
+  tagsForProject: computed(
+    'project',
+    'project.tasks.[]',
+    'project.tasks.@each.{tags,isShownInProjectAnytime,isShownInProjectUpcoming,isShownInProjectSomeday,isShownInProjectLogbook}',
+    function() {
+      return this.project.tasks
+        .filter(task => (
+          task.isShownInProjectAnytime
+          || task.isShownInProjectUpcoming
+          || task.isShownInProjectSomeday
+          || task.isShownInProjectLogbook
+        ))
+        .reduce((tags, task) => tags.addObjects(task.tags.toArray()), []);
+    }
+  ),
+
+  tagsForList: computed(
+    'routeName',
+    'data.tags.[]',
+    'data.tags.@each.{isShownInInbox,isShownInToday,isShownInUpcoming,isShownInAnytime,isShownInSomeday}',
+    function() {
+      return this.data.tags.filterBy(`isShownIn${capitalize(this.routeName)}`, true);
+    }
+  ),
+
+  tags: computed('project', 'tagsForProject', 'tagsForList', function() {
+    return this.project ? this.tagsForProject : this.tagsForList;
+  }),
 
   shortcutEditSelected: on(keyUp('Enter'), function() {
     if (!this.hasSelected) {

@@ -1,25 +1,24 @@
-{{#let (if project this.tagsForProject this.tagsForList) as |tags|}}
-  {{#if tags}}
-    <div
-      class="c-tags-filter__item {{if this.isAllTagsMode 'is-selected'}}"
-      {{action "clearFilter"}}
-    >
-      All
-    </div>
+<div
+  class="c-tags-filter__item {{if this.isAllTagsMode 'is-selected'}}"
+  {{action "clearFilter"}}
+  data-test-tags-filter-item="all-tags"
+>
+  All
+</div>
 
-    {{#each tags as |tag|}}
-      {{tags-filter-item
-        item=tag
-        selectItem=(action "selectItem")
-        toggleItem=(action "toggleItem")
-      }}
-    {{/each}}
+{{#each @tags as |tag|}}
+  {{tags-filter-item
+    item=tag
+    selectItem=(action "selectItem")
+    toggleItem=(action "toggleItem")
+    data-test-tags-filter-item=tag.id
+  }}
+{{/each}}
 
-    <div
-      class="c-tags-filter__item {{if this.isNoTagMode 'is-selected'}}"
-      {{action "enableNoTagMode"}}
-    >
-      No Tag
-    </div>
-  {{/if}}
-{{/let}}
+<div
+  class="c-tags-filter__item {{if this.isNoTagMode 'is-selected'}}"
+  {{action "enableNoTagMode"}}
+  data-test-tags-filter-item="no-tags"
+>
+  No Tag
+</div>

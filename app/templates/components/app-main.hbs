@@ -19,7 +19,9 @@
     </div>
   {{/if}}
 
-  {{tags-filter project=@project}}
+  {{#if this.tags}}
+    {{tags-filter tags=this.tags}}
+  {{/if}}
 </div>
 
 {{#if hasContent}}
