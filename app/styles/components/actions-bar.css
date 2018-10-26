@@ -19,6 +19,7 @@
   padding: rem(12px) rem(14px);
   cursor: pointer;
   color: rgba(255, 255, 255, 0.86);
+  white-space: nowrap;
 
   &:first-child {
     border-radius: rem(10px) 0 0 rem(10px);
