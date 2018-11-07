@@ -150,11 +150,6 @@ export default Route.extend({
       [...tagsToAdd, ...tagsToRemove].forEach(tag => this.save(tag));
     },
 
-    setTaskSubtasks(item, subtasks) {
-      item.setSubtasks(subtasks);
-      this.save(item);
-    },
-
     moveTasksToInbox(items) {
       castArray(items).forEach(item => {
         item.moveToInbox();
@@ -221,6 +216,44 @@ export default Route.extend({
 
     willTransition() {
       this.tagsFilter.clear();
+    },
+
+    updateTask(task, taskDraft) {
+      let {
+        name,
+        notes,
+        order,
+        when,
+        deadline,
+        upcomingAt,
+        status,
+        isInbox,
+        isDeleted,
+        subtasks,
+        processedAt,
+        deletedAt,
+        project,
+        tags
+      } = taskDraft;
+
+      task.setProperties({
+        name,
+        notes,
+        order,
+        when,
+        deadline,
+        upcomingAt,
+        status,
+        isInbox,
+        isDeleted,
+        subtasks,
+        processedAt,
+        deletedAt,
+        project
+      });
+
+      this.send('setItemTags', task, tags);
+      this.save(task);
     }
   },
 

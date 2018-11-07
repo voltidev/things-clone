@@ -11,6 +11,7 @@ function isThisYear(date) {
 
 const WHEN = ['today', 'upcoming', 'anytime', 'someday'];
 const STATUSES = ['new', 'completed', 'canceled'];
+
 export default Mixin.create({
   name: attr('string'),
   notes: attr('string'),

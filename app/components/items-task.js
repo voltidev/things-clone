@@ -103,64 +103,7 @@ export default Component.extend({
       return;
     }
 
-    this.saveTaskChanges();
+    this.updateTask(this.task, this.taskEditor.task);
     this.taskEditor.clear();
-  },
-
-  saveTaskChanges() {
-    let changedAttrs = this.taskEditor.getChangedAttributes();
-    let {
-      name,
-      notes,
-      when,
-      project,
-      subtasks,
-      tags,
-      status,
-      isInbox,
-      isDeleted,
-      upcomingAt,
-      deadline
-    } = this.taskEditor.task;
-
-    if (changedAttrs.includes('name')) {
-      this.setItemName(this.task, name);
-    }
-
-    if (changedAttrs.includes('notes')) {
-      this.setItemNotes(this.task, notes);
-    }
-
-    if (changedAttrs.includes('deadline')) {
-      this.setItemsDeadline(this.task, deadline);
-    }
-
-    if ((changedAttrs.includes('when') || changedAttrs.includes('upcomingAt')) && !isInbox) {
-      this.setItemsWhen(this.task, when, when === 'upcoming' ? upcomingAt : null);
-    }
-
-    if (changedAttrs.includes('project')) {
-      this.moveTasksToProject(this.task, project);
-    }
-
-    if (changedAttrs.includes('subtasks')) {
-      this.setTaskSubtasks(this.task, subtasks);
-    }
-
-    if (changedAttrs.includes('tags')) {
-      this.setItemTags(this.task, tags);
-    }
-
-    if (changedAttrs.includes('isInbox') && isInbox) {
-      this.moveTasksToInbox(this.task);
-    }
-
-    if (changedAttrs.includes('status')) {
-      this.markItemsAs(this.task, status);
-    }
-
-    if (changedAttrs.includes('isDeleted')) {
-      (isDeleted ? this.deleteItems : this.undeleteItems)(this.task);
-    }
   }
 });

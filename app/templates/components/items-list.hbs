@@ -17,17 +17,8 @@
         {{else}}
           {{items-task
             task=item
-            setItemName=(route-action "setItemName")
-            setItemNotes=(route-action "setItemNotes")
-            setItemsDeadline=(route-action "setItemsDeadline")
-            setTaskSubtasks=(route-action "setTaskSubtasks")
-            setItemTags=(route-action "setItemTags")
             markItemsAs=(route-action "markItemsAs")
-            deleteItems=(route-action "deleteItems")
-            undeleteItems=(route-action "undeleteItems")
-            setItemsWhen=(route-action "setItemsWhen")
-            moveTasksToInbox=(route-action "moveTasksToInbox")
-            moveTasksToProject=(route-action "moveTasksToProject")
+            updateTask=(route-action "updateTask")
             selectBetween=@selectBetween
           }}
         {{/if}}

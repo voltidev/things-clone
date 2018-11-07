@@ -19,7 +19,13 @@ export default Component.extend(OutsideClickMixin, {
 
   actions: {
     toggleIsDeleted() {
-      set(this, 'task.isDeleted', !this.task.isDeleted);
+      let isDeleted = !this.task.isDeleted;
+
+      if (isDeleted) {
+        set(this, 'task.deletedAt', new Date());
+      }
+
+      set(this, 'task.isDeleted', isDeleted);
     },
 
     setWhen(when, date) {
@@ -38,16 +44,27 @@ export default Component.extend(OutsideClickMixin, {
 
     moveToInbox() {
       set(this, 'task.isInbox', true);
+      set(this, 'task.when', 'anytime');
       set(this, 'task.project', null);
     },
 
     moveToProject(project) {
       set(this, 'task.project', project);
       set(this, 'task.isInbox', false);
+
+      if (project) {
+        let lastTask = project.tasks.sortBy('order').lastObject;
+        set(this, 'task.order', lastTask ? lastTask.order + 1 : 0);
+      }
     },
 
     toggleCheckbox() {
       let newStatus = this.isProcessed ? 'new' : 'completed';
+
+      if (newStatus !== 'new') {
+        set(this, 'task.processedAt', new Date());
+      }
+
       set(this, 'task.status', newStatus);
     },
 
