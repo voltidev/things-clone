@@ -2,6 +2,8 @@
 
 It is an attempt to make a close imitation of the Cultured Code Things app. Just for fun.
 
+![](demo.gif)
+
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
